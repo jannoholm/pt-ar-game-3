@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common-callback/common-callback.iml" filepath="$PROJECT_DIR$/common/common-callback/common-callback.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common-io/common-io.iml" filepath="$PROJECT_DIR$/common/common-io/common-io.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common-processing/common-processing.iml" filepath="$PROJECT_DIR$/common/common-processing/common-processing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common-util/common-util.iml" filepath="$PROJECT_DIR$/common/common-util/common-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/integration-tests/integration-tests.iml" filepath="$PROJECT_DIR$/integration-tests/integration-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proxy-server.iml" filepath="$PROJECT_DIR$/proxy-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
+    </modules>
+  </component>
+</project>

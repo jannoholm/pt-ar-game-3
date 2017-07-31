@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="common-callback" />
+        <module name="common-io" />
+        <module name="common-processing" />
+        <module name="common-util" />
+        <module name="integration-tests" />
+        <module name="server" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common" target="1.8" />
+      <module name="common-callback" target="1.8" />
+      <module name="common-io" target="1.8" />
+      <module name="common-processing" target="1.8" />
+      <module name="common-util" target="1.8" />
+      <module name="integration-tests" target="1.8" />
+      <module name="proxy-server" target="1.8" />
+      <module name="server" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
