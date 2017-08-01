@@ -1,0 +1,18 @@
+package com.playtech.ptargame3.common.io;
+
+import com.playtech.ptargame3.common.session.Session;
+
+import java.nio.ByteBuffer;
+import java.util.List;
+
+public interface Connection {
+
+    void close();
+
+    void write(List<ByteBuffer> message);
+
+    int getConnectionId();
+
+    Session getSession();
+
+}
