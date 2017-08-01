@@ -11,7 +11,8 @@
         <module name="common-processing" />
         <module name="common-util" />
         <module name="integration-tests" />
-        <module name="server" />
+        <module name="server-api" />
+        <module name="server-impl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -23,6 +24,8 @@
       <module name="integration-tests" target="1.8" />
       <module name="proxy-server" target="1.8" />
       <module name="server" target="1.8" />
+      <module name="server-api" target="1.8" />
+      <module name="server-impl" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

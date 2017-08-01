@@ -10,6 +10,8 @@
       <module fileurl="file://$PROJECT_DIR$/integration-tests/integration-tests.iml" filepath="$PROJECT_DIR$/integration-tests/integration-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/proxy-server.iml" filepath="$PROJECT_DIR$/proxy-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server/server-api/server-api.iml" filepath="$PROJECT_DIR$/server/server-api/server-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server/server-impl/server-impl.iml" filepath="$PROJECT_DIR$/server/server-impl/server-impl.iml" />
     </modules>
   </component>
 </project>

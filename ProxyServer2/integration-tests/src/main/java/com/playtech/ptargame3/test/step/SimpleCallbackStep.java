@@ -7,8 +7,8 @@ import com.playtech.ptargame3.common.task.TaskState;
 import com.playtech.ptargame3.common.task.state.TwoStepState;
 import com.playtech.ptargame3.test.ContextConstants;
 import com.playtech.ptargame3.server.exception.SystemException;
-import com.playtech.ptargame3.server.message.AbstractRequest;
-import com.playtech.ptargame3.server.message.AbstractResponse;
+import com.playtech.ptargame3.api.AbstractRequest;
+import com.playtech.ptargame3.api.AbstractResponse;
 
 
 public abstract class SimpleCallbackStep extends AbstractStep {

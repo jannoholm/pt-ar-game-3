@@ -10,8 +10,8 @@ import com.playtech.ptargame3.server.MessageTaskFactory;
 import com.playtech.ptargame3.server.ProxyClientRegistry;
 import com.playtech.ptargame3.server.ProxyConnectionFactory;
 import com.playtech.ptargame3.server.ProxyLogicResources;
-import com.playtech.ptargame3.server.message.ProxyMessageFactory;
-import com.playtech.ptargame3.server.message.ProxyMessageParser;
+import com.playtech.ptargame3.api.ProxyMessageFactory;
+import com.playtech.ptargame3.api.ProxyMessageParser;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

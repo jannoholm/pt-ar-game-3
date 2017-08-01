@@ -5,8 +5,8 @@ import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskState;
 import com.playtech.ptargame3.common.task.state.TwoStepState;
-import com.playtech.ptargame3.server.message.AbstractRequest;
-import com.playtech.ptargame3.server.message.lobby.GetGamesRequest;
+import com.playtech.ptargame3.api.AbstractRequest;
+import com.playtech.ptargame3.api.lobby.GetGamesRequest;
 
 public class GetGamesStep extends SimpleCallbackStep {
 

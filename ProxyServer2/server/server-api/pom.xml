@@ -1,17 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>proxy-server</artifactId>
-        <groupId>com.playtech.pt-ar-game-3</groupId>
+        <artifactId>server</artifactId>
+        <groupId>com.playtech.pt-ar-game-3.proxy-server</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.playtech.pt-ar-game-3.proxy-server</groupId>
-    <artifactId>integration-tests</artifactId>
+    <groupId>com.playtech.pt-ar-game-3.proxy-server.server</groupId>
+    <artifactId>server-api</artifactId>
     <packaging>jar</packaging>
 
-    <name>integration-tests</name>
+    <name>server-api</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,9 +20,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.playtech.pt-ar-game-3.proxy-server.server</groupId>
-            <artifactId>server-impl</artifactId>
+            <groupId>com.playtech.pt-ar-game-3.proxy-server.common</groupId>
+            <artifactId>common-io</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -10,8 +10,8 @@ import com.playtech.ptargame3.common.task.state.TwoStepState;
 import com.playtech.ptargame3.test.ConnectorSession;
 import com.playtech.ptargame3.test.ContextConstants;
 import com.playtech.ptargame3.server.exception.SystemException;
-import com.playtech.ptargame3.server.message.general.JoinServerRequest;
-import com.playtech.ptargame3.server.message.general.JoinServerResponse;
+import com.playtech.ptargame3.api.general.JoinServerRequest;
+import com.playtech.ptargame3.api.general.JoinServerResponse;
 
 import java.net.InetSocketAddress;
 
