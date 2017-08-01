@@ -37,7 +37,7 @@ public abstract class SimpleCallbackStep extends AbstractStep {
     }
 
     @Override
-    public void execute(Task task) throws Exception {
+    public void execute(Task task) {
         if (task.getCurrentState() == TwoStepState.MIDDLE) {
             AbstractRequest request = createRequest(task);
             getLogicResources().getCallbackHandler().sendCallback(task, request);

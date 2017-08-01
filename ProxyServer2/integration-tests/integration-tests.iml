@@ -14,7 +14,6 @@
     <orderEntry type="module" module-name="server-impl" />
     <orderEntry type="module" module-name="common-processing" />
     <orderEntry type="module" module-name="common-io" />
-    <orderEntry type="module" module-name="common-util" />
     <orderEntry type="module" module-name="common-callback" />
     <orderEntry type="module" module-name="server-api" />
   </component>

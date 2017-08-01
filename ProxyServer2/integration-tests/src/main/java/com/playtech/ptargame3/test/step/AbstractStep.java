@@ -12,16 +12,6 @@ public abstract class AbstractStep extends AbstractLogic {
         super(logicResources);
     }
 
-    @Override
-    public void finishSuccess(Task context) {
-        super.finishSuccess(context);
-    }
-
-    @Override
-    public void finishError(Task context, Exception e) {
-        super.finishError(context, e);
-    }
-
     protected <T extends Message> T createMessage(Task task, Class<T> messageClass) {
         String clientId = (String)task.getContext().get(ContextConstants.CLIENT_ID);
         T message = getLogicResources().getMessageParser().createMessage(messageClass);

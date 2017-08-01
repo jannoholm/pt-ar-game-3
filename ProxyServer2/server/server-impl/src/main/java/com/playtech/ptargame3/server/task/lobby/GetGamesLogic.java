@@ -14,7 +14,7 @@ public class GetGamesLogic extends AbstractLogic {
     }
 
     @Override
-    public void execute(Task task) throws Exception {
+    public void execute(Task task) {
         if (task.getCurrentState() == OneStepState.FINAL) {
             // TODO
         }

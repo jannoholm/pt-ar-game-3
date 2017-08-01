@@ -2,7 +2,6 @@ package com.playtech.ptargame3.common.callback;
 
 
 import com.playtech.ptargame3.common.message.Message;
-import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.session.Session;
 import com.playtech.ptargame3.common.task.Task;
 
@@ -22,15 +21,13 @@ public class CallbackHandlerImpl implements CallbackHandler {
 
     private static final int TIMEOUT = 5000;
 
-    private final MessageParser messageParser;
     private final ClientRegistry clientRegistry;
     private final ScheduledExecutorService executor;
 
     private final Map<Long, CallbackHolder> callbackStore;
     private ScheduledFuture maintenanceFuture;
 
-    public CallbackHandlerImpl(MessageParser messageParser, ClientRegistry clientRegistry, ScheduledExecutorService executor) {
-        this.messageParser = messageParser;
+    public CallbackHandlerImpl(ClientRegistry clientRegistry, ScheduledExecutorService executor) {
         this.clientRegistry = clientRegistry;
         this.executor = executor;
         this.callbackStore = new LinkedHashMap<>(16, 0.75f, false);
@@ -38,29 +35,26 @@ public class CallbackHandlerImpl implements CallbackHandler {
 
     public void start() {
         if (maintenanceFuture == null) {
-            maintenanceFuture = executor.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    // filter out actual timeouts
-                    ArrayList<CallbackHolder> timed = new ArrayList<>();
-                    long current = System.currentTimeMillis();
-                    synchronized (callbackStore) {
-                        for (CallbackHolder holder : callbackStore.values()) {
-                            if (holder.time + TIMEOUT < current) {
-                                timed.add(holder);
-                            } else {
-                                break;
-                            }
+            maintenanceFuture = executor.scheduleAtFixedRate(() -> {
+                // filter out actual timeouts
+                ArrayList<CallbackHolder> timed = new ArrayList<>();
+                long current = System.currentTimeMillis();
+                synchronized (callbackStore) {
+                    for (CallbackHolder holder : callbackStore.values()) {
+                        if (holder.time + TIMEOUT < current) {
+                            timed.add(holder);
+                        } else {
+                            break;
                         }
                     }
+                }
 
-                    // do something with timed out things
-                    for (CallbackHolder holder : timed) {
-                        logger.log(Level.FINE, "Timeout triggered by callback handler: " + holder.task.getContext().getInput().getId());
-                        setTaskContext(holder.task, holder.messageId, ResponseStatus.TIMEOUT);
-                        holder.task.scheduleExecution();
-                        removeFromCallbackStore(holder.messageId);
-                    }
+                // do something with timed out things
+                for (CallbackHolder holder : timed) {
+                    logger.log(Level.FINE, "Timeout triggered by callback handler: " + holder.task.getContext().getInput().getId());
+                    setTaskContext(holder.task, holder.messageId, ResponseStatus.TIMEOUT);
+                    holder.task.scheduleExecution();
+                    removeFromCallbackStore(holder.messageId);
                 }
             }, 500, 512, TimeUnit.MILLISECONDS);
         } else {

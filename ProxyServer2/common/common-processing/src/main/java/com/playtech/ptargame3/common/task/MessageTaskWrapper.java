@@ -49,9 +49,7 @@ public class MessageTaskWrapper implements Task {
                 if (!done) {
                     tasks.addFirst(current);
                     boolean logicsAdded = addSubLogics(current);
-                    if (logicsAdded) {
-                        continue;
-                    } else {
+                    if (!logicsAdded) {
                         break;
                     }
                 } else {

@@ -1,5 +1,6 @@
 package com.playtech.ptargame3.common.util;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
@@ -13,7 +14,7 @@ import java.util.logging.LogRecord;
  */
 public class PtFormatter extends Formatter {
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat( "MMdd-HHmm:ss,SSS" );
+    private ThreadLocal<DateFormat> dateFormat = ThreadLocal.withInitial(() -> new SimpleDateFormat( "MMdd-HHmm:ss,SSS" ));
 
     @Override
     public String format( LogRecord record ) {
@@ -57,16 +58,14 @@ public class PtFormatter extends Formatter {
     }
 
     private String formatDate( long millis ) {
-        synchronized ( dateFormat ) {
-            return dateFormat.format( new Date( millis ) );
-        }
+        return dateFormat.get().format( new Date( millis ) );
     }
 
     private void printStackTrace( StringBuilder str, Throwable t, String suffix ) {
         str.append( t.toString() ).append( suffix ).append( "\r\n" );
         StackTraceElement[] trace = t.getStackTrace();
-        for ( int i = 0; i < trace.length; i++ ){
-            str.append( "\tat " ).append( trace[i] ).append( suffix ).append( "\r\n" );
+        for ( StackTraceElement line : trace ){
+            str.append( "\tat " ).append( line ).append( suffix ).append( "\r\n" );
         }
         Throwable ourCause = t.getCause();
         if ( ourCause != null ) {

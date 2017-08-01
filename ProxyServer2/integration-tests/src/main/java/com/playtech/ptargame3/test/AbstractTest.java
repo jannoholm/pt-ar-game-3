@@ -64,7 +64,7 @@ public class AbstractTest {
 
         // callback and task processing
         ProxyClientRegistry clientRegistry = new ProxyClientRegistry();
-        proxyCallbackHandler = new CallbackHandlerImpl(messageParser, clientRegistry, maintenanceService);
+        proxyCallbackHandler = new CallbackHandlerImpl(clientRegistry, maintenanceService);
         proxyCallbackHandler.start();
         proxyTaskExecutor = new TaskExecutorImpl("te", 2);
         LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry);
@@ -77,7 +77,7 @@ public class AbstractTest {
         new Thread(proxy.start(),"proxy").start();
     }
 
-    protected void stopServer() throws IOException {
+    protected void stopServer() {
         proxy.stop();
         proxyCallbackHandler.stop();
         proxyTaskExecutor.stop();
@@ -89,7 +89,7 @@ public class AbstractTest {
 
         // callback and task processing
         ProxyClientRegistry clientRegistry = new ProxyClientRegistry();
-        connectorCallbackHandler = new CallbackHandlerImpl(messageParser, clientRegistry, maintenanceService);
+        connectorCallbackHandler = new CallbackHandlerImpl(clientRegistry, maintenanceService);
         connectorCallbackHandler.start();
         connectorLogicResources = new LogicResourcesImpl(connectorCallbackHandler, messageParser, clientRegistry);
         connectorTaskExecutor = new TaskExecutorImpl("ct", 2);

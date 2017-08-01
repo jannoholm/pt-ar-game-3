@@ -20,7 +20,7 @@ public abstract class AbstractScenario extends AbstractLogic {
     }
 
     @Override
-    public final void execute(Task task) throws Exception {
+    public final void execute(Task task) {
         // scenario relies on subtasks. it does not have logic itself
     }
 

@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings("MagicConstant")
 public final class ConnectionHandler implements Connection {
 
     private static final Logger logger = Logger.getLogger(ConnectionHandler.class.getName());
@@ -150,7 +151,6 @@ public final class ConnectionHandler implements Connection {
         return this.connectionId;
     }
 
-    @Override
     public Session getSession() {
         return this.session;
     }

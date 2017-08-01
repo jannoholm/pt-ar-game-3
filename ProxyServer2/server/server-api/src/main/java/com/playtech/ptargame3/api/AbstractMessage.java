@@ -4,6 +4,8 @@ package com.playtech.ptargame3.api;
 import com.playtech.ptargame3.common.message.Message;
 import com.playtech.ptargame3.common.message.MessageHeader;
 
+import java.nio.ByteBuffer;
+
 public abstract class AbstractMessage implements Message {
     private final MessageHeader header;
 
@@ -14,6 +16,14 @@ public abstract class AbstractMessage implements Message {
     @Override
     public MessageHeader getHeader() {
         return header;
+    }
+
+    @Override
+    public void parse(ByteBuffer messageData) {
+    }
+
+    @Override
+    public void format(ByteBuffer messageData) {
     }
 
     protected void toStringImpl(StringBuilder s) {

@@ -3,7 +3,7 @@ package com.playtech.ptargame3.api;
 import com.playtech.ptargame3.common.message.Message;
 import com.playtech.ptargame3.common.message.MessageFactory;
 import com.playtech.ptargame3.common.message.MessageHeader;
-import com.playtech.ptargame3.api.game.GameContolMessage;
+import com.playtech.ptargame3.api.game.GameControlMessage;
 import com.playtech.ptargame3.api.game.GameUpdateMessage;
 import com.playtech.ptargame3.api.general.PingRequest;
 import com.playtech.ptargame3.api.general.PingResponse;
@@ -44,7 +44,7 @@ public class ProxyMessageFactory implements MessageFactory {
         addMessage(3001, JoinGameResponse.class);
         addMessage(3002, HostGameRequest.class);
         addMessage(3003, HostGameResponse.class);
-        addMessage(3004, GameContolMessage.class);
+        addMessage(3004, GameControlMessage.class);
         addMessage(3006, GameUpdateMessage.class);
     }
 
@@ -53,6 +53,7 @@ public class ProxyMessageFactory implements MessageFactory {
         classToType.put(messageClass, messageType);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Message createMessage(MessageHeader header) {
         Class<? extends Message> messageClass = typeToClass.get(header.getMessageType());

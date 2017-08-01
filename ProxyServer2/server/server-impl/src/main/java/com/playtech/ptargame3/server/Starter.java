@@ -26,7 +26,7 @@ public class Starter {
                 return new Thread(r, "back-" + count.addAndGet(1));
             }
         });
-        CallbackHandlerImpl callbackHandler = new CallbackHandlerImpl(messageParser, clientRegistry, scheduledExecutorService);
+        CallbackHandlerImpl callbackHandler = new CallbackHandlerImpl(clientRegistry, scheduledExecutorService);
         callbackHandler.start();
         LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry);
         TaskExecutorImpl taskExecutor = new TaskExecutorImpl("te", 2);

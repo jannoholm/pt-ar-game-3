@@ -11,7 +11,7 @@ public class HostGameLogic extends AbstractLogic {
     }
 
     @Override
-    public void execute(Task task) throws Exception {
+    public void execute(Task task) {
         // TODO
     }
 }

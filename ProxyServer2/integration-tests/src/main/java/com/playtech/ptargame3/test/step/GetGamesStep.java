@@ -23,7 +23,7 @@ public class GetGamesStep extends SimpleCallbackStep {
     protected AbstractRequest createRequest(Task task) {
         GetGamesRequest request = createMessage(task, GetGamesRequest.class);
         request.setAll(false);
-        request.setFilter("com/playtech/ptargame3/test");
+        request.setFilter("test");
         return request;
     }
 

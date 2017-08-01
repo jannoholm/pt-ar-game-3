@@ -22,7 +22,7 @@ public class ConnectorTaskFactoryStub implements TaskFactory {
 
     private final TaskExecutor executor;
     private final LogicResources logicResources;
-    private Map<Class<? extends Message>, Logic> messageToLogic = new HashMap<>();
+    private Map<String, Logic> messageToLogic = new HashMap<>();
 
     public ConnectorTaskFactoryStub(TaskExecutor executor, LogicResources logicResources) {
         this.executor = executor;
@@ -30,13 +30,14 @@ public class ConnectorTaskFactoryStub implements TaskFactory {
     }
 
     public void initialize() {
+        // TODO
 //        addMapping(GetGamesRequest.class, GetGamesLogic.class);
     }
 
     private void addMapping(Class<? extends Message> messageClass, Class<? extends Logic> taskClass) {
         try {
             Logic logic = taskClass.getConstructor(LogicResources.class).newInstance(logicResources);
-            messageToLogic.put(messageClass, logic);
+            messageToLogic.put(messageClass.getName(), logic);
         } catch (Exception e) {
             logger.log(Level.WARNING, "Unable to initiate task of type: " + taskClass.getName(), e);
         }

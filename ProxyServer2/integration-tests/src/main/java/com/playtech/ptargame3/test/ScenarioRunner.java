@@ -32,7 +32,7 @@ public class ScenarioRunner {
         }
     }
 
-    public <T extends AbstractScenario> void runScenario(Class<T> scenario, int times, int rampup) {
+    public <T extends AbstractScenario> void runScenario(Class<T> scenario, int times, int ramp_up) {
         ArrayList<Task> tasks = new ArrayList<>(times);
         for (int i = 0; i < times; ++i) {
             Task scenarioTask = this.scenarioFactory.getTask(scenario);
@@ -45,7 +45,7 @@ public class ScenarioRunner {
         for (Task task : tasks) {
             task.scheduleExecution();
             try {
-                Thread.sleep(rampup);
+                Thread.sleep(ramp_up);
             } catch (InterruptedException ignore) {}
         }
     }

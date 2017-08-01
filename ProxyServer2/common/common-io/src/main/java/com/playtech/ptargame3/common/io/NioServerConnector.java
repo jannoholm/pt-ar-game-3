@@ -71,7 +71,7 @@ public class NioServerConnector implements Runnable {
         }
     }
 
-    public Session connect(InetSocketAddress address) throws IOException {
+    public Session connect(InetSocketAddress address) {
         ConnectionHandler connection = this.connectionFactory.createConnection();
         pendingConnects.offer(new PendingConnection(connection, address));
         return connection.getSession();
@@ -86,7 +86,7 @@ public class NioServerConnector implements Runnable {
                     try {
                         key.cancel();
                         key.channel().close();
-                        logger.info("Closing not properly initialized connection." + connection);
+                        logger.info("Closing not properly initialized connection: " + key);
                     } catch (Exception ignored) {}
                 } else {
                     connection.ping(time);
@@ -109,7 +109,7 @@ public class NioServerConnector implements Runnable {
         }
     }
 
-    private void processConnects() throws IOException {
+    private void processConnects() {
         PendingConnection pc;
         while ((pc = this.pendingConnects.poll()) != null) {
             pc.connection.initializeConnect(this.selector, pc.address);

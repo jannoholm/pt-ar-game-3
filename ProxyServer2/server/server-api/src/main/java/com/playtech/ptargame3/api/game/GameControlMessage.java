@@ -5,12 +5,12 @@ import com.playtech.ptargame3.api.AbstractMessage;
 
 import java.nio.ByteBuffer;
 
-public class GameContolMessage extends AbstractMessage {
+public class GameControlMessage extends AbstractMessage {
 
     private byte leftRight;
     private byte forwardBackward;
 
-    public GameContolMessage(MessageHeader header) {
+    public GameControlMessage(MessageHeader header) {
         super(header);
     }
 

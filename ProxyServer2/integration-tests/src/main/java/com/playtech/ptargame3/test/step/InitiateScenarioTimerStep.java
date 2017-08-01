@@ -11,7 +11,7 @@ public class InitiateScenarioTimerStep extends AbstractStep {
     }
 
     @Override
-    public void execute(Task task) throws Exception {
+    public void execute(Task task) {
         task.getContext().put(ContextConstants.START_TIME, System.currentTimeMillis());
     }
 }

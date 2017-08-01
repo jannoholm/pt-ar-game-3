@@ -76,7 +76,7 @@ public final class NioServerListener implements Runnable {
                     try {
                         key.cancel();
                         key.channel().close();
-                        logger.info("Closing not properly initialized connection." + connection);
+                        logger.info("Closing not properly initialized connection: " + key);
                     } catch (Exception ignored) {}
                 } else {
                     connection.ping(start);

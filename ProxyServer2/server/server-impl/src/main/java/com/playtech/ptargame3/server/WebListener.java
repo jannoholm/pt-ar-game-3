@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,12 +50,12 @@ public final class WebListener {
         return this.port;
     }
 
-    public void start() throws IOException{
+    public void start() {
         HttpContext ctxLocation = s.createContext(CTX_LOCATION);
-        ctxLocation.setHandler((xchgLocation)-> handleExchange(xchgLocation));
+        ctxLocation.setHandler(this::handleExchange);
 
         HttpContext ctxCompetitor = s.createContext(CTX_COMPETITOR);
-        ctxCompetitor.setHandler((xchgCompetitor)-> handleExchange(xchgCompetitor));
+        ctxCompetitor.setHandler(this::handleExchange);
 
         if (s.getExecutor()!=null)
             throw new IllegalStateException();
@@ -65,83 +66,83 @@ public final class WebListener {
         logger.info("Started HttpUtilityServer on port " + s.getAddress().getPort());
     }
 
-    private void handleExchange(HttpExchange xchg) throws IOException {
+    private void handleExchange(HttpExchange httpExchange) throws IOException {
         try {
-            URI uri = relative(xchg);
+            URI uri = relative(httpExchange);
             String path = uri.getPath();
 
             if (logger.isLoggable(Level.INFO)) {
-                logger.info(String.format("HttpUtilityServer Serving uri: %s, from %s", xchg.getRequestURI(), xchg.getRemoteAddress()));
+                logger.info(String.format("HttpUtilityServer Serving uri: %s, from %s", httpExchange.getRequestURI(), httpExchange.getRemoteAddress()));
             }
 
-            processMapping(xchg, path);
+            processMapping(httpExchange, path);
         }catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Unable to handle request: "+xchg, e);
+            logger.log(Level.SEVERE, "Unable to handle request: "+httpExchange, e);
 
             byte[] b = e.getMessage().getBytes();
-            xchg.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, b.length);
-            try(OutputStream out= xchg.getResponseBody()){
+            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, b.length);
+            try(OutputStream out= httpExchange.getResponseBody()){
                 out.write(b);
             }
         } finally {
-            xchg.close();
+            httpExchange.close();
         }
     }
 
-    private void processMapping(HttpExchange xchg, String path) throws IOException {
+    private void processMapping(HttpExchange httpExchange, String path) throws IOException {
         switch(path){
             case "status":
-                checkContext(xchg, CTX_COMPETITOR);
-                checkRequestMethod(xchg, METHOD_GET);
-                getStatusRequest(xchg);
+                checkContext(httpExchange, CTX_COMPETITOR);
+                checkRequestMethod(httpExchange, METHOD_GET);
+                getStatusRequest(httpExchange);
                 break;
             default:
                 if (logger.isLoggable(Level.INFO)) {
-                    logger.info(String.format("HttpUtilityServer Cannot serve uri: %s, invalid path %s", xchg.getRequestURI(), path));
+                    logger.info(String.format("HttpUtilityServer Cannot serve uri: %s, invalid path %s", httpExchange.getRequestURI(), path));
                 }
-                xchg.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0L);
+                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0L);
                 break;
         }
     }
 
-    private void checkContext(HttpExchange xchg, String expectedPath) {
-        if ( !expectedPath.equals( xchg.getHttpContext().getPath() ) ) {
-            throw new RuntimeException( "Invalid path to context. Expected: " + expectedPath + ", actual: " + xchg.getHttpContext().getPath() );
+    private void checkContext(HttpExchange httpExchange, String expectedPath) {
+        if ( !expectedPath.equals( httpExchange.getHttpContext().getPath() ) ) {
+            throw new RuntimeException( "Invalid path to context. Expected: " + expectedPath + ", actual: " + httpExchange.getHttpContext().getPath() );
         }
     }
 
-    private void checkRequestMethod(HttpExchange xchg, String expectedMethod) {
-        if ( !expectedMethod.equals( xchg.getRequestMethod() ) ) {
-            throw new RuntimeException( "Invalid request method. Expected: " + expectedMethod + ", actual: " + xchg.getRequestMethod() );
+    private void checkRequestMethod(HttpExchange httpExchange, String expectedMethod) {
+        if ( !expectedMethod.equals( httpExchange.getRequestMethod() ) ) {
+            throw new RuntimeException( "Invalid request method. Expected: " + expectedMethod + ", actual: " + httpExchange.getRequestMethod() );
         }
     }
 
-    private void getStatusRequest( HttpExchange xchg ) {
+    private void getStatusRequest( HttpExchange httpExchange ) {
         try {
-            writeResponse(xchg, HttpURLConnection.HTTP_OK, "");
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, "");
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
-            writeResponse(xchg, HttpURLConnection.HTTP_BAD_REQUEST);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
         }
     }
 
-    private void writeResponse( HttpExchange xchg, int errorCode, String response ) {
+    private void writeResponse( HttpExchange httpExchange, int errorCode, String response ) {
         try {
             byte[] b = response.getBytes(ENCODING);
-            xchg.getResponseHeaders().set("Content-Type", "application/json");
-            xchg.sendResponseHeaders( errorCode, b.length);
-            xchg.getResponseBody().write( b);
+            httpExchange.getResponseHeaders().set("Content-Type", "application/json");
+            httpExchange.sendResponseHeaders( errorCode, b.length);
+            httpExchange.getResponseBody().write( b);
         } catch (Exception e) {
             logger.log(Level.INFO, "Unable to send response", e);
         }
     }
 
-    private void writeResponse( HttpExchange xchg, int errorCode ) {
+    private void writeResponse( HttpExchange httpExchange, int errorCode ) {
         try {
             byte[] b = "Bad request".getBytes(ENCODING);
-            xchg.getResponseHeaders().set("Content-Type", "application/json");
-            xchg.sendResponseHeaders( errorCode, b.length);
-            xchg.getResponseBody().write( b);
+            httpExchange.getResponseHeaders().set("Content-Type", "application/json");
+            httpExchange.sendResponseHeaders( errorCode, b.length);
+            httpExchange.getResponseBody().write( b);
         } catch (Exception e) {
             logger.log(Level.INFO, "Unable to send response", e);
         }
@@ -164,40 +165,43 @@ public final class WebListener {
     private static Executor createExecutor() {
         ThreadPoolExecutor e = new ThreadPoolExecutor(1, 2, 6, TimeUnit.MINUTES, new LinkedBlockingQueue<>(1024));
         ThreadGroup g = Thread.currentThread().getThreadGroup();
-        AtomicInteger count = new AtomicInteger();
-        e.setThreadFactory((r) ->{;
-            return new Thread(g, r, String.format("http-%d", count.incrementAndGet()));
+        e.setThreadFactory(new ThreadFactory() {
+            AtomicInteger count = new AtomicInteger();
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(g, r, String.format("http-%d", count.incrementAndGet()));
+            }
         });
         return e;
     }
 
-    private static URI relative(HttpExchange xchg) throws IOException{
+    private static URI relative(HttpExchange httpExchange) throws IOException{
         try{
-            return new URI(xchg.getHttpContext().getPath()).relativize(xchg.getRequestURI());
+            return new URI(httpExchange.getHttpContext().getPath()).relativize(httpExchange.getRequestURI());
         } catch(URISyntaxException _x){
             throw new IOException(_x);
         }
     }
 
-//	private static Map<String, String> parseQueryParameters(HttpExchange xchg) {
-//		return parseJsonParameters(xchg.getRequestURI().getQuery());
+//	private static Map<String, String> parseQueryParameters(HttpExchange httpExchange) {
+//		return parseJsonParameters(httpExchange.getRequestURI().getQuery());
 //	}
 
-    private static Map<String, String> parsePostParameters(HttpExchange xchg) throws IOException {
+    private static Map<String, String> parsePostParameters(HttpExchange httpExchange) throws IOException {
         // lets get post parameters
-        ByteArrayOutputStream inbytes = new ByteArrayOutputStream();
+        ByteArrayOutputStream messageBody = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
-        InputStream in = xchg.getRequestBody();
+        InputStream in = httpExchange.getRequestBody();
         int pos;
         while ( (pos = in.read(buffer)) != -1 ) {
-            inbytes.write(buffer, 0, pos);
+            messageBody.write(buffer, 0, pos);
         }
         if (logger.isLoggable(Level.INFO)) {
-            logger.info(String.format("HttpUtilityServer post parameters: %s", new String(inbytes.toByteArray(), ENCODING)));
+            logger.info(String.format("HttpUtilityServer post parameters: %s", new String(messageBody.toByteArray(), ENCODING)));
         }
 
         // lets parse parameters string
-        return parseJsonParameters(new String(inbytes.toByteArray(), ENCODING));
+        return parseJsonParameters(new String(messageBody.toByteArray(), ENCODING));
     }
 
     private static Map<String, String> parseJsonParameters(String paramStr) {

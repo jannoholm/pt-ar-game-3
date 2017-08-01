@@ -41,7 +41,7 @@ public class JoinStep extends AbstractStep {
     }
 
     @Override
-    public void execute(Task task) throws Exception {
+    public void execute(Task task) {
         if (task.getCurrentState() == TwoStepState.MIDDLE) {
             // create a new connection
             NioServerConnector connector = (NioServerConnector) task.getContext().get(ContextConstants.CONNECTOR);
@@ -50,7 +50,7 @@ public class JoinStep extends AbstractStep {
 
             // join
             JoinServerRequest joinServerRequest = createMessage(task, JoinServerRequest.class);
-            joinServerRequest.setName("com/playtech/ptargame3/test " + (int)(Math.random()*100000));
+            joinServerRequest.setName("testing " + (int)(Math.random()*100000));
             joinServerRequest.setEmail("test@playtech.com");
             getLogicResources().getCallbackHandler().sendCallback(task, joinServerRequest, session);
             task.getContext().put(ContextConstants.CALLBACK_REQUEST, joinServerRequest);

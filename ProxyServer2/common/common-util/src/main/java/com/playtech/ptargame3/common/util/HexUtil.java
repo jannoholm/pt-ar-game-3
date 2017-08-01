@@ -8,10 +8,10 @@ public class HexUtil {
     /**
      * Convert byte array to hex string.
      *
-     * @param value
+     * @param value  byte array to make hex of
      * @param start  inclusive
-     * @param end       exclusive
-     * @return
+     * @param end    exclusive
+     * @return       hex string of byte array part
      */
     public static String toHex(byte[] value, int start, int end){
         final char[] buf = new char[((end-start)<<1)];
@@ -27,8 +27,8 @@ public class HexUtil {
      * Parse hex string to byte array.
      * If hex length is 2n+1 (odd number), then last byte is ignored.
      *
-     * @param hex
-     * @return
+     * @param hex   hex string to convert to byte array
+     * @return      byte array converted from hex
      */
     public static byte[] parseHex( String hex ) {
         final int len = hex.length();
@@ -46,7 +46,7 @@ public class HexUtil {
         return result;
     }
 
-    private static final int parseNibble(char c){
+    private static int parseNibble(char c){
         if (c>='0' && c<='9'){
             return (c-'0');
         }
@@ -60,8 +60,8 @@ public class HexUtil {
     /**
      * Convert byte array to hex string.
      *
-     * @param value
-     * @return
+     * @param value     byte array to convert to hex string
+     * @return          hex string
      */
     public static String toHex( byte[] value ) {
         return toHex( value, 0, value.length );
@@ -70,8 +70,8 @@ public class HexUtil {
     /**
      * Convert byte to hex string.
      *
-     * @param value
-     * @return
+     * @param value byte value to convert to hex
+     * @return      hex string of byte
      */
     public static String toHex( byte value ) {
         String result = Integer.toHexString( value & 0xFF ).toUpperCase();
@@ -81,8 +81,8 @@ public class HexUtil {
     /**
      * Convert long to hex string.
      *
-     * @param value
-     * @return
+     * @param value     long value to convert to hex
+     * @return          hex representation of long value
      */
     public static String toHex( long value ) {
         byte[] b=new byte[8];
