@@ -6,6 +6,11 @@ import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.task.TaskExecutorImpl;
 import com.playtech.ptargame3.api.ProxyMessageFactory;
 import com.playtech.ptargame3.api.ProxyMessageParser;
+import com.playtech.ptargame3.common.task.TaskFactory;
+import com.playtech.ptargame3.common.task.TaskFactoryImpl;
+import com.playtech.ptargame3.server.registry.GameRegistry;
+import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
+import com.playtech.ptargame3.server.registry.ProxyLogicRegistry;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -28,11 +33,12 @@ public class Starter {
         });
         CallbackHandlerImpl callbackHandler = new CallbackHandlerImpl(clientRegistry, scheduledExecutorService);
         callbackHandler.start();
-        LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry);
         TaskExecutorImpl taskExecutor = new TaskExecutorImpl("te", 2);
-        MessageTaskFactory messageTaskFactory = new MessageTaskFactory(taskExecutor, logicResources);
-        messageTaskFactory.initialize();
-        ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, callbackHandler, clientRegistry, messageTaskFactory);
+        ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
+        TaskFactory taskFactory = new TaskFactoryImpl(taskExecutor, logicRegistry);
+        LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry, new GameRegistry(), taskFactory);
+        logicRegistry.initialize(logicResources);
+        ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, callbackHandler, clientRegistry, taskFactory);
 
         NioServerListener proxy = new NioServerListener(connectionFactory, 8000);
         new Thread(proxy.start(), "proxy").start();

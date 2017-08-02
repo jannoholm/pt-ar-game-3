@@ -115,12 +115,12 @@ public class CallbackHandlerImpl implements CallbackHandler {
 
     @Override
     public ResponseStatus getResponseStatus(Task task, Message message) {
-        return (ResponseStatus)task.getContext().get(getContextIdForStatus(message.getHeader().getMessageId()));
+        return task.getContext().get(getContextIdForStatus(message.getHeader().getMessageId()), ResponseStatus.class);
     }
 
     @Override
     public Message getResponse(Task task, Message message) {
-        return (Message)task.getContext().get(getContextIdForResponse(message.getHeader().getMessageId()));
+        return task.getContext().get(getContextIdForResponse(message.getHeader().getMessageId()), Message.class);
     }
 
     private void addToCallbackStore(Task task, Message request) {

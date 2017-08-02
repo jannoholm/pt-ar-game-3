@@ -10,7 +10,7 @@ import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.api.general.JoinServerResponse;
 import com.playtech.ptargame3.api.general.PingRequest;
 import com.playtech.ptargame3.server.task.MessageTaskInput;
-import com.playtech.ptargame3.server.ProxyClientRegistry;
+import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.api.general.PingResponse;
 import com.playtech.ptargame3.api.general.JoinServerRequest;
 

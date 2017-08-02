@@ -10,6 +10,7 @@ import com.playtech.ptargame3.common.io.separator.LengthEncoder;
 import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.server.session.ClientSession;
+import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 
 public class ProxyConnectionFactory implements ConnectionFactory {
 

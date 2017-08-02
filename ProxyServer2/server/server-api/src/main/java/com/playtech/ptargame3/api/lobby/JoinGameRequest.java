@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.api.game;
+package com.playtech.ptargame3.api.lobby;
 
 import com.playtech.ptargame3.api.AbstractRequest;
 import com.playtech.ptargame3.common.message.MessageHeader;
@@ -8,8 +8,15 @@ import java.nio.ByteBuffer;
 
 public class JoinGameRequest extends AbstractRequest {
 
+    public enum Team {
+        RANDOM,
+        RED,
+        BLUE,
+        WATCHER
+    }
+
     private String gameId;
-    private boolean watcher;
+    private Team team = Team.RANDOM;
 
     public JoinGameRequest(MessageHeader header) {
         super(header);
@@ -19,21 +26,21 @@ public class JoinGameRequest extends AbstractRequest {
     protected void toStringImpl(StringBuilder s) {
         super.toStringImpl(s);
         s.append(", gameId=").append(getGameId());
-        s.append(", watcher=").append(isWatcher());
+        s.append(", team=").append(getTeam());
     }
 
     @Override
     public void parse(ByteBuffer messageData) {
         super.parse(messageData);
         this.gameId = StringUtil.readUTF8String(messageData);
-        this.watcher = messageData.get() != 0;
+        this.team = Team.values()[messageData.get()];
     }
 
     @Override
     public void format(ByteBuffer messageData) {
         super.format(messageData);
         StringUtil.writeUTF8String(gameId, messageData);
-        messageData.put((byte)(watcher ? 1 : 0));
+        messageData.put((byte)team.ordinal());
     }
 
     public String getGameId() {
@@ -44,11 +51,12 @@ public class JoinGameRequest extends AbstractRequest {
         this.gameId = gameId;
     }
 
-    public boolean isWatcher() {
-        return watcher;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setWatcher(boolean watcher) {
-        this.watcher = watcher;
+    public void setTeam(Team team) {
+        if (team == null) throw new IllegalArgumentException("Team cannot be null. Use " + Team.RANDOM);
+        this.team = team;
     }
 }

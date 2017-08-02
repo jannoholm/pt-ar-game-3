@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.server;
+package com.playtech.ptargame3.server.registry;
 
 
 import com.playtech.ptargame3.common.callback.ClientRegistry;
@@ -47,6 +47,17 @@ public class ProxyClientRegistry implements ClientRegistry {
             }
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public String getName(String clientId) {
+        if (!StringUtil.isNull(clientId)) {
+            SessionHolder holder = sessions.get(clientId);
+            if (holder != null) {
+                return holder.name;
+            }
+        }
+        return "noname";
     }
 
     private static class SessionHolder {

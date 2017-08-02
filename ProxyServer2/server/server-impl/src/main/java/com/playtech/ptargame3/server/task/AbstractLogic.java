@@ -1,6 +1,9 @@
 package com.playtech.ptargame3.server.task;
 
 
+import com.playtech.ptargame3.api.AbstractRequest;
+import com.playtech.ptargame3.common.exception.ApiException;
+import com.playtech.ptargame3.common.message.Message;
 import com.playtech.ptargame3.common.task.Logic;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
@@ -36,34 +39,45 @@ public abstract class AbstractLogic implements Logic {
     }
 
     @Override
-    public Collection<Logic> createStateSubLogics(Task context) {
+    public Collection<Logic> createStateSubLogics(Task task) {
         return Collections.emptyList();
     }
 
     @Override
-    public boolean canExecute(Task context) {
+    public boolean canExecute(Task task) {
         return true;
     }
 
     @Override
-    public void finishSuccess(Task context) {
+    public void finishSuccess(Task task) {
     }
 
     @Override
-    public void finishError(Task context, Exception e) {
+    public void finishError(Task task, Exception e) {
         logger.log(Level.INFO, "Task finished with error", e);
     }
 
-    protected <T extends AbstractResponse> T getResponse(Task context, Class<T> responseClass) {
-        MessageTaskInput input = (MessageTaskInput)context.getContext().getInput();
+    @SuppressWarnings("unchecked")
+    protected <T extends AbstractRequest> T getInputRequest(Task task, Class<T> requestClass) {
+        MessageTaskInput input = (MessageTaskInput)task.getContext().getInput();
+        return (T)input.getMessage();
+    }
+
+    protected <T extends AbstractResponse> T getResponse(Task task, Class<T> responseClass) {
+        MessageTaskInput input = (MessageTaskInput)task.getContext().getInput();
         T response = getLogicResources().getMessageParser().createResponse(input.getMessage(), responseClass);
         response.getHeader().setClientId(input.getMessage().getHeader().getClientId());
         return response;
     }
 
-    protected <T extends AbstractResponse> T getResponse(Task context, Class<T> responseClass, Exception e) {
-        T response = getResponse(context, responseClass);
-        response.setErrorCode(ApiConstants.ERR_SYSTEM);
+    protected <T extends AbstractResponse> T getResponse(Task task, Class<T> responseClass, Exception e) {
+        T response = getResponse(task, responseClass);
+        if (e instanceof ApiException) {
+            ApiException apiException = (ApiException)e;
+            response.setErrorCode(apiException.getErrorCode());
+        } else {
+            response.setErrorCode(ApiConstants.ERR_SYSTEM);
+        }
         response.setErrorMessage(e.getMessage());
         return response;
     }

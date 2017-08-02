@@ -14,10 +14,11 @@ import com.playtech.ptargame3.api.general.JoinServerRequest;
 import com.playtech.ptargame3.api.general.JoinServerResponse;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 
-public class JoinStep extends AbstractStep {
+public class JoinServerStep extends AbstractStep {
 
-    public JoinStep(LogicResources logicResources) {
+    public JoinServerStep(LogicResources logicResources) {
         super(logicResources);
     }
 
@@ -29,7 +30,7 @@ public class JoinStep extends AbstractStep {
     @Override
     public boolean canExecute(Task task) {
         if (task.getCurrentState() == TwoStepState.FINAL) {
-            JoinServerRequest joinServerRequest = (JoinServerRequest)task.getContext().get(ContextConstants.CALLBACK_REQUEST);
+            JoinServerRequest joinServerRequest = task.getContext().get(ContextConstants.CALLBACK_REQUEST, JoinServerRequest.class);
             if (joinServerRequest == null) {
                 throw new SystemException("join request not set. Unable to proceed");
             } else {
@@ -44,22 +45,26 @@ public class JoinStep extends AbstractStep {
     public void execute(Task task) {
         if (task.getCurrentState() == TwoStepState.MIDDLE) {
             // create a new connection
-            NioServerConnector connector = (NioServerConnector) task.getContext().get(ContextConstants.CONNECTOR);
+            NioServerConnector connector = task.getContext().get(ContextConstants.CONNECTOR, NioServerConnector.class);
             ConnectorSession session = (ConnectorSession) connector.connect(getServerAddress());
             task.getContext().put(ContextConstants.SESSION, session);
 
+            // generate data
+            String clientName = "testing " + UUID.randomUUID().toString();
+            task.getContext().put(ContextConstants.CLIENT_NAME, clientName);
+
             // join
             JoinServerRequest joinServerRequest = createMessage(task, JoinServerRequest.class);
-            joinServerRequest.setName("testing " + (int)(Math.random()*100000));
+            joinServerRequest.setName(clientName);
             joinServerRequest.setEmail("test@playtech.com");
             getLogicResources().getCallbackHandler().sendCallback(task, joinServerRequest, session);
             task.getContext().put(ContextConstants.CALLBACK_REQUEST, joinServerRequest);
         } else if (task.getCurrentState() == TwoStepState.FINAL) {
-            JoinServerRequest joinServerRequest = (JoinServerRequest)task.getContext().get(ContextConstants.CALLBACK_REQUEST);
+            JoinServerRequest joinServerRequest = task.getContext().get(ContextConstants.CALLBACK_REQUEST, JoinServerRequest.class);
             CallbackHandler.ResponseStatus status = getLogicResources().getCallbackHandler().getResponseStatus(task, joinServerRequest);
             if (status == CallbackHandler.ResponseStatus.SUCCESS) {
                 JoinServerResponse joinServerResponse = (JoinServerResponse)getLogicResources().getCallbackHandler().getResponse(task, joinServerRequest);
-                ConnectorSession session = (ConnectorSession)task.getContext().get(ContextConstants.SESSION);
+                ConnectorSession session = task.getContext().get(ContextConstants.SESSION, ConnectorSession.class);
                 String clientId = joinServerResponse.getHeader().getClientId();
                 session.setClientId(clientId);
                 task.getContext().put(ContextConstants.CLIENT_ID, clientId);

@@ -1,7 +1,8 @@
 package com.playtech.ptargame3.test;
 
 
-import com.playtech.ptargame3.test.scenario.GetGamesScenario;
+import com.playtech.ptargame3.test.scenario.HostGameScenario;
+import com.playtech.ptargame3.test.scenario.JoinGameScenario;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -20,7 +21,9 @@ public class TestOneRequest extends AbstractTest {
         sleep(100);
 
         // run one scenario
-        scenarioRunner.runScenario(GetGamesScenario.class, 1, 1);
+        scenarioRunner.runScenario(HostGameScenario.class, 1, 0);
+        scenarioRunner.waitComplete(60000);
+        scenarioRunner.runScenario(JoinGameScenario.class, 1, 0);
         scenarioRunner.waitComplete(60000);
 
         // shutdown

@@ -25,8 +25,15 @@ public class TaskContextImpl implements TaskContext {
     }
 
     @Override
-    public Object get(Object key) {
-        return this.data.get(key);
+    public <T> T get(Object key, Class<T> oClass) {
+        Object result = this.data.get(key);
+        if (result == null) {
+            return null;
+        } else if (oClass.isInstance(result)) {
+            return oClass.cast(result);
+        } else {
+            throw new IllegalArgumentException("Invalid expected type. Actual: " + result.getClass().getName() + ", expected: " + oClass.getName());
+        }
     }
 
     @Override

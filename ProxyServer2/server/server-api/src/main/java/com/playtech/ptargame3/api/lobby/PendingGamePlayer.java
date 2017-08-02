@@ -4,11 +4,11 @@ import com.playtech.ptargame3.common.util.StringUtil;
 
 import java.nio.ByteBuffer;
 
-public class GetDetailedGameInfoRider {
+public class PendingGamePlayer {
 
     private String clientId;
     private String name;
-    private byte team;
+    private Team team;
     private byte positionInTeam;
 
     public void parse(ByteBuffer messageData) {
@@ -21,7 +21,7 @@ public class GetDetailedGameInfoRider {
         // read structure data
         clientId = StringUtil.readUTF8String(messageData);
         name = StringUtil.readUTF8String(messageData);
-        team = messageData.get();
+        team = Team.values()[messageData.get()];
         positionInTeam = messageData.get();
     }
 
@@ -33,7 +33,7 @@ public class GetDetailedGameInfoRider {
 
         StringUtil.writeUTF8String(clientId, messageData);
         StringUtil.writeUTF8String(name, messageData);
-        messageData.putInt(team);
+        messageData.put((byte)team.ordinal());
         messageData.putInt(positionInTeam);
 
         // fix length
@@ -63,11 +63,11 @@ public class GetDetailedGameInfoRider {
         this.name = name;
     }
 
-    public byte getTeam() {
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(byte team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
 

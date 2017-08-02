@@ -13,7 +13,7 @@ public abstract class AbstractStep extends AbstractLogic {
     }
 
     protected <T extends Message> T createMessage(Task task, Class<T> messageClass) {
-        String clientId = (String)task.getContext().get(ContextConstants.CLIENT_ID);
+        String clientId = task.getContext().get(ContextConstants.CLIENT_ID, String.class);
         T message = getLogicResources().getMessageParser().createMessage(messageClass);
         message.getHeader().setClientId(clientId);
         return message;

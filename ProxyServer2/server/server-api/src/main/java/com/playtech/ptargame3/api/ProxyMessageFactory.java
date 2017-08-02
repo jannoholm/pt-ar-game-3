@@ -1,5 +1,6 @@
 package com.playtech.ptargame3.api;
 
+import com.playtech.ptargame3.api.lobby.PushGameLobbyUpdateMessage;
 import com.playtech.ptargame3.common.message.Message;
 import com.playtech.ptargame3.common.message.MessageFactory;
 import com.playtech.ptargame3.common.message.MessageHeader;
@@ -11,10 +12,10 @@ import com.playtech.ptargame3.api.lobby.GetDetailedGameInfoRequest;
 import com.playtech.ptargame3.api.lobby.GetDetailedGameInfoResponse;
 import com.playtech.ptargame3.api.lobby.GetGamesRequest;
 import com.playtech.ptargame3.api.lobby.GetGamesResponse;
-import com.playtech.ptargame3.api.game.HostGameRequest;
-import com.playtech.ptargame3.api.game.HostGameResponse;
-import com.playtech.ptargame3.api.game.JoinGameRequest;
-import com.playtech.ptargame3.api.game.JoinGameResponse;
+import com.playtech.ptargame3.api.lobby.HostGameRequest;
+import com.playtech.ptargame3.api.lobby.HostGameResponse;
+import com.playtech.ptargame3.api.lobby.JoinGameRequest;
+import com.playtech.ptargame3.api.lobby.JoinGameResponse;
 import com.playtech.ptargame3.api.general.JoinServerRequest;
 import com.playtech.ptargame3.api.general.JoinServerResponse;
 
@@ -38,14 +39,15 @@ public class ProxyMessageFactory implements MessageFactory {
         addMessage(2001, GetGamesResponse.class);
         addMessage(2004, GetDetailedGameInfoRequest.class);
         addMessage(2005, GetDetailedGameInfoResponse.class);
+        addMessage(2006, JoinGameRequest.class);
+        addMessage(2007, JoinGameResponse.class);
+        addMessage(2008, HostGameRequest.class);
+        addMessage(2009, HostGameResponse.class);
+        addMessage(2010, PushGameLobbyUpdateMessage.class);
 
         // game-play
-        addMessage(3000, JoinGameRequest.class);
-        addMessage(3001, JoinGameResponse.class);
-        addMessage(3002, HostGameRequest.class);
-        addMessage(3003, HostGameResponse.class);
-        addMessage(3004, GameControlMessage.class);
-        addMessage(3006, GameUpdateMessage.class);
+        addMessage(3000, GameControlMessage.class);
+        addMessage(3002, GameUpdateMessage.class);
     }
 
     private void addMessage(int messageType, Class<? extends Message> messageClass) {

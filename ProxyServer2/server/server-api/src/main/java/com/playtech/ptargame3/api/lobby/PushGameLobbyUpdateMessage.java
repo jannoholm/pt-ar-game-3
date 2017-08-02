@@ -1,6 +1,6 @@
 package com.playtech.ptargame3.api.lobby;
 
-import com.playtech.ptargame3.api.AbstractResponse;
+import com.playtech.ptargame3.api.AbstractMessage;
 import com.playtech.ptargame3.common.message.MessageHeader;
 import com.playtech.ptargame3.common.util.StringUtil;
 
@@ -10,14 +10,15 @@ import java.util.Collection;
 import java.util.Collections;
 
 
-public class GetDetailedGameInfoResponse extends AbstractResponse {
+public class PushGameLobbyUpdateMessage extends AbstractMessage {
+
     private String gameName;
     private int totalPlaces;
     private int freePlaces;
     private String aiType;
     private Collection<PendingGamePlayer> players = new ArrayList<>();
 
-    public GetDetailedGameInfoResponse(MessageHeader header) {
+    public PushGameLobbyUpdateMessage(MessageHeader header) {
         super(header);
     }
 

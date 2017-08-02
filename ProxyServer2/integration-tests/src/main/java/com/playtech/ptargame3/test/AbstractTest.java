@@ -1,17 +1,20 @@
 package com.playtech.ptargame3.test;
 
+import com.playtech.ptargame3.api.ProxyMessageFactory;
+import com.playtech.ptargame3.api.ProxyMessageParser;
 import com.playtech.ptargame3.common.callback.CallbackHandlerImpl;
 import com.playtech.ptargame3.common.io.NioServerConnector;
 import com.playtech.ptargame3.common.io.NioServerListener;
 import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.task.TaskExecutorImpl;
+import com.playtech.ptargame3.common.task.TaskFactory;
+import com.playtech.ptargame3.common.task.TaskFactoryImpl;
 import com.playtech.ptargame3.server.LogicResourcesImpl;
-import com.playtech.ptargame3.server.MessageTaskFactory;
-import com.playtech.ptargame3.server.ProxyClientRegistry;
 import com.playtech.ptargame3.server.ProxyConnectionFactory;
 import com.playtech.ptargame3.server.ProxyLogicResources;
-import com.playtech.ptargame3.api.ProxyMessageFactory;
-import com.playtech.ptargame3.api.ProxyMessageParser;
+import com.playtech.ptargame3.server.registry.GameRegistry;
+import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
+import com.playtech.ptargame3.server.registry.ProxyLogicRegistry;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -32,7 +35,6 @@ public class AbstractTest {
     protected NioServerConnector connector;
     protected CallbackHandlerImpl connectorCallbackHandler;
     protected ProxyLogicResources connectorLogicResources;
-    protected ConnectorTaskFactoryStub connectorTaskFactory;
     protected TaskExecutorImpl connectorTaskExecutor;
 
     protected ScenarioFactory scenarioFactory;
@@ -67,10 +69,11 @@ public class AbstractTest {
         proxyCallbackHandler = new CallbackHandlerImpl(clientRegistry, maintenanceService);
         proxyCallbackHandler.start();
         proxyTaskExecutor = new TaskExecutorImpl("te", 2);
-        LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry);
-        MessageTaskFactory messageTaskFactory = new MessageTaskFactory(proxyTaskExecutor, logicResources);
-        messageTaskFactory.initialize();
-        ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, proxyCallbackHandler, clientRegistry, messageTaskFactory);
+        ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
+        TaskFactory taskFactory = new TaskFactoryImpl(proxyTaskExecutor, logicRegistry);
+        LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry, new GameRegistry(), taskFactory);
+        logicRegistry.initialize(logicResources);
+        ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, proxyCallbackHandler, clientRegistry, taskFactory);
 
         // setup server
         proxy = new NioServerListener(connectionFactory, 8000);
@@ -91,10 +94,9 @@ public class AbstractTest {
         ProxyClientRegistry clientRegistry = new ProxyClientRegistry();
         connectorCallbackHandler = new CallbackHandlerImpl(clientRegistry, maintenanceService);
         connectorCallbackHandler.start();
-        connectorLogicResources = new LogicResourcesImpl(connectorCallbackHandler, messageParser, clientRegistry);
+        TaskFactory connectorTaskFactory = new TaskFactoryImpl(connectorTaskExecutor, type -> null);
+        connectorLogicResources = new LogicResourcesImpl(connectorCallbackHandler, messageParser, clientRegistry, new GameRegistry(), connectorTaskFactory);
         connectorTaskExecutor = new TaskExecutorImpl("ct", 2);
-        connectorTaskFactory = new ConnectorTaskFactoryStub(connectorTaskExecutor, connectorLogicResources);
-        connectorTaskFactory.initialize();
         TestConnectionFactory connectorFactory = new TestConnectionFactory(messageParser, connectorCallbackHandler, clientRegistry, connectorTaskFactory);
 
         // setup connector

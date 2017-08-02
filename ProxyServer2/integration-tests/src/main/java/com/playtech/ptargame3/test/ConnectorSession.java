@@ -4,7 +4,7 @@ import com.playtech.ptargame3.common.callback.CallbackHandler;
 import com.playtech.ptargame3.common.io.Connection;
 import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.task.TaskFactory;
-import com.playtech.ptargame3.server.ProxyClientRegistry;
+import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.server.session.ClientSession;
 
 

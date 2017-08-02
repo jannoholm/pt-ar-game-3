@@ -1,7 +1,7 @@
 package com.playtech.ptargame3.test;
 
 
-import com.playtech.ptargame3.test.scenario.GetGamesScenario;
+import com.playtech.ptargame3.test.scenario.HostGameScenario;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class Test1000Connections extends AbstractTest {
         // wait a little for startup
         sleep(100);
 
-        scenarioRunner.runScenario(GetGamesScenario.class, 20000, 3);
+        scenarioRunner.runScenario(HostGameScenario.class, 20000, 3);
 
         // wait for finish
         scenarioRunner.waitComplete(100000);

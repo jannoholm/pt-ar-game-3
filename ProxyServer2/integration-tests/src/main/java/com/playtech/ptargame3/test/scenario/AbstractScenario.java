@@ -37,11 +37,11 @@ public abstract class AbstractScenario extends AbstractLogic {
     protected void finishScenario(Task task, Exception e) {
         try {
             // log result
-            Long startTime = (Long)task.getContext().get(ContextConstants.START_TIME);
+            Long startTime = task.getContext().get(ContextConstants.START_TIME, Long.class);
             logger.log(Level.INFO, getClass().getName() + " finished with " + (e == null ? "SUCCESS" : "FAILURE") + " in " + (startTime != null ? System.currentTimeMillis()-startTime : "NaN") + "ms.", e);
 
             // notify runner
-            ScenarioRunner runner = (ScenarioRunner)task.getContext().get(ContextConstants.SCENARIO_RUNNER);
+            ScenarioRunner runner = task.getContext().get(ContextConstants.SCENARIO_RUNNER, ScenarioRunner.class);
             if (runner != null) {
                 runner.notifyFinish(task);
             }
@@ -51,7 +51,7 @@ public abstract class AbstractScenario extends AbstractLogic {
     }
 
     protected void closeSession(Task task) {
-        Session session = (Session)task.getContext().get(ContextConstants.SESSION);
+        Session session = task.getContext().get(ContextConstants.SESSION, Session.class);
         if (session != null) {
             session.close();
         }
