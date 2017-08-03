@@ -28,7 +28,7 @@ public class ValidateHostedGameStep extends SimpleCallbackStep {
     protected AbstractRequest createRequest(Task task) {
         GetGamesRequest request = createMessage(task, GetGamesRequest.class);
         String clientName = task.getContext().get(ContextConstants.CLIENT_NAME, String.class);
-        request.setAll(false);
+        request.setAll(true);
         request.setFilter(clientName);
         return request;
     }

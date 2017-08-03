@@ -37,11 +37,10 @@ public class PtFormatter extends Formatter {
             }
         }
         str.append( " [" ).append( Thread.currentThread().getName() ).append( "]" );
+        str.append( "\n" );
         if ( record.getThrown() != null ) {
-            str.append( "\r\n" );
-            printStackTrace( str, record.getThrown(), " [" + Thread.currentThread().getName() + "]" );
+            printStackTrace( str, record.getThrown(), formatLevel( record.getLevel() ) + " " + formatDate( record.getMillis() ) + " ", " [" + Thread.currentThread().getName() + "]" );
         }
-        str.append( "\r\n" );
         return str.toString();
     }
 
@@ -61,19 +60,19 @@ public class PtFormatter extends Formatter {
         return dateFormat.get().format( new Date( millis ) );
     }
 
-    private void printStackTrace( StringBuilder str, Throwable t, String suffix ) {
-        str.append( t.toString() ).append( suffix ).append( "\r\n" );
+    private void printStackTrace( StringBuilder str, Throwable t, String prefix, String suffix ) {
+        str.append( prefix ).append( t.toString() ).append( suffix ).append( "\n" );
         StackTraceElement[] trace = t.getStackTrace();
         for ( StackTraceElement line : trace ){
-            str.append( "\tat " ).append( line ).append( suffix ).append( "\r\n" );
+            str.append(prefix).append( "    at " ).append( line ).append( suffix ).append( "\n" );
         }
         Throwable ourCause = t.getCause();
         if ( ourCause != null ) {
-            printStackTraceAsCause( str, trace, ourCause, suffix );
+            printStackTraceAsCause( str, trace, ourCause, prefix, suffix );
         }
     }
 
-    private void printStackTraceAsCause( StringBuilder str, StackTraceElement[] causedTrace, Throwable cause, String suffix ) {
+    private void printStackTraceAsCause( StringBuilder str, StackTraceElement[] causedTrace, Throwable cause, String prefix, String suffix ) {
         // Compute number of frames in common between this and caused
         StackTraceElement[] trace = cause.getStackTrace();
         int m = trace.length-1, n = causedTrace.length-1;
@@ -82,17 +81,17 @@ public class PtFormatter extends Formatter {
         }
         int framesInCommon = trace.length - 1 - m;
 
-        str.append( "Caused by: " ).append( cause ).append( suffix ).append( "\r\n" );
+        str.append(prefix).append( "Caused by: " ).append( cause ).append( suffix ).append( "\n" );
         for (int i=0; i <= m; i++){
-            str.append( "\tat " ).append( trace[i] ).append( suffix ).append( "\r\n" );
+            str.append(prefix).append( "    at " ).append( trace[i] ).append( suffix ).append( "\n" );
         }
         if (framesInCommon != 0){
-            str.append( "\t... " ).append( framesInCommon ).append( " more" ).append( suffix ).append( "\r\n" );
+            str.append(prefix).append( "    ... " ).append( framesInCommon ).append( " more" ).append( suffix ).append( "\n" );
         }
         // Recurse if we have a cause
         Throwable ourCause = cause.getCause();
         if ( ourCause != null ){
-            printStackTraceAsCause( str, trace, ourCause, suffix );
+            printStackTraceAsCause( str, trace, ourCause, prefix, suffix );
         }
     }
 

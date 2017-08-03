@@ -12,7 +12,11 @@ import com.playtech.ptargame3.common.task.state.TwoStepState;
 import com.playtech.ptargame3.test.ContextConstants;
 import com.playtech.ptargame3.test.step.common.SimpleCallbackStep;
 
+import java.util.Random;
+
 public class GetGameToJoinStep extends SimpleCallbackStep {
+
+    private Random random = new Random(System.currentTimeMillis());
 
     public GetGameToJoinStep(LogicResources logicResources) {
         super(logicResources);
@@ -34,7 +38,7 @@ public class GetGameToJoinStep extends SimpleCallbackStep {
     protected void processResponse(Task task, AbstractResponse response) {
         GetGamesResponse getGamesResponse = (GetGamesResponse)response;
         if (getGamesResponse.getGames().size() > 0) {
-            task.getContext().put(ContextConstants.JOIN_GAME_ID, getGamesResponse.getGames().get(0).getGameId());
+            task.getContext().put(ContextConstants.JOIN_GAME_ID, getGamesResponse.getGames().get(random.nextInt(getGamesResponse.getGames().size())).getGameId());
         }
     }
 

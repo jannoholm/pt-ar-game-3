@@ -57,6 +57,7 @@ public class GameRegistry {
         for (GameRegistryGame game : games.values()) {
             if (!(game.getGameStatus() == GameRegistryGame.Status.COLLECTING || game.getGameStatus() == GameRegistryGame.Status.COLLECTING && all)) continue;
             if (!(StringUtil.isNull(filter) || game.getGameName().contains(filter))) continue;
+            if (!(game.getPlayers().size() < game.getPositions() || all)) continue;
             matching.add(game);
             if (matching.size() > 9) break;
         }

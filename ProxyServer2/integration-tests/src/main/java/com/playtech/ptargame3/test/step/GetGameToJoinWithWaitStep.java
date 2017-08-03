@@ -9,6 +9,7 @@ import com.playtech.ptargame3.common.task.state.TenStepState;
 import com.playtech.ptargame3.common.util.StringUtil;
 import com.playtech.ptargame3.server.exception.SystemException;
 import com.playtech.ptargame3.test.ContextConstants;
+import com.playtech.ptargame3.test.exception.FlowStopExcepton;
 import com.playtech.ptargame3.test.step.common.AbstractStep;
 import com.playtech.ptargame3.test.step.substeps.GetGameToJoinStep;
 import com.playtech.ptargame3.test.step.substeps.Sleep500msStep;
@@ -49,7 +50,7 @@ public class GetGameToJoinWithWaitStep extends AbstractStep {
         if (task.getCurrentState() == TenStepState.FINAL) {
             String gameId = task.getContext().get(ContextConstants.JOIN_GAME_ID, String.class);
             if (StringUtil.isNull(gameId)) {
-                throw new SystemException("Unable to find game to join");
+                throw new FlowStopExcepton("Unable to find game to join.");
             }
         }
     }

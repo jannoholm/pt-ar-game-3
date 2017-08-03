@@ -2,10 +2,14 @@ package com.playtech.ptargame3.test.runner;
 
 
 import com.playtech.ptargame3.test.scenario.HostGameScenario;
+import com.playtech.ptargame3.test.scenario.JoinGameScenario;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Test1000Connections extends AbstractTest {
+
+    private static final Logger logger = Logger.getLogger(Test1000Connections.class.getName());
 
     public void testKeepAlive() throws IOException {
         // start server and connector
@@ -16,10 +20,11 @@ public class Test1000Connections extends AbstractTest {
         // wait a little for startup
         sleep(100);
 
-        scenarioRunner.runScenario(HostGameScenario.class, 20000, 3);
+        scenarioRunner.runScenario(HostGameScenario.class, 100, 50);
+        scenarioRunner.runScenario(JoinGameScenario.class, 1000, 50);
+        scenarioRunner.waitComplete(10000);
 
-        // wait for finish
-        scenarioRunner.waitComplete(100000);
+        logger.info("Unfinished tasks: " + scenarioRunner.getRunning());
 
         // shutdown
         stopConnector();

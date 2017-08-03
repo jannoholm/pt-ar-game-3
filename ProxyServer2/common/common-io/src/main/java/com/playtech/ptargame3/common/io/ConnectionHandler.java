@@ -131,13 +131,10 @@ public final class ConnectionHandler implements Connection {
             List<ByteBuffer> encoded = this.encoder.encode(message);
             for (ByteBuffer buffer : encoded) {
                 if (this.pendingWrites.isEmpty() && this.socketChannel != null && this.socketChannel.isConnected()) {
-                    int remaining = buffer.remaining();
                     this.socketChannel.write(buffer);
-                    logger.fine(String.format(" %6s written: %s", connectionId, (remaining-buffer.remaining())));
                 }
                 if (buffer.hasRemaining()) {
                     this.pendingWrites.offer(copy(buffer));
-                    logger.fine(String.format(" %6s written: %s", connectionId, (buffer.remaining())));
                     if (this.key != null) {
                         this.key.interestOps(this.key.interestOps() | SelectionKey.OP_WRITE);
                     }
@@ -179,9 +176,7 @@ public final class ConnectionHandler implements Connection {
         ByteBuffer out;
         while ((out = this.pendingWrites.peek()) != null) {
             // buffer to stream
-            int remaining=out.remaining();
             this.socketChannel.write(out);
-            logger.fine(String.format(" %6s written: %s", connectionId, (remaining-out.remaining())));
             if (out.hasRemaining()) {
                 // unable to write. wait for next turn
                 this.key.interestOps(this.key.interestOps() | SelectionKey.OP_WRITE);
