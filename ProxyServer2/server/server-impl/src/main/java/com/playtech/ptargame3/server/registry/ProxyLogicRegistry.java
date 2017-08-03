@@ -8,6 +8,7 @@ import com.playtech.ptargame3.api.lobby.GetGamesRequest;
 import com.playtech.ptargame3.common.task.Logic;
 import com.playtech.ptargame3.common.task.LogicRegistry;
 import com.playtech.ptargame3.common.task.LogicResources;
+import com.playtech.ptargame3.server.task.game.PushGameLobbyUpdateLogic;
 import com.playtech.ptargame3.server.task.lobby.GetDetailedGameInfoLogic;
 import com.playtech.ptargame3.server.task.lobby.GetGamesLogic;
 import com.playtech.ptargame3.server.task.lobby.HostGameLogic;
@@ -32,6 +33,7 @@ public class ProxyLogicRegistry implements LogicRegistry {
         addMapping(HostGameRequest.class.getName(), HostGameLogic.class);
         addMapping(JoinGameRequest.class.getName(), JoinGameLogic.class);
         addMapping(GetDetailedGameInfoRequest.class.getName(), GetDetailedGameInfoLogic.class);
+        addMapping(PushGameLobbyUpdateLogic.TASK_TYPE, PushGameLobbyUpdateLogic.class);
     }
 
     private void addMapping(String taskType, Class<? extends Logic> taskClass) {

@@ -139,13 +139,24 @@ public class MessageTaskWrapper implements Task {
                     finalizeTask();
                     return true;
                 } else {
-                    if (subLogicState != getCurrentState()) {
+                    if (subLogicState == null) {
+                        // sublogics for initial state
                         subLogics = logic.createStateSubLogics(this);
                         subLogicState = getCurrentState();
                     }
                     if (!subLogics.isEmpty()) {
                         return false;
-                    } else if (logic.canExecute(next())) {
+                    }
+                    TaskHolder next = next();
+                    if (subLogicState != next.getCurrentState()) {
+                        // sublogics for initial state
+                        subLogics = logic.createStateSubLogics(next);
+                        subLogicState = next.getCurrentState();
+                    }
+                    if (!subLogics.isEmpty()) {
+                        return false;
+                    }
+                    if (logic.canExecute(next())) {
                         currentState = currentState.next();
                         try {
                             logic.execute(this);

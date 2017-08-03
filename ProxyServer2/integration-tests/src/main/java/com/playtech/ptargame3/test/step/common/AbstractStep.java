@@ -1,12 +1,12 @@
-package com.playtech.ptargame3.test.step;
+package com.playtech.ptargame3.test.step.common;
 
 import com.playtech.ptargame3.common.message.Message;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
-import com.playtech.ptargame3.server.task.AbstractLogic;
+import com.playtech.ptargame3.test.logic.AbstractTestLogic;
 import com.playtech.ptargame3.test.ContextConstants;
 
-public abstract class AbstractStep extends AbstractLogic {
+public abstract class AbstractStep extends AbstractTestLogic {
 
     public AbstractStep(LogicResources logicResources) {
         super(logicResources);

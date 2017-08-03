@@ -1,31 +1,31 @@
-package com.playtech.ptargame3.server.task;
+package com.playtech.ptargame3.test.logic;
 
 
+import com.playtech.ptargame3.api.AbstractMessage;
 import com.playtech.ptargame3.api.AbstractRequest;
+import com.playtech.ptargame3.api.AbstractResponse;
+import com.playtech.ptargame3.api.ApiConstants;
 import com.playtech.ptargame3.common.exception.ApiException;
-import com.playtech.ptargame3.common.message.Message;
 import com.playtech.ptargame3.common.task.Logic;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskState;
 import com.playtech.ptargame3.common.task.state.OneStepState;
-import com.playtech.ptargame3.server.ProxyLogicResources;
-import com.playtech.ptargame3.api.AbstractResponse;
-import com.playtech.ptargame3.api.ApiConstants;
+import com.playtech.ptargame3.server.task.MessageTaskInput;
+import com.playtech.ptargame3.test.TestLogicResources;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class AbstractLogic implements Logic {
+public abstract class AbstractTestLogic implements Logic {
+    private static final Logger logger = Logger.getLogger(AbstractTestLogic.class.getName());
 
-    private static final Logger logger = Logger.getLogger(AbstractLogic.class.getName());
+    private final TestLogicResources logicResources;
 
-    private final ProxyLogicResources logicResources;
-
-    public AbstractLogic(LogicResources logicResources) {
-        this.logicResources = (ProxyLogicResources)logicResources;
+    public AbstractTestLogic(LogicResources logicResources) {
+        this.logicResources = (TestLogicResources)logicResources;
     }
 
     @Override
@@ -34,7 +34,7 @@ public abstract class AbstractLogic implements Logic {
     }
 
     @Override
-    public final ProxyLogicResources getLogicResources() {
+    public final TestLogicResources getLogicResources() {
         return this.logicResources;
     }
 
@@ -54,11 +54,13 @@ public abstract class AbstractLogic implements Logic {
 
     @Override
     public void finishError(Task task, Exception e) {
-        if (!(e instanceof ApiException) || ((ApiException)e).getErrorCode() == ApiConstants.ERR_SYSTEM) {
-            logger.log(Level.INFO, "Task finished with system error.", e);
-        } else {
-            logger.log(Level.INFO, "Task finished with business error: " + ((ApiException)e).getErrorCode());
-        }
+        logger.log(Level.INFO, "Task finished with error", e);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T extends AbstractMessage> T getInputMessage(Task task, Class<T> requestClass) {
+        MessageTaskInput input = (MessageTaskInput)task.getContext().getInput();
+        return (T)input.getMessage();
     }
 
     @SuppressWarnings("unchecked")
@@ -85,5 +87,4 @@ public abstract class AbstractLogic implements Logic {
         response.setErrorMessage(e.getMessage());
         return response;
     }
-
 }

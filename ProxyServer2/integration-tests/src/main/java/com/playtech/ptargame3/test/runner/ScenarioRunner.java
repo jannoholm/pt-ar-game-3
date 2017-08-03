@@ -1,10 +1,13 @@
-package com.playtech.ptargame3.test;
+package com.playtech.ptargame3.test.runner;
 
 import com.playtech.ptargame3.common.task.Task;
+import com.playtech.ptargame3.test.ContextConstants;
+import com.playtech.ptargame3.test.scenario.ScenarioFactory;
 import com.playtech.ptargame3.test.scenario.AbstractScenario;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +35,13 @@ public class ScenarioRunner {
         }
     }
 
-    public <T extends AbstractScenario> void runScenario(Class<T> scenario, int times, int ramp_up) {
+    public Collection<String> getRunning() {
+        synchronized (running) {
+            return new ArrayList<>(running.keySet());
+        }
+    }
+
+    public <T extends AbstractScenario> Collection<Task> runScenario(Class<T> scenario, int times, int ramp_up) {
         ArrayList<Task> tasks = new ArrayList<>(times);
         for (int i = 0; i < times; ++i) {
             Task scenarioTask = this.scenarioFactory.getTask(scenario);
@@ -48,6 +57,8 @@ public class ScenarioRunner {
                 Thread.sleep(ramp_up);
             } catch (InterruptedException ignore) {}
         }
+
+        return Collections.unmodifiableCollection(tasks);
     }
 
     public void notifyFinish(Task task) {

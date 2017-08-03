@@ -12,6 +12,7 @@ import com.playtech.ptargame3.test.ContextConstants;
 import com.playtech.ptargame3.server.exception.SystemException;
 import com.playtech.ptargame3.api.general.JoinServerRequest;
 import com.playtech.ptargame3.api.general.JoinServerResponse;
+import com.playtech.ptargame3.test.step.common.AbstractStep;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;

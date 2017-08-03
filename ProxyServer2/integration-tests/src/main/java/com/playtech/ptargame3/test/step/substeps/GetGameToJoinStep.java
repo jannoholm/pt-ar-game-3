@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.test.step;
+package com.playtech.ptargame3.test.step.substeps;
 
 
 import com.playtech.ptargame3.api.AbstractRequest;
@@ -9,8 +9,8 @@ import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskState;
 import com.playtech.ptargame3.common.task.state.TwoStepState;
-import com.playtech.ptargame3.server.exception.SystemException;
 import com.playtech.ptargame3.test.ContextConstants;
+import com.playtech.ptargame3.test.step.common.SimpleCallbackStep;
 
 public class GetGameToJoinStep extends SimpleCallbackStep {
 

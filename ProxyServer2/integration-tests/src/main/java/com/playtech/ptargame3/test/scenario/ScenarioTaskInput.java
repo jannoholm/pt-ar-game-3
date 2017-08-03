@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.test;
+package com.playtech.ptargame3.test.scenario;
 
 import com.playtech.ptargame3.common.task.TaskInput;
 
@@ -12,7 +12,7 @@ public class ScenarioTaskInput implements TaskInput {
 
     public ScenarioTaskInput(String type) {
         this.type = type;
-        this.id = id + "-" + counter.incrementAndGet();
+        this.id = type + "-" + counter.incrementAndGet();
     }
 
     @Override

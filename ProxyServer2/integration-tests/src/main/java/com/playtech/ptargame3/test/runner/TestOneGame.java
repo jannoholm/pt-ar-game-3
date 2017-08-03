@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.test;
+package com.playtech.ptargame3.test.runner;
 
 
 import com.playtech.ptargame3.test.scenario.HostGameScenario;
@@ -7,11 +7,11 @@ import com.playtech.ptargame3.test.scenario.JoinGameScenario;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class TestOneRequest extends AbstractTest {
+public class TestOneGame extends AbstractTest {
 
-    private static final Logger logger = Logger.getLogger(TestOneRequest.class.getName());
+    private static final Logger logger = Logger.getLogger(TestOneGame.class.getName());
 
-    public void testOneRequest() throws IOException {
+    private void testOneRequest() throws IOException, InterruptedException {
         // start server and connector
         setupServer();
         setupConnector();
@@ -22,9 +22,10 @@ public class TestOneRequest extends AbstractTest {
 
         // run one scenario
         scenarioRunner.runScenario(HostGameScenario.class, 1, 0);
-        scenarioRunner.waitComplete(60000);
-        scenarioRunner.runScenario(JoinGameScenario.class, 1, 0);
-        scenarioRunner.waitComplete(60000);
+        scenarioRunner.runScenario(JoinGameScenario.class, 10, 0);
+        scenarioRunner.waitComplete(10000);
+
+        logger.info("Unfinished tasks: " + scenarioRunner.getRunning());
 
         // shutdown
         stopConnector();
@@ -32,7 +33,7 @@ public class TestOneRequest extends AbstractTest {
     }
 
     public static void main(String[] args) throws Exception {
-        new TestOneRequest().testOneRequest();
+        new TestOneGame().testOneRequest();
     }
 
 }

@@ -3,7 +3,7 @@ package com.playtech.ptargame3.server.registry;
 
 import com.playtech.ptargame3.common.util.StringUtil;
 import com.playtech.ptargame3.server.exception.CannotHostException;
-import com.playtech.ptargame3.server.exception.CannotJoinException;
+import com.playtech.ptargame3.server.exception.GameNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,17 +40,14 @@ public class GameRegistry {
 
     public void joinPlayer(String gameId, String clientId, GameRegistryGame.Team team) {
         GameRegistryGame game = games.get(gameId);
-        if (game == null) throw new CannotJoinException("Game not found: " + gameId);
+        if (game == null) throw new GameNotFoundException("Game not found: " + gameId);
 
         game.addPlayer(clientId, team);
-
-        // TODO: send update to watchers
-        // TODO: scedule game start, if players reached
     }
 
     public void joinWatcher(String gameId, String clientId) {
         GameRegistryGame game = games.get(gameId);
-        if (game == null) throw new CannotJoinException("Game not found: " + gameId);
+        if (game == null) throw new GameNotFoundException("Game not found: " + gameId);
 
         game.addWatcher(clientId);
     }

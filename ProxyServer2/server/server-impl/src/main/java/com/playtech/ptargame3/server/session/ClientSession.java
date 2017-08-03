@@ -64,7 +64,7 @@ public class ClientSession implements Session {
 
     public void processMessage(List<ByteBuffer> messageBytes) {
         Message message = this.parser.parseMessage(messageBytes);
-        logger.log(Level.FINE, ()->this.connection.getConnectionId() + " IN: " + message);
+        logger.log(Level.FINE, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "IN", message));
         processMessage(message);
     }
 
@@ -83,7 +83,7 @@ public class ClientSession implements Session {
     }
 
     public void sendMessage(Message message) {
-        logger.log(Level.FINE, ()->this.connection.getConnectionId() + " OUT: " + message);
+        logger.log(Level.FINE, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "OUT", message));
         ByteBuffer messageBytes = formatBuffer.get();
         messageBytes.clear();
         this.parser.formatMessage(message, messageBytes);
@@ -94,7 +94,7 @@ public class ClientSession implements Session {
     public void ping(long time) {
         if (this.lastPingSent > this.lastPingReceived && this.lastPingSent+PING_TIMEOUT<time){
             // timeout. close connection
-            logger.info(connection.getConnectionId() + " Ping failed. Timeout passed.");
+            logger.info(String.format(" %6s %s", this.connection.getConnectionId(), " Ping failed. Timeout passed."));
             this.connection.close();
         }
         if (this.lastPingSent <= lastPingReceived && this.lastPingSent+PING_INTERVAL+this.pingIntervalRandom < time){
@@ -124,7 +124,7 @@ public class ClientSession implements Session {
     private void processPingResponse(Message message) {
         if ( this.lastPingMessageId == message.getHeader().getMessageId() ) {
             this.lastPingReceived = System.currentTimeMillis();
-            logger.log(Level.INFO, this.connection.getConnectionId() + " Ping time: " + (lastPingReceived - lastPingSent) + "ms");
+            logger.info(String.format(" %6s Ping time: %sms", this.connection.getConnectionId(), (lastPingReceived - lastPingSent)));
         }
     }
 
@@ -148,5 +148,4 @@ public class ClientSession implements Session {
         joinServerResponse.getHeader().setClientId(this.clientId);
         sendMessage(joinServerResponse);
     }
-
 }

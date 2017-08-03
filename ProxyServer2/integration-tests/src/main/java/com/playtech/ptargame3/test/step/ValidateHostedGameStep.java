@@ -11,6 +11,7 @@ import com.playtech.ptargame3.api.AbstractRequest;
 import com.playtech.ptargame3.api.lobby.GetGamesRequest;
 import com.playtech.ptargame3.server.exception.SystemException;
 import com.playtech.ptargame3.test.ContextConstants;
+import com.playtech.ptargame3.test.step.common.SimpleCallbackStep;
 
 public class ValidateHostedGameStep extends SimpleCallbackStep {
 

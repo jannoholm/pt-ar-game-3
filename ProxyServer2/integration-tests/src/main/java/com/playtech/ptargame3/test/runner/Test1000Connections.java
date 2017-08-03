@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.test;
+package com.playtech.ptargame3.test.runner;
 
 
 import com.playtech.ptargame3.test.scenario.HostGameScenario;

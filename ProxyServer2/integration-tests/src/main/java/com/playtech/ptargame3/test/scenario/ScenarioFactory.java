@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.test;
+package com.playtech.ptargame3.test.scenario;
 
 
 import com.playtech.ptargame3.common.io.NioServerConnector;
@@ -7,7 +7,7 @@ import com.playtech.ptargame3.common.task.MessageTaskWrapper;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskExecutor;
 import com.playtech.ptargame3.server.exception.SystemException;
-import com.playtech.ptargame3.test.scenario.AbstractScenario;
+import com.playtech.ptargame3.test.ContextConstants;
 
 import java.util.logging.Logger;
 

@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.test;
+package com.playtech.ptargame3.test.runner;
 
 import com.playtech.ptargame3.api.ProxyMessageFactory;
 import com.playtech.ptargame3.api.ProxyMessageParser;
@@ -11,10 +11,16 @@ import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.common.task.TaskFactoryImpl;
 import com.playtech.ptargame3.server.LogicResourcesImpl;
 import com.playtech.ptargame3.server.ProxyConnectionFactory;
-import com.playtech.ptargame3.server.ProxyLogicResources;
 import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.server.registry.ProxyLogicRegistry;
+import com.playtech.ptargame3.test.registry.GameRegistryStub;
+import com.playtech.ptargame3.test.scenario.ScenarioFactory;
+import com.playtech.ptargame3.test.TestConnectionFactory;
+import com.playtech.ptargame3.test.TestLogicRegistry;
+import com.playtech.ptargame3.test.TestLogicResources;
+import com.playtech.ptargame3.test.TestLogicResourcesImpl;
+import com.playtech.ptargame3.test.registry.TestSleepManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -34,7 +40,7 @@ public class AbstractTest {
 
     protected NioServerConnector connector;
     protected CallbackHandlerImpl connectorCallbackHandler;
-    protected ProxyLogicResources connectorLogicResources;
+    protected TestLogicResources connectorLogicResources;
     protected TaskExecutorImpl connectorTaskExecutor;
 
     protected ScenarioFactory scenarioFactory;
@@ -94,9 +100,13 @@ public class AbstractTest {
         ProxyClientRegistry clientRegistry = new ProxyClientRegistry();
         connectorCallbackHandler = new CallbackHandlerImpl(clientRegistry, maintenanceService);
         connectorCallbackHandler.start();
-        TaskFactory connectorTaskFactory = new TaskFactoryImpl(connectorTaskExecutor, type -> null);
-        connectorLogicResources = new LogicResourcesImpl(connectorCallbackHandler, messageParser, clientRegistry, new GameRegistry(), connectorTaskFactory);
+        TestLogicRegistry testLogicRegistry = new TestLogicRegistry();
         connectorTaskExecutor = new TaskExecutorImpl("ct", 2);
+        TaskFactory connectorTaskFactory = new TaskFactoryImpl(connectorTaskExecutor, testLogicRegistry);
+        TestSleepManager testSleepManager = new TestSleepManager(maintenanceService);
+        testSleepManager.start();
+        connectorLogicResources = new TestLogicResourcesImpl(connectorCallbackHandler, messageParser, clientRegistry, new GameRegistryStub(), testSleepManager);
+        testLogicRegistry.initialize(connectorLogicResources);
         TestConnectionFactory connectorFactory = new TestConnectionFactory(messageParser, connectorCallbackHandler, clientRegistry, connectorTaskFactory);
 
         // setup connector

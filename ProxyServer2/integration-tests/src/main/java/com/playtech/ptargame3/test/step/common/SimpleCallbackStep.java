@@ -1,4 +1,4 @@
-package com.playtech.ptargame3.test.step;
+package com.playtech.ptargame3.test.step.common;
 
 import com.playtech.ptargame3.api.ApiConstants;
 import com.playtech.ptargame3.common.callback.CallbackHandler;
@@ -10,6 +10,7 @@ import com.playtech.ptargame3.test.ContextConstants;
 import com.playtech.ptargame3.server.exception.SystemException;
 import com.playtech.ptargame3.api.AbstractRequest;
 import com.playtech.ptargame3.api.AbstractResponse;
+import com.playtech.ptargame3.test.step.common.AbstractStep;
 
 
 public abstract class SimpleCallbackStep extends AbstractStep {

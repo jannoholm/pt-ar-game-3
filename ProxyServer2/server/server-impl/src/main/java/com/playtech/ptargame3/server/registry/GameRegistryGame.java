@@ -2,7 +2,7 @@ package com.playtech.ptargame3.server.registry;
 
 
 import com.playtech.ptargame3.common.util.StringUtil;
-import com.playtech.ptargame3.server.exception.CannotJoinException;
+import com.playtech.ptargame3.server.exception.GameFullException;
 import com.playtech.ptargame3.server.exception.SystemException;
 
 import java.util.ArrayList;
@@ -85,8 +85,8 @@ public class GameRegistryGame {
     public synchronized void addPlayer(String clientId, Team team) {
         // validate input and game status
         if (StringUtil.isNull(clientId)) throw new SystemException("clientId not set");
-        if (gameStatus != Status.COLLECTING) throw new CannotJoinException("Game status " + gameStatus);
-        if (players.size() >= positions) throw new CannotJoinException("Player limit reached: " + positions);
+        if (gameStatus != Status.COLLECTING) throw new GameFullException("Game status " + gameStatus);
+        if (players.size() >= positions) throw new GameFullException("Player limit reached: " + positions);
 
         // check if player already joined. idempotent calls are allowed
         for (GameRegistryGamePlayer player : players) {
@@ -110,7 +110,7 @@ public class GameRegistryGame {
             team = blueTeam < redTeam ? Team.BLUE : Team.RED;
         }
         if (team == Team.RED && positions/2 < redTeam+1 || team == Team.BLUE && positions/2 < blueTeam+1) {
-            throw new CannotJoinException("Team size limit reached: " + team + ":" + positions + "::" + blueTeam + "+" + redTeam);
+            throw new GameFullException("Team size limit reached: " + team + ":" + positions + "::" + blueTeam + "+" + redTeam);
         }
 
         // add player to game

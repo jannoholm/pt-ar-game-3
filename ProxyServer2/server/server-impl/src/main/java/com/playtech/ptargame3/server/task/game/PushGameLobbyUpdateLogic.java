@@ -26,9 +26,13 @@ public class PushGameLobbyUpdateLogic extends AbstractLogic {
         if (game == null) throw new SystemException("Game not found for push update: " + input.getGameId());
 
         for (String clientId : game.getSubscribers()) {
+            // avoid sending to change maker
+            if (clientId.equals(input.getClientId())) continue;
+
             PushGameLobbyUpdateMessage message = getLogicResources().getMessageParser().createMessage(PushGameLobbyUpdateMessage.class);
             message.getHeader().setClientId(clientId);
             message.setAiType(game.getAiType());
+            message.setGameId(game.getGameId());
             message.setGameName(game.getGameName());
             message.setFreePlaces(game.getPositions()-game.getPlayers().size());
             message.setTotalPlaces(game.getPositions());
