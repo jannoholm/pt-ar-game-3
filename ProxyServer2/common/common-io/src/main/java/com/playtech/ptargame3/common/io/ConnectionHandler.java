@@ -3,11 +3,13 @@ package com.playtech.ptargame3.common.io;
 import com.playtech.ptargame3.common.io.separator.Encoder;
 import com.playtech.ptargame3.common.io.separator.Decoder;
 import com.playtech.ptargame3.common.session.Session;
+import com.playtech.ptargame3.common.util.HexUtil;
 import com.playtech.ptargame3.common.util.IdGenerator;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -42,7 +44,7 @@ public final class ConnectionHandler implements Connection {
     public ConnectionHandler(Encoder encoder, Decoder decoder) {
         this.encoder = encoder;
         this.decoder = decoder;
-        this.mainMessageBuffer = ByteBuffer.allocateDirect(4096);
+        this.mainMessageBuffer = ByteBuffer.allocateDirect(4096).order(ByteOrder.LITTLE_ENDIAN);
     }
 
     public void setSession(Session session) {
@@ -131,6 +133,8 @@ public final class ConnectionHandler implements Connection {
             List<ByteBuffer> encoded = this.encoder.encode(message);
             for (ByteBuffer buffer : encoded) {
                 if (this.pendingWrites.isEmpty() && this.socketChannel != null && this.socketChannel.isConnected()) {
+                    if (logger.isLoggable(Level.FINER))
+                        logger.finer(String.format(" %6s bytes written: %s", connectionId, HexUtil.toHex(buffer.slice())));
                     this.socketChannel.write(buffer);
                 }
                 if (buffer.hasRemaining()) {
@@ -176,6 +180,8 @@ public final class ConnectionHandler implements Connection {
         ByteBuffer out;
         while ((out = this.pendingWrites.peek()) != null) {
             // buffer to stream
+            if (logger.isLoggable(Level.FINER))
+                logger.finer(String.format(" %6s bytes written: %s", connectionId, HexUtil.toHex(out.slice())));
             this.socketChannel.write(out);
             if (out.hasRemaining()) {
                 // unable to write. wait for next turn
@@ -193,13 +199,15 @@ public final class ConnectionHandler implements Connection {
         int status;
         while( (status=this.socketChannel.read(ioBuffer)) > 0 ) {
             ioBuffer.flip();
+            if (logger.isLoggable(Level.FINER))
+                logger.finer(String.format(" %6s bytes read: %s", connectionId, HexUtil.toHex(ioBuffer.slice())));
 
             while (ioBuffer.hasRemaining()) {
                 // decode data
                 boolean found = decoder.decode(ioBuffer, mainMessageBuffer);
                 if (!found && ioBuffer.hasRemaining()) {
                     if (largeMessageBuffer == null) {
-                        largeMessageBuffer = ByteBuffer.allocate(Math.min(12288, ioBuffer.remaining()));
+                        largeMessageBuffer = ByteBuffer.allocate(Math.min(12288, ioBuffer.remaining())).order(mainMessageBuffer.order());
                     }
                     found = decoder.decode(ioBuffer, largeMessageBuffer);
                 }
@@ -246,6 +254,6 @@ public final class ConnectionHandler implements Connection {
     }
 
     private static ByteBuffer copy(ByteBuffer b){
-        return  (ByteBuffer) ByteBuffer.allocate(b.remaining()).put(b).flip();
+        return (ByteBuffer) ByteBuffer.allocate(b.remaining()).order(b.order()).put(b).flip();
     }
 }

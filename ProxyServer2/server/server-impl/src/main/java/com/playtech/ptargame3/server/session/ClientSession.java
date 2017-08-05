@@ -1,5 +1,6 @@
 package com.playtech.ptargame3.server.session;
 
+import com.playtech.ptargame3.api.ApiConstants;
 import com.playtech.ptargame3.common.callback.CallbackHandler;
 import com.playtech.ptargame3.common.io.Connection;
 import com.playtech.ptargame3.common.message.Message;
@@ -9,12 +10,14 @@ import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.api.general.JoinServerResponse;
 import com.playtech.ptargame3.api.general.PingRequest;
+import com.playtech.ptargame3.common.util.StringUtil;
 import com.playtech.ptargame3.server.task.MessageTaskInput;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.api.general.PingResponse;
 import com.playtech.ptargame3.api.general.JoinServerRequest;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,7 +31,7 @@ public class ClientSession implements Session {
     private static final long PING_TIMEOUT = 2000;
     private static final int FORMAT_BUFFER_SIZE = 16384;
 
-    private static final ThreadLocal<ByteBuffer> formatBuffer = ThreadLocal.withInitial(() -> ByteBuffer.allocateDirect(FORMAT_BUFFER_SIZE));
+    private static final ThreadLocal<ByteBuffer> formatBuffer = ThreadLocal.withInitial(() -> ByteBuffer.allocateDirect(FORMAT_BUFFER_SIZE).order(ByteOrder.LITTLE_ENDIAN));
 
     private final Connection connection;
     private final MessageParser parser;
@@ -138,14 +141,30 @@ public class ClientSession implements Session {
     }
 
     private void processJoinServer(JoinServerRequest joinServerRequest) {
-        this.clientId  = this.clientRegistry.addClientConnection(
-                joinServerRequest.getHeader().getClientId(),
-                joinServerRequest.getName(),
-                joinServerRequest.getEmail(),
-                this
-        );
+        int errorCode = ApiConstants.ERR_OK;
+        String errorText = "";
+        if (StringUtil.isNull(joinServerRequest.getName())) {
+            errorCode = ApiConstants.ERR_NAME_MANDATORY;
+            errorText = "Name is mandatory";
+        }
+        if (StringUtil.isNull(joinServerRequest.getEmail())) {
+            errorCode = ApiConstants.ERR_EMAIL_MANDATORY;
+            errorText = "Email is mandatory";
+        }
         JoinServerResponse joinServerResponse = this.parser.createResponse(joinServerRequest, JoinServerResponse.class);
-        joinServerResponse.getHeader().setClientId(this.clientId);
+        if (errorCode == ApiConstants.ERR_OK) {
+            this.clientId = this.clientRegistry.addClientConnection(
+                    joinServerRequest.getHeader().getClientId(),
+                    joinServerRequest.getName(),
+                    joinServerRequest.getEmail(),
+                    this
+            );
+            logger.log(Level.INFO, () -> String.format(" %6s Identified as client: %s", this.connection.getConnectionId(), this.clientId));
+            joinServerResponse.getHeader().setClientId(this.clientId);
+        } else {
+            joinServerResponse.setErrorCode(errorCode);
+            joinServerResponse.setErrorMessage(errorText);
+        }
         sendMessage(joinServerResponse);
     }
 }

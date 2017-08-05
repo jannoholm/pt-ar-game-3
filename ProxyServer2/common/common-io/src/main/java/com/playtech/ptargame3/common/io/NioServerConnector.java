@@ -5,6 +5,7 @@ import com.playtech.ptargame3.common.session.Session;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.Iterator;
@@ -22,7 +23,7 @@ public class NioServerConnector implements Runnable {
     private final ConnectionFactory connectionFactory;
 
     private Selector selector;
-    private ByteBuffer buffer = ByteBuffer.allocateDirect(READ_BUFFER_SIZE);
+    private ByteBuffer buffer = ByteBuffer.allocateDirect(READ_BUFFER_SIZE).order(ByteOrder.LITTLE_ENDIAN);
     private volatile boolean stop = false;
 
     private final Queue<PendingConnection> pendingConnects = new ConcurrentLinkedQueue<>();

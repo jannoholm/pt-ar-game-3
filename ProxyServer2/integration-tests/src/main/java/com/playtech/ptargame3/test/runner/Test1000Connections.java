@@ -22,7 +22,7 @@ public class Test1000Connections extends AbstractTest {
 
         scenarioRunner.runScenario(HostGameScenario.class, 100, 50);
         scenarioRunner.runScenario(JoinGameScenario.class, 1000, 50);
-        scenarioRunner.waitComplete(10000);
+        scenarioRunner.waitComplete(60000);
 
         logger.info("Unfinished tasks: " + scenarioRunner.getRunning());
 

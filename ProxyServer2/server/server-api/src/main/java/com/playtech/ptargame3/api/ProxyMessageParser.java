@@ -6,6 +6,7 @@ import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.util.IdGenerator;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.List;
 
 public class ProxyMessageParser implements MessageParser {
@@ -22,12 +23,14 @@ public class ProxyMessageParser implements MessageParser {
         // wrap to single buffer
         ByteBuffer single;
         if (messageBuffer.size()>1) {
+            ByteOrder order = ByteOrder.BIG_ENDIAN;
             // calculate total size
             int totalBytes = 0;
             for (ByteBuffer buffer : messageBuffer) {
                 totalBytes += buffer.remaining();
+                order = buffer.order();
             }
-            single = ByteBuffer.allocate(totalBytes);
+            single = ByteBuffer.allocate(totalBytes).order(order);
             for (ByteBuffer buffer : messageBuffer) {
                 single.put(buffer);
             }

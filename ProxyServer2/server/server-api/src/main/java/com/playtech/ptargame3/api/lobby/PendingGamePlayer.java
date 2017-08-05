@@ -16,7 +16,7 @@ public class PendingGamePlayer {
         int byteCount = messageData.getInt();
         byte[] bytes = new byte[byteCount];
         messageData.get(bytes);
-        messageData = ByteBuffer.wrap(bytes);
+        messageData = ByteBuffer.wrap(bytes).order(messageData.order());
 
         // read structure data
         clientId = StringUtil.readUTF8String(messageData);

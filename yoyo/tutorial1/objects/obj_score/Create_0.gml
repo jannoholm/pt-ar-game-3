@@ -1,1 +1,0 @@
-thescore=0;

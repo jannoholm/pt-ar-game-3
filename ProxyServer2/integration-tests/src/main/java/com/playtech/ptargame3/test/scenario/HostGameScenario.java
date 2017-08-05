@@ -27,7 +27,7 @@ public class HostGameScenario extends AbstractScenario {
             logics.add(new JoinServerStep(getLogicResources()));
             logics.add(new HostGameStep(getLogicResources()));
             logics.add(new ValidateHostedGameStep(getLogicResources()));
-            //logics.add(new WaitGameStartStep(getLogicResources()));
+            logics.add(new WaitGameStartStep(getLogicResources()));
             return logics;
         } else {
             return Collections.emptyList();

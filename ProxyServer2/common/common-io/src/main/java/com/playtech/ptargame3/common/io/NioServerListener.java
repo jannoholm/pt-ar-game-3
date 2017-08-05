@@ -5,6 +5,7 @@ package com.playtech.ptargame3.common.io;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.io.IOException;
+import java.nio.ByteOrder;
 import java.nio.channels.CancelledKeyException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -24,7 +25,7 @@ public final class NioServerListener implements Runnable {
     private final int port;
     private ServerSocketChannel ssc;
     private Selector selector;
-    private ByteBuffer buffer = ByteBuffer.allocateDirect(READ_BUFFER_SIZE);
+    private ByteBuffer buffer = ByteBuffer.allocateDirect(READ_BUFFER_SIZE).order(ByteOrder.LITTLE_ENDIAN);
     private volatile boolean stop = false;
 
     public NioServerListener(ConnectionFactory connectionFactory, int port) {
@@ -85,7 +86,7 @@ public final class NioServerListener implements Runnable {
             }
         }
         long end = System.currentTimeMillis();
-        logger.log(Level.FINER, ()->"processPing.time " + (end-start) + "ms");
+        logger.log(Level.FINEST, ()->"processPing.time " + (end-start) + "ms");
     }
 
     private void processKeys() throws IOException {
@@ -109,7 +110,7 @@ public final class NioServerListener implements Runnable {
             } catch (CancelledKeyException e) {}
         }
         long end = System.currentTimeMillis();
-        logger.log(Level.FINER, ()->"processKeys.time " + (end-start) + "ms");
+        logger.log(Level.FINEST, ()->"processKeys.time " + (end-start) + "ms");
     }
 
     private void closeEverything() {

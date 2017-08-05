@@ -12,6 +12,7 @@ import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.server.registry.ProxyLogicRegistry;
 
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -19,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Starter {
 
-    public static void main(String[] args) throws Exception {
+    private void run() throws IOException {
         ProxyMessageFactory messageFactory = new ProxyMessageFactory();
         messageFactory.initialize();
         MessageParser messageParser = new ProxyMessageParser(messageFactory);
@@ -45,5 +46,9 @@ public class Starter {
 
         WebListener web = new WebListener(8001);
         web.start();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new Starter().run();
     }
 }

@@ -89,4 +89,11 @@ public class HexUtil {
         ByteBuffer.wrap(b).putLong(value);
         return toHex(b);
     }
+
+    public static String toHex(ByteBuffer buffer) {
+        int size = buffer.remaining();
+        byte[] b = new byte[size];
+        buffer.get(b);
+        return toHex(b);
+    }
 }

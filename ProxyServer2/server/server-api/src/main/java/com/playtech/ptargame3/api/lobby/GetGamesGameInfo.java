@@ -17,7 +17,7 @@ public class GetGamesGameInfo {
         int byteCount = messageData.getInt();
         byte[] bytes = new byte[byteCount];
         messageData.get(bytes);
-        messageData = ByteBuffer.wrap(bytes);
+        messageData = ByteBuffer.wrap(bytes).order(messageData.order());
 
         // read structure data
         gameId=StringUtil.readUTF8String(messageData);

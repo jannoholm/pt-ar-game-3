@@ -16,7 +16,7 @@ public class MessageHeaderImpl implements MessageHeader {
         int byteCount = messageData.getInt();
         byte[] bytes = new byte[byteCount];
         messageData.get(bytes);
-        messageData = ByteBuffer.wrap(bytes);
+        messageData = ByteBuffer.wrap(bytes).order(messageData.order());
 
         // read actual data
         messageType = messageData.getInt();

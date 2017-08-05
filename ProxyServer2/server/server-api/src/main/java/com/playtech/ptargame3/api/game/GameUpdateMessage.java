@@ -2,16 +2,13 @@ package com.playtech.ptargame3.api.game;
 
 import com.playtech.ptargame3.api.AbstractMessage;
 import com.playtech.ptargame3.common.message.MessageHeader;
+import com.playtech.ptargame3.common.util.HexUtil;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 public class GameUpdateMessage extends AbstractMessage {
 
-    private List<GameUpdateCar> cars = new ArrayList<>();
+    private byte[] content;
 
     public GameUpdateMessage(MessageHeader header) {
         super(header);
@@ -20,40 +17,28 @@ public class GameUpdateMessage extends AbstractMessage {
     @Override
     protected void toStringImpl(StringBuilder s) {
         super.toStringImpl(s);
-        s.append(", cars={");
-        for (int i = 0; i < cars.size(); ++i) {
-            GameUpdateCar car = cars.get(i);
-            if (i > 0) s.append(",");
-            s.append("(");
-            car.toStringImpl(s);
-            s.append(")");
-        }
-        s.append("}");
+        s.append(", content=").append(HexUtil.toHex(content));
     }
 
     @Override
     public void parse(ByteBuffer messageData) {
-        int numberOfCars=messageData.getInt();
-        for (int i=0; i < numberOfCars; ++i) {
-            GameUpdateCar car = new GameUpdateCar();
-            car.parse(messageData);
-            cars.add(car);
-        }
+        int size = messageData.remaining();
+        content = new byte[size];
+        messageData.get(content);
     }
 
     @Override
     public void format(ByteBuffer messageData) {
-        messageData.putInt(cars.size());
-        for (GameUpdateCar car : cars) {
-            car.format(messageData);
+        if (content != null) {
+            messageData.put(content);
         }
     }
 
-    public Collection<GameUpdateCar> getCars() {
-        return Collections.unmodifiableCollection(cars);
+    public byte[] getContent() {
+        return content;
     }
 
-    public void addCar(GameUpdateCar car) {
-        this.cars.add(car);
+    public void setContent(byte[] content) {
+        this.content = content;
     }
 }

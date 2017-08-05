@@ -1,11 +1,15 @@
 package com.playtech.ptargame3.common.io.separator;
 
+import com.playtech.ptargame3.common.util.HexUtil;
+
 import java.nio.ByteBuffer;
+import java.util.logging.Logger;
 
 public final class LengthDecoder implements Decoder {
 
     private int maxLength=16384;
 
+    private ByteBuffer lengthBytes = ByteBuffer.allocate(4);
     private int lastLength = 0;
     private int readByteCount = 0;
 
@@ -21,14 +25,18 @@ public final class LengthDecoder implements Decoder {
         while (src.hasRemaining()) {
             if (readByteCount < 4) {// first four bytes that are read contain
                 // the length
-                int in = src.get();
+                byte in = src.get();
+                lengthBytes.put(in);
                 readByteCount++;
-                lastLength |= (in & 0xff) << 8 * (4 - readByteCount);
+                if (readByteCount == 4) {
+                    lengthBytes.order(src.order()).flip();
+                    lastLength = lengthBytes.getInt();
+                }
             } else {
                 // copy
                 int len = Math.min(dst.remaining(), lastLength);
                 len = Math.min(src.remaining(), len);
-                if (len == 0) {
+                if (len == 0 && lastLength != 0) {
                     break;
                 }
                 int delta = len - src.remaining();
@@ -47,6 +55,7 @@ public final class LengthDecoder implements Decoder {
             if (readByteCount >= 4 && readByteCount - 4 >= lastLength) {
                 readByteCount = 0;
                 lastLength = 0;
+                lengthBytes.clear();
                 return true;
             } else if ( lastLength > maxLength ) {
                 throw new RuntimeException("Command exceeding maximum length: " + lastLength);
