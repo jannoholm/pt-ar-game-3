@@ -10,7 +10,7 @@
     "inheritLayers": false,
     "instanceCreationOrderIDs": [
         "e870af5f-a54a-4816-abd4-6f4f221e8ae1",
-        "d61eacba-1f1f-4e57-adea-fb36290ef62f"
+        "f41130c8-361b-4449-b52a-cb4ed5a6b172"
     ],
     "layers": [
         {
@@ -59,41 +59,16 @@
                     "rotation": 0,
                     "scaleX": 1,
                     "scaleY": 1
-                }
-            ]
-        },
-        {
-            "__type": "GMRInstanceLayer_Model:#YoYoStudio.MVCFormat",
-            "id": "8ddfd11f-978e-4152-9460-c3a543286222",
-            "modelName": "GMRInstanceLayer",
-            "mvc": "1.0",
-            "depth": 100,
-            "grid_x": 32,
-            "grid_y": 32,
-            "hierarchyFrozen": false,
-            "hierarchyVisible": true,
-            "inheritLayerDepth": false,
-            "inheritLayerSettings": false,
-            "inheritSubLayers": false,
-            "inheritVisibility": false,
-            "layers": [
-                
-            ],
-            "m_parentID": "00000000-0000-0000-0000-000000000000",
-            "m_serialiseFrozen": false,
-            "name": "wall",
-            "userdefined_depth": false,
-            "visible": true,
-            "instances": [
+                },
                 {
-                    "id": "d61eacba-1f1f-4e57-adea-fb36290ef62f",
+                    "id": "f41130c8-361b-4449-b52a-cb4ed5a6b172",
                     "modelName": "GMRInstance",
                     "mvc": "1.0",
                     "ignore": false,
                     "inheritItemSettings": false,
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
-                    "name": "inst_10E5FC4",
+                    "name": "inst_45210AA6",
                     "x": 50,
                     "y": 100,
                     "IsDnD": false,
@@ -103,7 +78,7 @@
                     "creationCodeFile": "",
                     "creationCodeType": "",
                     "inheritCode": false,
-                    "name_with_no_file_rename": "inst_10E5FC4",
+                    "name_with_no_file_rename": "inst_45210AA6",
                     "objId": "ff28f5d5-d67a-4b22-97ab-beaff3408033",
                     "rotation": 0,
                     "scaleX": 1,
@@ -116,7 +91,7 @@
             "id": "0ed3974f-67dd-4212-a885-eeb752808509",
             "modelName": "GMRBackgroundLayer",
             "mvc": "1.0",
-            "depth": 200,
+            "depth": 100,
             "grid_x": 32,
             "grid_y": 32,
             "hierarchyFrozen": false,

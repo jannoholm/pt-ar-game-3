@@ -5,6 +5,12 @@ show_debug_message("Sending join: " + name + " " + email);
 obj_server_client.client_name=name;
 obj_server_client.client_email=email;
 
+// store to disk first
+var filehandle = file_text_open_write(working_directory + "/user_details.txt");
+file_text_write_string(filehandle, name); file_text_writeln(filehandle);
+file_text_write_string(filehandle, email); file_text_writeln(filehandle);
+file_text_close(filehandle);
+
 // reset buffer
 var buffer=obj_server_client.out_buffer;
 buffer_seek(buffer, buffer_seek_start, 0);

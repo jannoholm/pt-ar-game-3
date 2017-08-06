@@ -2,7 +2,7 @@
     "id": "e653f0b1-be88-41ca-b12d-0f88865ced83",
     "modelName": "GMRoom",
     "mvc": "1.0",
-    "name": "play",
+    "name": "host_play",
     "IsDnD": false,
     "creationCodeFile": "",
     "inheritCode": false,

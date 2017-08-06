@@ -19,7 +19,7 @@ public class EmulateClients extends AbstractTest {
         sleep(100);
 
         // run one scenario
-        scenarioRunner.runScenario(HostGameScenario.class, 1, 0);
+        scenarioRunner.runScenario(HostGameScenario.class, 20, 0);
         scenarioRunner.waitComplete(36000000);
 
         logger.info("Unfinished tasks: " + scenarioRunner.getRunning());
