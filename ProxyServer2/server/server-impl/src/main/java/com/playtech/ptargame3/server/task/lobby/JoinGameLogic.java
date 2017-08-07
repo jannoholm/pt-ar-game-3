@@ -5,10 +5,13 @@ import com.playtech.ptargame3.api.lobby.JoinGameResponse;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskInput;
+import com.playtech.ptargame3.server.ContextConstants;
 import com.playtech.ptargame3.server.registry.GameRegistryGame;
+import com.playtech.ptargame3.server.registry.GameRegistryGamePlayer;
 import com.playtech.ptargame3.server.task.AbstractLogic;
 import com.playtech.ptargame3.server.task.GameUpdateTaskInput;
 import com.playtech.ptargame3.server.task.game.PushGameLobbyUpdateLogic;
+import com.playtech.ptargame3.server.util.TeamConverter;
 
 
 public class JoinGameLogic extends AbstractLogic {
@@ -29,12 +32,21 @@ public class JoinGameLogic extends AbstractLogic {
             default:
                 getLogicResources().getGameRegistry().joinPlayer(request.getGameId(), request.getHeader().getClientId());
         }
+        JoinGameResponse response = getResponse(task, JoinGameResponse.class);
+        GameRegistryGame game = getLogicResources().getGameRegistry().getGame(request.getGameId());
+        for (GameRegistryGamePlayer player : game.getPlayers()) {
+            if (player.getClientId().equals(request.getHeader().getClientId())) {
+                response.setTeam(TeamConverter.convert(player.getTeam()));
+                response.setPositionInTeam(player.getPositionInTeam());
+            }
+        }
+        task.getContext().put(ContextConstants.RESPONSE, response);
     }
 
     @Override
     public void finishSuccess(Task task) {
         super.finishSuccess(task);
-        JoinGameResponse response = getResponse(task, JoinGameResponse.class);
+        JoinGameResponse response = task.getContext().get(ContextConstants.RESPONSE, JoinGameResponse.class);
         getLogicResources().getCallbackHandler().sendMessage(response);
 
         // push update

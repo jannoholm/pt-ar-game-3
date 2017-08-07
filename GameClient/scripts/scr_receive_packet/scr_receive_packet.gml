@@ -29,12 +29,30 @@ switch (message_type) {
 		}
 		break;
 	case 2001: // get games response
-		show_debug_message("got games response");
 		scr_games_to_lobby(buffer);
 		break;
+	case 2007: // join game response
+		var error_code = buffer_read(buffer, buffer_s32);
+		var error_message = buffer_read(buffer, buffer_string);
+		show_debug_message("got join game response: " + string(error_code) + ":" + error_message);
+		if (error_code != 0) {
+			show_message("Unable to join: " + string(error_code) + ":" + error_message);
+			room_goto(2);
+		}
+		break;
+	case 2009: // host game response
+		var error_code = buffer_read(buffer, buffer_s32);
+		var error_message = buffer_read(buffer, buffer_string);
+		show_debug_message("got host game response: " + string(error_code) + ":" + error_message);
+		if (error_code != 0) {
+			show_message("Unable to start hosting: " + string(error_code) + ":" + error_message);
+		}
+		break;
+	case 2010: // lobby update of joined clients
+		scr_game_lobby_update(buffer);
+		break;
 	case 3000: // game control message
-		var key_dir = buffer_read(buffer, buffer_u8);
-		scr_game_control_message(key_dir);
+		scr_game_control_message(buffer);
 		break;
 	case 3002: // game update message
 		break;

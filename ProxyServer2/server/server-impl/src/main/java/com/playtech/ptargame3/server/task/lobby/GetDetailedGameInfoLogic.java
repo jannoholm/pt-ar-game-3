@@ -22,7 +22,7 @@ public class GetDetailedGameInfoLogic extends AbstractLogic {
     public void execute(Task task) {
         GetDetailedGameInfoRequest request = getInputRequest(task, GetDetailedGameInfoRequest.class);
         GameRegistryGame game = getLogicResources().getGameRegistry().getGame(request.getGameId());
-        if (game == null) throw new GameNotFoundException("Game not found: " + request.getGameId());
+
         GetDetailedGameInfoResponse response = getLogicResources().getMessageParser().createResponse(request, GetDetailedGameInfoResponse.class);
         response.setAiType(game.getAiType());
         response.setFreePlaces(game.getPositions()-game.getPlayers().size());

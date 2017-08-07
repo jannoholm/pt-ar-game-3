@@ -2,13 +2,16 @@ package com.playtech.ptargame3.api.game;
 
 import com.playtech.ptargame3.common.message.MessageHeader;
 import com.playtech.ptargame3.api.AbstractMessage;
+import com.playtech.ptargame3.common.util.HexUtil;
+import com.playtech.ptargame3.common.util.StringUtil;
 
 import java.nio.ByteBuffer;
 
 public class GameControlMessage extends AbstractMessage {
 
-    private byte leftRight;
-    private byte forwardBackward;
+    private String gameId;
+    private String controlClientId;
+    private byte[] controlData;
 
     public GameControlMessage(MessageHeader header) {
         super(header);
@@ -17,35 +20,54 @@ public class GameControlMessage extends AbstractMessage {
     @Override
     protected void toStringImpl(StringBuilder s) {
         super.toStringImpl(s);
-        s.append(", leftRight=").append(getLeftRight());
-        s.append(", forwardBackward=").append(getForwardBackward());
+        s.append(", gameId=").append(gameId);
+        s.append(", controlClientId=").append(controlClientId);
+        s.append(", controlData=").append(HexUtil.toHex(controlData));
     }
 
     @Override
     public void parse(ByteBuffer messageData) {
-        this.leftRight = messageData.get();
-        this.forwardBackward = messageData.get();
+        gameId = StringUtil.readUTF8String(messageData);
+        controlClientId = StringUtil.readUTF8String(messageData);
+        int size = messageData.getInt();
+        controlData = new byte[size];
+        messageData.get(controlData);
     }
 
     @Override
     public void format(ByteBuffer messageData) {
-        messageData.put(this.leftRight);
-        messageData.put(this.forwardBackward);
+        StringUtil.writeUTF8String(gameId, messageData);
+        StringUtil.writeUTF8String(controlClientId, messageData);
+        if (controlData != null) {
+            messageData.putInt(controlData.length);
+            messageData.put(controlData);
+        } else {
+            messageData.putInt(0);
+        }
     }
 
-    public byte getLeftRight() {
-        return leftRight;
+    public String getGameId() {
+        return gameId;
     }
 
-    public void setLeftRight(byte leftRight) {
-        this.leftRight = leftRight;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
-    public byte getForwardBackward() {
-        return forwardBackward;
+    public String getControlClientId() {
+        return controlClientId;
     }
 
-    public void setForwardBackward(byte forwardBackward) {
-        this.forwardBackward = forwardBackward;
+    public void setControlClientId(String controlClientId) {
+        this.controlClientId = controlClientId;
     }
+
+    public byte[] getControlData() {
+        return controlData;
+    }
+
+    public void setControlData(byte[] controlData) {
+        this.controlData = controlData;
+    }
+
 }

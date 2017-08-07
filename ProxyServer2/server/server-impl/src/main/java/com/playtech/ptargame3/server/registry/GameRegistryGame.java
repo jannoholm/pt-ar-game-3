@@ -22,6 +22,7 @@ public class GameRegistryGame {
         BLUE
     }
 
+    private final String hostClientId;
     private final String gameId;
     private final String gameName;
     private final int positions;
@@ -31,16 +32,21 @@ public class GameRegistryGame {
     private Status gameStatus;
     private Team winner;
 
-    public GameRegistryGame(String gameId, String gameName, int positions, String aiType) {
-        this.aiType = aiType;
+    public GameRegistryGame(String hostClientId, String gameId, String gameName, int positions, String aiType) {
         if (positions%2 != 0) throw new SystemException("Invalid player count. Has to be even. Was: " + positions);
 
+        this.hostClientId = hostClientId;
         this.gameId = gameId;
         this.gameName = gameName;
         this.positions = positions;
+        this.aiType = aiType;
         this.players = Collections.unmodifiableCollection(new ArrayList<>());
         this.subscribers = Collections.unmodifiableCollection(new ArrayList<>());
         this.gameStatus = Status.COLLECTING;
+    }
+
+    public String getHostClientId() {
+        return hostClientId;
     }
 
     public String getGameId() {

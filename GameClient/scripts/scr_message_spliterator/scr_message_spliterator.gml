@@ -1,11 +1,12 @@
 /// since we are using raw type, process stream of bytes according to message rules
 var buffer = argument[0];
 
+
 var buffer_pos_message=0;
 var buffer_pos = 0;
 
 while (buffer_pos_message < buffer_get_size(buffer)) {
-	show_debug_message("loop start, buffer_pos_message: " + string(buffer_pos_message));
+	show_debug_message("loop start, buffer_pos_message: " + string(buffer_pos_message) + ", in_buffer_size=" + string(obj_server_client.in_buffer_size) + ", buffer="+string(buffer_get_size(obj_server_client.in_buffer)));
 
 	var packet_size = 0;
 
@@ -31,7 +32,7 @@ while (buffer_pos_message < buffer_get_size(buffer)) {
 			// not enough data to read packetsize
 			var copy_amount=buffer_get_size(buffer)-buffer_pos_message;
 			buffer_copy(buffer, buffer_pos_message, copy_amount, obj_server_client.in_buffer, obj_server_client.in_buffer_size);
-			obj_server_client.in_buffer_size += buffer_get_size(buffer)-buffer_pos_message;
+			obj_server_client.in_buffer_size += copy_amount;
 			show_debug_message("copied to in_buffer: " + string(copy_amount));
 			return; 
 		} else {

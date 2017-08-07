@@ -31,7 +31,6 @@ public class PushGameLobbyUpdateMessage extends AbstractMessage {
         gameName = StringUtil.readUTF8String(messageData);
         totalPlaces = messageData.getInt();
         freePlaces = messageData.getInt();
-        gameName = StringUtil.readUTF8String(messageData);
         gameStatus = GameStatus.values()[messageData.get()];
         aiType = StringUtil.readUTF8String(messageData);
         int size = messageData.getInt();
@@ -49,7 +48,6 @@ public class PushGameLobbyUpdateMessage extends AbstractMessage {
         StringUtil.writeUTF8String(gameName, messageData);
         messageData.putInt(totalPlaces);
         messageData.putInt(freePlaces);
-        StringUtil.writeUTF8String(gameName, messageData);
         messageData.put((byte)gameStatus.ordinal());
         StringUtil.writeUTF8String(aiType, messageData);
         messageData.putInt(players.size());

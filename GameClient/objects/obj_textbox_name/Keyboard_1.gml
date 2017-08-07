@@ -4,6 +4,7 @@ if (selected==true) {
 		case vk_enter:
 			selected=false;
 			obj_textbox_email.selected=true;
+			obj_button.selected=false;
 			keyboard_string=obj_textbox_email.txt;
 			keyboard_lastkey=-1;
 			break;

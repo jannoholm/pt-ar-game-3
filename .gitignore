@@ -1,3 +1,5 @@
 **/target/**
 ProxyServer*/run/log/**
 ProxyServer*/run2/log/**
+executable/GameClient.exe
+executable/data.win

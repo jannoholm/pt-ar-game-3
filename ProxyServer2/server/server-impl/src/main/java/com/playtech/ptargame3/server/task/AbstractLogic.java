@@ -1,6 +1,7 @@
 package com.playtech.ptargame3.server.task;
 
 
+import com.playtech.ptargame3.api.AbstractMessage;
 import com.playtech.ptargame3.api.AbstractRequest;
 import com.playtech.ptargame3.common.exception.ApiException;
 import com.playtech.ptargame3.common.message.Message;
@@ -59,6 +60,12 @@ public abstract class AbstractLogic implements Logic {
         } else {
             logger.log(Level.INFO, "Task finished with business error: " + ((ApiException)e).getErrorCode());
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T extends AbstractMessage> T getInputMessage(Task task, Class<T> messageClass) {
+        MessageTaskInput input = (MessageTaskInput)task.getContext().getInput();
+        return (T)input.getMessage();
     }
 
     @SuppressWarnings("unchecked")

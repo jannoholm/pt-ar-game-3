@@ -16,14 +16,18 @@ public class GameRegistry {
     private final ConcurrentHashMap<String, GameRegistryGame> hosting = new ConcurrentHashMap<>();
 
     public GameRegistryGame getGame(String gameId) {
-        return games.get(gameId);
+        GameRegistryGame game = games.get(gameId);
+        if (game == null) {
+            throw new GameNotFoundException("Game not found: " + gameId);
+        }
+        return game;
     }
 
     public synchronized String createGame(String clientId, String gameName, int players, boolean joinAsPlayer, String aiType) {
         if (hosting.get(clientId) != null) throw new CannotHostException("Client can host only one game. Open game: " + hosting.get(clientId));
 
         // create new game
-        GameRegistryGame newGame = new GameRegistryGame(UUID.randomUUID().toString(), gameName, players, aiType);
+        GameRegistryGame newGame = new GameRegistryGame(clientId, UUID.randomUUID().toString(), gameName, players, aiType);
         if (joinAsPlayer) {
             newGame.addPlayer(clientId, GameRegistryGame.Team.RED);
         }

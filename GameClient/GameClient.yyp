@@ -31,6 +31,22 @@
     },
     "resources": [
         {
+            "Key": "02db2aaa-5a10-4410-8cdd-67da58c2c056",
+            "Value": {
+                "id": "a275e0a2-e2de-482b-ab42-548e3ba99da1",
+                "resourcePath": "objects\\obj_simple_car\\obj_simple_car.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
+            "Key": "0a2d19c3-ee1d-4f88-939d-efdd4eb36467",
+            "Value": {
+                "id": "6aac4949-78d7-44b3-887a-ac15a095533e",
+                "resourcePath": "rooms\\server\\server.yy",
+                "resourceType": "GMRoom"
+            }
+        },
+        {
             "Key": "0ce0e483-9328-4c74-b5b2-9f903ebb4bde",
             "Value": {
                 "id": "0ff3b7f1-9232-4215-b5f4-a8838b73d21f",
@@ -59,6 +75,14 @@
             "Value": {
                 "id": "7202e2a3-5ddc-4bbb-a63e-4cac4ff050bd",
                 "resourcePath": "scripts\\scr_game_control_message\\scr_game_control_message.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "1bb70387-3192-4258-8732-45bf752b6ef8",
+            "Value": {
+                "id": "d06a090d-d884-4932-a330-5d9d18781949",
+                "resourcePath": "scripts\\scr_start_host_game\\scr_start_host_game.yy",
                 "resourceType": "GMScript"
             }
         },
@@ -103,6 +127,14 @@
             }
         },
         {
+            "Key": "42791e7d-0f06-4f99-a627-db262b2788f3",
+            "Value": {
+                "id": "7a77774b-cdd4-41ec-ac83-34d6cadd87a3",
+                "resourcePath": "objects\\obj_playerinit_nophysics\\obj_playerinit_nophysics.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "4893e5bb-99ce-4736-95e8-4f1aef0af421",
             "Value": {
                 "id": "7b8d148c-6fb1-475b-890b-e94a431759fa",
@@ -115,6 +147,14 @@
             "Value": {
                 "id": "2676436b-4000-4ded-a1d7-ae69f59ad9d3",
                 "resourcePath": "scripts\\scr_receive_packet\\scr_receive_packet.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "4a3a035b-70b8-4809-bae5-92e47e1fdfd2",
+            "Value": {
+                "id": "7bc681e4-305e-4c09-9b86-749f326dbfa2",
+                "resourcePath": "scripts\\scr_game_lobby_update\\scr_game_lobby_update.yy",
                 "resourceType": "GMScript"
             }
         },
@@ -167,19 +207,19 @@
             }
         },
         {
+            "Key": "65e55d37-5702-4366-9481-3721ea57f9eb",
+            "Value": {
+                "id": "632e2050-3b90-42c3-8e74-bc86e617928a",
+                "resourcePath": "objects\\obj_hostcar_control\\obj_hostcar_control.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "71e236e4-ca9e-4575-8933-67ace46bc889",
             "Value": {
                 "id": "365f9391-dde5-4424-86ca-6ab13e29369e",
                 "resourcePath": "views\\71e236e4-ca9e-4575-8933-67ace46bc889.yy",
                 "resourceType": "GMFolder"
-            }
-        },
-        {
-            "Key": "766316a1-9d33-43c6-b4d7-665765955c22",
-            "Value": {
-                "id": "78147272-04bf-437c-8639-9e9e68937f53",
-                "resourcePath": "rooms\\join_play\\join_play.yy",
-                "resourceType": "GMRoom"
             }
         },
         {
@@ -236,6 +276,14 @@
                 "id": "b10b4f3b-3f77-4329-97ee-860e93f6766f",
                 "resourcePath": "views\\87f05ac0-f882-41da-ae14-05fa83289c28.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "892b99e4-d722-4591-9f46-10a857b19cae",
+            "Value": {
+                "id": "4d79ba70-b347-4fa7-b4cf-be3700a85bb7",
+                "resourcePath": "scripts\\scr_gameupdate_broadcast\\scr_gameupdate_broadcast.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -327,6 +375,14 @@
             }
         },
         {
+            "Key": "af4b0d0c-8604-4196-a159-bf49c59c8289",
+            "Value": {
+                "id": "b4adcff4-5076-469d-b649-2163b3636766",
+                "resourcePath": "scripts\\scr_join_game\\scr_join_game.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "b031fd8f-8e5f-477b-948e-b878e24451ab",
             "Value": {
                 "id": "265d9cfc-300e-4c38-83b7-7f7b99e14d36",
@@ -346,7 +402,7 @@
             "Key": "bb0ba953-84cb-4253-a852-4f76051a7dad",
             "Value": {
                 "id": "77b19752-2dcb-411c-8963-513ec5020b20",
-                "resourcePath": "objects\\obj_car\\obj_car.yy",
+                "resourcePath": "objects\\obj_car_with_physics\\obj_car_with_physics.yy",
                 "resourceType": "GMObject"
             }
         },
@@ -391,6 +447,14 @@
             }
         },
         {
+            "Key": "ccf28a30-e677-431f-991c-e97b46b3a0ea",
+            "Value": {
+                "id": "28d2c55f-b999-40bb-8e24-18257a95ff9c",
+                "resourcePath": "rooms\\host_join\\host_join.yy",
+                "resourceType": "GMRoom"
+            }
+        },
+        {
             "Key": "ce2659d3-1cec-42cc-923f-239b94d4bbe5",
             "Value": {
                 "id": "210725e0-a0ef-44d9-b8bb-8faa5b6c00f2",
@@ -399,18 +463,10 @@
             }
         },
         {
-            "Key": "d1dee44f-6ef2-4bba-8208-9e9a1b2c41dc",
-            "Value": {
-                "id": "7eda32f7-7ee7-4425-8e78-cf9c07f6d1fd",
-                "resourcePath": "scripts\\scr_server_handle_message\\scr_server_handle_message.yy",
-                "resourceType": "GMScript"
-            }
-        },
-        {
             "Key": "d220c4ba-299c-42b8-85d3-c14eb917ab98",
             "Value": {
                 "id": "74a3dcd1-d8fd-4f47-9566-0437ad67718b",
-                "resourcePath": "objects\\obj_playerinit\\obj_playerinit.yy",
+                "resourcePath": "objects\\obj_playerinit_physics\\obj_playerinit_physics.yy",
                 "resourceType": "GMObject"
             }
         },
@@ -439,11 +495,27 @@
             }
         },
         {
+            "Key": "ef656504-df33-4e20-aedb-517d89037d67",
+            "Value": {
+                "id": "c80c215d-3057-4577-993c-c489986b528a",
+                "resourcePath": "objects\\obj_join_car_control\\obj_join_car_control.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "f418569b-3bdd-4706-a0e4-364317f54032",
             "Value": {
                 "id": "422c0328-4b55-4d05-8905-a8f2b7964646",
                 "resourcePath": "options\\mac\\options_mac.yy",
                 "resourceType": "GMMacOptions"
+            }
+        },
+        {
+            "Key": "f5813fd7-e20f-4427-a83a-1188ff7dbd2b",
+            "Value": {
+                "id": "0efd3534-0cbb-40c1-8eca-cc7c3e66fdb9",
+                "resourcePath": "scripts\\scr_send_game_control\\scr_send_game_control.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -481,8 +553,8 @@
     ],
     "script_order": [
         "49a2f867-f63f-4eb7-8b1d-336674af4bde",
+        "f5813fd7-e20f-4427-a83a-1188ff7dbd2b",
         "19b71feb-935e-4587-803e-c49d4bc973b1",
-        "d1dee44f-6ef2-4bba-8208-9e9a1b2c41dc",
         "12b144cc-424a-4e29-b093-a6ef27a7e0fd",
         "8dc0eb82-f125-4156-ba3b-359357359fda",
         "f9e7f643-4394-4f19-b0bf-e9f489469098",
@@ -490,7 +562,11 @@
         "e594ee73-6c20-4713-9223-90b062fcd46f",
         "8587e99b-0298-4cd3-affb-1dffa92ca324",
         "abe3a72a-9922-4226-9d73-b8e0555114e7",
-        "304df605-a250-45d7-8df6-ff1597df6ea1"
+        "304df605-a250-45d7-8df6-ff1597df6ea1",
+        "1bb70387-3192-4258-8732-45bf752b6ef8",
+        "892b99e4-d722-4591-9f46-10a857b19cae",
+        "4a3a035b-70b8-4809-bae5-92e47e1fdfd2",
+        "af4b0d0c-8604-4196-a159-bf49c59c8289"
     ],
     "tutorial": ""
 }

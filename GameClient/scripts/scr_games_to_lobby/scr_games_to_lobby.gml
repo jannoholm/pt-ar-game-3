@@ -18,7 +18,7 @@ ds_list_clear(obj_game_search.games);
 
 // new elements to list
 var number_of_games=buffer_read(buffer, buffer_s32);
-show_debug_message("number of games: " + string(number_of_games));
+show_debug_message("getgames.response: number of games=" + string(number_of_games));
 for (i=0; i < number_of_games; ++i) {
 	var byte_count=buffer_read(buffer, buffer_s32);
 	var game=instance_create_layer(50, 150 + 50*i, "gamelist", obj_lobby_game);

@@ -24,7 +24,16 @@ world_size=0.025
 dodraw=0;
 
 // controls
+go_forward=false;
+go_backward=false;
+go_left=false;
+go_right=false;
+
+// name
+client_name="";
+/*
 KEY_FORWARD=vk_up;
 KEY_BACKWARD=vk_down;
 KEY_LEFT=vk_left;
 KEY_RIGHT=vk_right;
+*/

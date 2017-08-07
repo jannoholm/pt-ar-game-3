@@ -1,9 +1,9 @@
 var name=argument[0];
 var email=argument[1];
 
-show_debug_message("Sending join: " + name + " " + email);
 obj_server_client.client_name=name;
 obj_server_client.client_email=email;
+show_debug_message("Sending join: " + obj_server_client.client_name + " " + obj_server_client.client_email);
 
 // store to disk first
 var filehandle = file_text_open_write(working_directory + "/user_details.txt");

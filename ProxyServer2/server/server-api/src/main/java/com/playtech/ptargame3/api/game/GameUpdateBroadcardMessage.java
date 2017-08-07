@@ -26,7 +26,7 @@ public class GameUpdateBroadcardMessage extends AbstractMessage {
     @Override
     public void parse(ByteBuffer messageData) {
         gameId = StringUtil.readUTF8String(messageData);
-        int size = messageData.remaining();
+        int size = messageData.getInt();
         broadcardContent = new byte[size];
         messageData.get(broadcardContent);
     }
@@ -35,7 +35,10 @@ public class GameUpdateBroadcardMessage extends AbstractMessage {
     public void format(ByteBuffer messageData) {
         StringUtil.writeUTF8String(gameId, messageData);
         if (broadcardContent != null) {
+            messageData.putInt(broadcardContent.length);
             messageData.put(broadcardContent);
+        } else {
+            messageData.putInt(0);
         }
     }
 

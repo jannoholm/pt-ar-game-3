@@ -2,7 +2,7 @@
     "id": "bb0ba953-84cb-4253-a852-4f76051a7dad",
     "modelName": "GMObject",
     "mvc": "1.0",
-    "name": "obj_car",
+    "name": "obj_car_with_physics",
     "eventList": [
         {
             "id": "b123950f-3989-45c1-81ca-92e1918c234b",
