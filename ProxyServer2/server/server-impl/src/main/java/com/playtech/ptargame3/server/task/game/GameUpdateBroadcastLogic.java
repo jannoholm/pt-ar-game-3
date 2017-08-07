@@ -4,7 +4,6 @@ import com.playtech.ptargame3.api.game.GameUpdateBroadcardMessage;
 import com.playtech.ptargame3.api.game.GameUpdateMessage;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
-import com.playtech.ptargame3.server.exception.GameNotFoundException;
 import com.playtech.ptargame3.server.registry.GameRegistryGame;
 import com.playtech.ptargame3.server.task.AbstractLogic;
 
@@ -24,6 +23,8 @@ public class GameUpdateBroadcastLogic extends AbstractLogic {
 
         // broadcast game status update
         for (String subscriberClientId : game.getSubscribers()) {
+            if (subscriberClientId.equals(game.getHostClientId())) continue;
+
             GameUpdateMessage outMessage = getLogicResources().getMessageParser().createMessage(GameUpdateMessage.class);
             outMessage.getHeader().setClientId(subscriberClientId);
             outMessage.setGameId(game.getGameId());

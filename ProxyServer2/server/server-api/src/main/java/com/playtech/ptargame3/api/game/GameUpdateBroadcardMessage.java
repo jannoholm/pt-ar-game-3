@@ -6,6 +6,7 @@ import com.playtech.ptargame3.common.util.HexUtil;
 import com.playtech.ptargame3.common.util.StringUtil;
 
 import java.nio.ByteBuffer;
+import java.util.logging.Logger;
 
 public class GameUpdateBroadcardMessage extends AbstractMessage {
 

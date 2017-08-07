@@ -1,24 +1,24 @@
 car_control = instance_create_layer(0, 0, "car", obj_hostcar_control);
 
 // setup drivers car
-green1 = instance_create_layer(100, 306, "car", obj_car_with_physics);
+red1 = instance_create_layer(100, 306, "car", obj_car_with_physics);
 var space_pos = string_pos(" ", obj_server_client.client_name);
 if (space_pos != 0) {
-	green1.client_name = string_copy(obj_server_client.client_name, 1, space_pos);
+	red1.client_name = string_copy(obj_server_client.client_name, 1, space_pos);
 } else {
-	green1.client_name = obj_server_client.client_name;
+	red1.client_name = obj_server_client.client_name;
 }
-obj_hostcar_control.car = green1;
+obj_hostcar_control.car = red1;
 
 // setup cars on the grid
-with (green1) {
+with (red1) {
 	car_position=1;
 	image_blend = make_color_rgb(55, 229, 119);
 	phy_rotation = -10;
 }
 
-green2 = instance_create_layer(100, 446, "car", obj_car_with_physics);
-with (green2) {
+red2 = instance_create_layer(100, 446, "car", obj_car_with_physics);
+with (red2) {
 	car_position=2;
 	image_blend = make_color_rgb(29, 173, 82);
 	phy_rotation = 10;

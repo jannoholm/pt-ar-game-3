@@ -46,6 +46,8 @@ switch (message_type) {
 		show_debug_message("got host game response: " + string(error_code) + ":" + error_message);
 		if (error_code != 0) {
 			show_message("Unable to start hosting: " + string(error_code) + ":" + error_message);
+		} else {
+			obj_server_client.gameid = buffer_read(buffer, buffer_string);
 		}
 		break;
 	case 2010: // lobby update of joined clients
@@ -54,6 +56,7 @@ switch (message_type) {
 	case 3000: // game control message
 		scr_game_control_message(buffer);
 		break;
-	case 3002: // game update message
+	case 3004: // game update message
+		scr_gameupdate(buffer);
 		break;
 }

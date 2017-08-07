@@ -1,2 +1,2 @@
-scr_gameupdate_broadcast(gameid);
+scr_gameupdate_broadcast();
 alarm[1] = game_update_interval;

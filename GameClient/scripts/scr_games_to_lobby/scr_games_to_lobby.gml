@@ -11,7 +11,7 @@ var i;
 // clear existing list
 var size = ds_list_size(obj_game_search.games);
 for (i=0; i < size; ++i) {
-	var game = ds_list_find_value(obj_game_search.games, 0);
+	var game = ds_list_find_value(obj_game_search.games, i);
 	instance_destroy(game);
 }
 ds_list_clear(obj_game_search.games);

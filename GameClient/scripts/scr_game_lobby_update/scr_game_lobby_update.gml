@@ -24,14 +24,14 @@ for (i=0; i < current_players; i++) {
 	show_debug_message("player: " + player_client_id + ", " + player_client_name + ", " + string(player_team) + ", " + string(player_position_in_team));
 	if (player_team == 0) {
 		if (player_position_in_team=1) {
-			obj_playerinit.green1.client_id=player_client_id;
-			obj_playerinit.green1.client_name=player_client_name;
-			ds_map_add(obj_playerinit.client_map, player_client_id, obj_playerinit.green1);
+			obj_playerinit.red1.client_id=player_client_id;
+			obj_playerinit.red1.client_name=player_client_name;
+			ds_map_add(obj_playerinit.client_map, player_client_id, obj_playerinit.red1);
 			show_debug_message("player to green1: " + player_client_name);
 		} else if (player_position_in_team=2) {
-			obj_playerinit.green2.client_id=player_client_id;
-			obj_playerinit.green2.client_name=player_client_name;
-			ds_map_add(obj_playerinit.client_map, player_client_id, obj_playerinit.green2);
+			obj_playerinit.red2.client_id=player_client_id;
+			obj_playerinit.red2.client_name=player_client_name;
+			ds_map_add(obj_playerinit.client_map, player_client_id, obj_playerinit.red2);
 			show_debug_message("player to green2: " + player_client_name);
 		}
 	} else if (player_team == 1) {
