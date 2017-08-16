@@ -1,3 +1,7 @@
+if (display_aa > 12) {
+	display_reset(8, true);
+}
+
 // setup cars on the grid
 red1 = instance_create_layer(100, 306, "car", obj_car_with_physics);
 with (red1) {

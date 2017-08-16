@@ -31,14 +31,6 @@
     },
     "resources": [
         {
-            "Key": "02db2aaa-5a10-4410-8cdd-67da58c2c056",
-            "Value": {
-                "id": "a275e0a2-e2de-482b-ab42-548e3ba99da1",
-                "resourcePath": "objects\\obj_simple_car\\obj_simple_car.yy",
-                "resourceType": "GMObject"
-            }
-        },
-        {
             "Key": "0a2d19c3-ee1d-4f88-939d-efdd4eb36467",
             "Value": {
                 "id": "6aac4949-78d7-44b3-887a-ac15a095533e",
