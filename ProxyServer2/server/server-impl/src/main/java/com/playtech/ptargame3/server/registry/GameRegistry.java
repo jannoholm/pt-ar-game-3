@@ -4,13 +4,14 @@ package com.playtech.ptargame3.server.registry;
 import com.playtech.ptargame3.common.util.StringUtil;
 import com.playtech.ptargame3.server.exception.CannotHostException;
 import com.playtech.ptargame3.server.exception.GameNotFoundException;
+import com.playtech.ptargame3.server.session.ClientListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class GameRegistry {
+public class GameRegistry implements ClientListener {
 
     private final ConcurrentHashMap<String, GameRegistryGame> games = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, GameRegistryGame> hosting = new ConcurrentHashMap<>();
@@ -69,18 +70,19 @@ public class GameRegistry {
         return matching;
     }
 
-    public void hostDisconnected(String clientId) {
-        GameRegistryGame game = hosting.get(clientId);
-        if (game != null) {
-            game.setHostConnected(false);
-        }
-    }
-
-    public void hostReconnected(String clientId) {
+    @Override
+    public void clientConnected(String clientId) {
         GameRegistryGame game = hosting.get(clientId);
         if (game != null) {
             game.setHostConnected(true);
         }
     }
 
+    @Override
+    public void clientDisconnected(String clientId) {
+        GameRegistryGame game = hosting.get(clientId);
+        if (game != null) {
+            game.setHostConnected(false);
+        }
+    }
 }

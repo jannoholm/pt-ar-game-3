@@ -9,6 +9,7 @@ import com.playtech.ptargame3.common.io.separator.LengthDecoder;
 import com.playtech.ptargame3.common.io.separator.LengthEncoder;
 import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.task.TaskFactory;
+import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 
 public class TestConnectionFactory implements ConnectionFactory {
@@ -32,7 +33,7 @@ public class TestConnectionFactory implements ConnectionFactory {
         Encoder encoder = new LengthEncoder(MESSAGE_LIMIT);
         Decoder decoder = new LengthDecoder(MESSAGE_LIMIT);
         ConnectionHandler handler = new ConnectionHandler(encoder, decoder);
-        ConnectorSession session = new ConnectorSession(handler, this.messageParser, this.callbackHandler, clientRegistry, taskFactory);
+        ConnectorSession session = new ConnectorSession(handler, this.messageParser, this.callbackHandler, clientRegistry, null, taskFactory);
         handler.setSession(session);
         return handler;
     }

@@ -40,7 +40,7 @@ public class ClientSession implements Session {
     private final MessageParser parser;
     private final CallbackHandler callbackHandler;
     private final ProxyClientRegistry clientRegistry;
-    private final GameRegistry gameRegistry;
+    private final ClientListener clientListener;
     private final TaskFactory taskFactory;
 
     private long lastPingSent;
@@ -50,12 +50,12 @@ public class ClientSession implements Session {
 
     protected String clientId;
 
-    public ClientSession(Connection connection, MessageParser parser, CallbackHandler callbackHandler, ProxyClientRegistry clientRegistry, GameRegistry gameRegistry, TaskFactory taskFactory) {
+    public ClientSession(Connection connection, MessageParser parser, CallbackHandler callbackHandler, ProxyClientRegistry clientRegistry, ClientListener clientListener, TaskFactory taskFactory) {
         this.connection = connection;
         this.parser = parser;
         this.callbackHandler = callbackHandler;
         this.clientRegistry = clientRegistry;
-        this.gameRegistry = gameRegistry;
+        this.clientListener = clientListener;
         this.taskFactory = taskFactory;
         this.lastPingSent = System.currentTimeMillis();
         this.lastPingReceived = this.lastPingSent;
@@ -130,7 +130,9 @@ public class ClientSession implements Session {
     @Override
     public void cleanup() {
         this.clientRegistry.removeClientConnection(this.clientId, this);
-        this.gameRegistry.hostDisconnected(this.clientId);
+        if (this.clientListener != null) {
+            this.clientListener.clientDisconnected(this.clientId);
+        }
     }
 
     private void processPingRequest(PingRequest request) {
@@ -175,7 +177,9 @@ public class ClientSession implements Session {
             );
             logger.log(Level.INFO, () -> String.format(" %6s Identified as client: %s", this.connection.getConnectionId(), this.clientId));
             joinServerResponse.getHeader().setClientId(this.clientId);
-            this.gameRegistry.hostReconnected(this.clientId);
+            if (this.clientListener != null) {
+                this.clientListener.clientConnected(this.clientId);
+            }
         } else {
             joinServerResponse.setErrorCode(errorCode);
             joinServerResponse.setErrorMessage(errorText);

@@ -9,9 +9,9 @@ import com.playtech.ptargame3.common.io.separator.LengthDecoder;
 import com.playtech.ptargame3.common.io.separator.LengthEncoder;
 import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.task.TaskFactory;
-import com.playtech.ptargame3.server.registry.GameRegistry;
-import com.playtech.ptargame3.server.session.ClientSession;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
+import com.playtech.ptargame3.server.session.ClientListener;
+import com.playtech.ptargame3.server.session.ClientSession;
 
 public class ProxyConnectionFactory implements ConnectionFactory {
 
@@ -20,14 +20,14 @@ public class ProxyConnectionFactory implements ConnectionFactory {
     private final MessageParser messageParser;
     private final CallbackHandler callbackHandler;
     private final ProxyClientRegistry clientRegistry;
-    private final GameRegistry gameRegistry;
+    private final ClientListener clientListener;
     private final TaskFactory taskFactory;
 
-    public ProxyConnectionFactory(MessageParser messageParser, CallbackHandler callbackHandler, ProxyClientRegistry clientRegistry, GameRegistry gameRegistry, TaskFactory taskFactory) {
+    public ProxyConnectionFactory(MessageParser messageParser, CallbackHandler callbackHandler, ProxyClientRegistry clientRegistry, ClientListener clientListener, TaskFactory taskFactory) {
         this.messageParser = messageParser;
         this.callbackHandler = callbackHandler;
         this.clientRegistry = clientRegistry;
-        this.gameRegistry = gameRegistry;
+        this.clientListener = clientListener;
         this.taskFactory = taskFactory;
     }
 
@@ -36,7 +36,7 @@ public class ProxyConnectionFactory implements ConnectionFactory {
         Encoder encoder = new LengthEncoder(MESSAGE_LIMIT);
         Decoder decoder = new LengthDecoder(MESSAGE_LIMIT);
         ConnectionHandler handler = new ConnectionHandler(encoder, decoder);
-        ClientSession session = new ClientSession(handler, this.messageParser, this.callbackHandler, clientRegistry, gameRegistry, taskFactory);
+        ClientSession session = new ClientSession(handler, this.messageParser, this.callbackHandler, clientRegistry, clientListener, taskFactory);
         handler.setSession(session);
         return handler;
     }
