@@ -1,6 +1,8 @@
 package com.playtech.ptargame3.server.session;
 
 import com.playtech.ptargame3.api.ApiConstants;
+import com.playtech.ptargame3.api.game.GameUpdateBroadcardMessage;
+import com.playtech.ptargame3.api.game.GameUpdateMessage;
 import com.playtech.ptargame3.common.callback.CallbackHandler;
 import com.playtech.ptargame3.common.io.Connection;
 import com.playtech.ptargame3.common.message.Message;
@@ -11,6 +13,7 @@ import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.api.general.JoinServerResponse;
 import com.playtech.ptargame3.api.general.PingRequest;
 import com.playtech.ptargame3.common.util.StringUtil;
+import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.task.MessageTaskInput;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.api.general.PingResponse;
@@ -37,6 +40,7 @@ public class ClientSession implements Session {
     private final MessageParser parser;
     private final CallbackHandler callbackHandler;
     private final ProxyClientRegistry clientRegistry;
+    private final GameRegistry gameRegistry;
     private final TaskFactory taskFactory;
 
     private long lastPingSent;
@@ -46,11 +50,12 @@ public class ClientSession implements Session {
 
     protected String clientId;
 
-    public ClientSession(Connection connection, MessageParser parser, CallbackHandler callbackHandler, ProxyClientRegistry clientRegistry, TaskFactory taskFactory) {
+    public ClientSession(Connection connection, MessageParser parser, CallbackHandler callbackHandler, ProxyClientRegistry clientRegistry, GameRegistry gameRegistry, TaskFactory taskFactory) {
         this.connection = connection;
         this.parser = parser;
         this.callbackHandler = callbackHandler;
         this.clientRegistry = clientRegistry;
+        this.gameRegistry = gameRegistry;
         this.taskFactory = taskFactory;
         this.lastPingSent = System.currentTimeMillis();
         this.lastPingReceived = this.lastPingSent;
@@ -67,7 +72,11 @@ public class ClientSession implements Session {
 
     public void processMessage(List<ByteBuffer> messageBytes) {
         Message message = this.parser.parseMessage(messageBytes);
-        logger.log(Level.FINE, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "IN", message));
+        if (message instanceof GameUpdateMessage || message instanceof GameUpdateBroadcardMessage) {
+            logger.log(Level.FINEST, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "IN", message));
+        } else {
+            logger.log(Level.FINE, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "IN", message));
+        }
         processMessage(message);
     }
 
@@ -86,7 +95,11 @@ public class ClientSession implements Session {
     }
 
     public void sendMessage(Message message) {
-        logger.log(Level.FINE, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "OUT", message));
+        if (message instanceof GameUpdateMessage || message instanceof GameUpdateBroadcardMessage) {
+            logger.log(Level.FINEST, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "OUT", message));
+        } else {
+            logger.log(Level.FINE, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "OUT", message));
+        }
         ByteBuffer messageBytes = formatBuffer.get();
         messageBytes.clear();
         this.parser.formatMessage(message, messageBytes);
@@ -117,6 +130,7 @@ public class ClientSession implements Session {
     @Override
     public void cleanup() {
         this.clientRegistry.removeClientConnection(this.clientId, this);
+        this.gameRegistry.hostDisconnected(this.clientId);
     }
 
     private void processPingRequest(PingRequest request) {
@@ -161,6 +175,7 @@ public class ClientSession implements Session {
             );
             logger.log(Level.INFO, () -> String.format(" %6s Identified as client: %s", this.connection.getConnectionId(), this.clientId));
             joinServerResponse.getHeader().setClientId(this.clientId);
+            this.gameRegistry.hostReconnected(this.clientId);
         } else {
             joinServerResponse.setErrorCode(errorCode);
             joinServerResponse.setErrorMessage(errorText);

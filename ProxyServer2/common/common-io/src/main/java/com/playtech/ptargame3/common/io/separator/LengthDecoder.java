@@ -34,7 +34,7 @@ public final class LengthDecoder implements Decoder {
                 }
             } else {
                 // copy
-                int len = Math.min(dst.remaining(), lastLength);
+                int len = Math.min(dst.remaining(), remaining());
                 len = Math.min(src.remaining(), len);
                 if (len == 0 && lastLength != 0) {
                     break;
@@ -52,7 +52,7 @@ public final class LengthDecoder implements Decoder {
 
             }
 
-            if (readByteCount >= 4 && readByteCount - 4 >= lastLength) {
+            if (readByteCount >= 4 && remaining() <= 0) {
                 readByteCount = 0;
                 lastLength = 0;
                 lengthBytes.clear();
@@ -62,6 +62,10 @@ public final class LengthDecoder implements Decoder {
             }
         }
         return false;
+    }
+
+    private int remaining(){
+        return lastLength - (readByteCount - 4);
     }
 
 }

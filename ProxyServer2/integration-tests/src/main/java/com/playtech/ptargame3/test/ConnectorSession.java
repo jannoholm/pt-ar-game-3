@@ -10,7 +10,7 @@ import com.playtech.ptargame3.server.session.ClientSession;
 
 public class ConnectorSession extends ClientSession {
     public ConnectorSession(Connection connection, MessageParser parser, CallbackHandler callbackHandler, ProxyClientRegistry clientRegistry, TaskFactory taskFactory) {
-        super(connection, parser, callbackHandler, clientRegistry, taskFactory);
+        super(connection, parser, callbackHandler, clientRegistry, gameRegistry, taskFactory);
     }
 
     public void setClientId(String clientId) {

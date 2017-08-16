@@ -6,34 +6,88 @@ var control_length=buffer_read(buffer, buffer_s32);
 var i;
 for (i=0; i<4; ++i) {
 	var carid=buffer_read(buffer, buffer_s8);
-	var x_pos=buffer_read(buffer, buffer_f32);
-	var y_pos=buffer_read(buffer, buffer_f32);
-	var angle=(-1)*buffer_read(buffer, buffer_f32);
+	var angular_velocity=buffer_read(buffer, buffer_f32);
+	var linear_velocity_x=buffer_read(buffer, buffer_f32);
+	var linear_velocity_y=buffer_read(buffer, buffer_f32);
+	var speed_x=buffer_read(buffer, buffer_f32);
+	var speed_y=buffer_read(buffer, buffer_f32);
+	var position_x=buffer_read(buffer, buffer_f32);
+	var position_y=buffer_read(buffer, buffer_f32);
+	var rotation=buffer_read(buffer, buffer_f32);
+	var dire=buffer_read(buffer, buffer_f32);
+	var wheel_rotation=buffer_read(buffer, buffer_f32);
 	switch (carid) {
 		case 100: // ball
-			obj_ball.x=x_pos;
-			obj_ball.y=y_pos;
-			obj_ball.image_angle=angle;
+			with (obj_ball){
+				phy_angular_velocity = angular_velocity;
+				phy_linear_velocity_x = linear_velocity_x;
+				phy_linear_velocity_y = linear_velocity_y;
+				phy_speed_x = speed_x;
+				phy_speed_y = speed_y;
+				phy_position_x = position_x;
+				phy_position_y = position_y;
+				phy_rotation = rotation;
+			}
 			break;
 		case 1:
-			obj_playerinit_nophysics.red1.x=x_pos;
-			obj_playerinit_nophysics.red1.y=y_pos;
-			obj_playerinit_nophysics.red1.image_angle=angle;
+			with (obj_playerinit_physics.red1) {
+				phy_angular_velocity = angular_velocity;
+				phy_linear_velocity_x = linear_velocity_x;
+				phy_linear_velocity_y = linear_velocity_y;
+				phy_speed_x = speed_x;
+				phy_speed_y = speed_y;
+				phy_position_x = position_x;
+				phy_position_y = position_y;
+				phy_rotation = rotation;
+				tire_dire=dire;
+				fl_tire=wheel_rotation;
+				fr_tire=wheel_rotation;
+			}
 			break;
 		case 2:
-			obj_playerinit_nophysics.red2.x=x_pos;
-			obj_playerinit_nophysics.red2.y=y_pos;
-			obj_playerinit_nophysics.red2.image_angle=angle;
+			with (obj_playerinit_physics.red2){
+				phy_angular_velocity = angular_velocity;
+				phy_linear_velocity_x = linear_velocity_x;
+				phy_linear_velocity_y = linear_velocity_y;
+				phy_speed_x = speed_x;
+				phy_speed_y = speed_y;
+				phy_position_x = position_x;
+				phy_position_y = position_y;
+				phy_rotation = rotation;
+				tire_dire=dire;
+				fl_tire=wheel_rotation;
+				fr_tire=wheel_rotation;
+			}
 			break;
 		case 3:
-			obj_playerinit_nophysics.blue1.x=x_pos;
-			obj_playerinit_nophysics.blue1.y=y_pos;
-			obj_playerinit_nophysics.blue1.image_angle=angle;
+			with (obj_playerinit_physics.blue1){
+				phy_angular_velocity = angular_velocity;
+				phy_linear_velocity_x = linear_velocity_x;
+				phy_linear_velocity_y = linear_velocity_y;
+				phy_speed_x = speed_x;
+				phy_speed_y = speed_y;
+				phy_position_x = position_x;
+				phy_position_y = position_y;
+				phy_rotation = rotation;
+				tire_dire=dire;
+				fl_tire=wheel_rotation;
+				fr_tire=wheel_rotation;
+			}
 			break;
 		case 4:
-			obj_playerinit_nophysics.blue2.x=x_pos;
-			obj_playerinit_nophysics.blue2.y=y_pos;
-			obj_playerinit_nophysics.blue2.image_angle=angle;
+			with (obj_playerinit_physics.blue2){
+				phy_angular_velocity = angular_velocity;
+				phy_linear_velocity_x = linear_velocity_x;
+				phy_linear_velocity_y = linear_velocity_y;
+				phy_speed_x = speed_x;
+				phy_speed_y = speed_y;
+				phy_position_x = position_x;
+				phy_position_y = position_y;
+				phy_rotation = rotation;
+				tire_dire=dire;
+				fl_tire=wheel_rotation;
+				fr_tire=wheel_rotation;
+			}
 			break;
 	}
 }

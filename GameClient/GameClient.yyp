@@ -127,14 +127,6 @@
             }
         },
         {
-            "Key": "42791e7d-0f06-4f99-a627-db262b2788f3",
-            "Value": {
-                "id": "7a77774b-cdd4-41ec-ac83-34d6cadd87a3",
-                "resourcePath": "objects\\obj_playerinit_nophysics\\obj_playerinit_nophysics.yy",
-                "resourceType": "GMObject"
-            }
-        },
-        {
             "Key": "4893e5bb-99ce-4736-95e8-4f1aef0af421",
             "Value": {
                 "id": "7b8d148c-6fb1-475b-890b-e94a431759fa",
@@ -447,14 +439,6 @@
             }
         },
         {
-            "Key": "ccf28a30-e677-431f-991c-e97b46b3a0ea",
-            "Value": {
-                "id": "28d2c55f-b999-40bb-8e24-18257a95ff9c",
-                "resourcePath": "rooms\\host_join\\host_join.yy",
-                "resourceType": "GMRoom"
-            }
-        },
-        {
             "Key": "ce2659d3-1cec-42cc-923f-239b94d4bbe5",
             "Value": {
                 "id": "210725e0-a0ef-44d9-b8bb-8faa5b6c00f2",
@@ -490,7 +474,7 @@
             "Key": "e653f0b1-be88-41ca-b12d-0f88865ced83",
             "Value": {
                 "id": "6fd4b3e3-18e8-44aa-ace9-df1187c39adc",
-                "resourcePath": "rooms\\host_play\\host_play.yy",
+                "resourcePath": "rooms\\play\\play.yy",
                 "resourceType": "GMRoom"
             }
         },

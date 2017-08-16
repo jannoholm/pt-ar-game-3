@@ -27,7 +27,7 @@ public class JoinGameScenario extends AbstractScenario {
             logics.add(new JoinServerStep(getLogicResources()));
             logics.add(new GetGameToJoinWithWaitStep(getLogicResources()));
             logics.add(new JoinGameStep(getLogicResources()));
-            logics.add(new WaitGameStartStep(getLogicResources()));
+            //logics.add(new WaitGameStartStep(getLogicResources()));
             return logics;
         } else {
             return Collections.emptyList();

@@ -25,7 +25,7 @@ gameid="";
 
 show_debug_message("create server_client");
 
-if (room==host_play) {
+if (room==play) {
 	if (somenonsens=1) return;
 }
 room_goto_next();

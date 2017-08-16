@@ -77,9 +77,10 @@ public class AbstractTest {
         proxyTaskExecutor = new TaskExecutorImpl("te", 2);
         ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
         TaskFactory taskFactory = new TaskFactoryImpl(proxyTaskExecutor, logicRegistry);
-        LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry, new GameRegistry(), taskFactory);
+        GameRegistry gameRegistry = new GameRegistry();
+        LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory);
         logicRegistry.initialize(logicResources);
-        ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, proxyCallbackHandler, clientRegistry, taskFactory);
+        ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, proxyCallbackHandler, clientRegistry, gameRegistry, taskFactory);
 
         // setup server
         proxy = new NioServerListener(connectionFactory, 8000);

@@ -15,8 +15,8 @@ br_j = physics_joint_revolute_create(id, br_tire, br_tire.x, br_tire.y, 0, 0, 1,
 
 // constants
 tire_dire=0;
-tire_maxdire=25;
-tire_mixdire=-25;
+tire_maxdire=35;
+tire_mixdire=-35;
 trn_speed=3;
 world_size=0.025
 
@@ -24,6 +24,7 @@ world_size=0.025
 dodraw=0;
 
 // controls
+remote_control=true;
 go_forward=false;
 go_backward=false;
 go_left=false;

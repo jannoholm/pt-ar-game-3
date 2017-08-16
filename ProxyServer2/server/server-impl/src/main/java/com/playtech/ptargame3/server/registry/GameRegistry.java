@@ -60,6 +60,7 @@ public class GameRegistry {
         ArrayList<GameRegistryGame> matching = new ArrayList<>();
         for (GameRegistryGame game : games.values()) {
             if (!(game.getGameStatus() == GameRegistryGame.Status.COLLECTING || game.getGameStatus() == GameRegistryGame.Status.COLLECTING && all)) continue;
+            if (!(game.isHostConnected())) continue;
             if (!(StringUtil.isNull(filter) || game.getGameName().contains(filter))) continue;
             if (!(game.getPlayers().size() < game.getPositions() || all)) continue;
             matching.add(game);
@@ -67,4 +68,19 @@ public class GameRegistry {
         }
         return matching;
     }
+
+    public void hostDisconnected(String clientId) {
+        GameRegistryGame game = hosting.get(clientId);
+        if (game != null) {
+            game.setHostConnected(false);
+        }
+    }
+
+    public void hostReconnected(String clientId) {
+        GameRegistryGame game = hosting.get(clientId);
+        if (game != null) {
+            game.setHostConnected(true);
+        }
+    }
+
 }

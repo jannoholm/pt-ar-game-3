@@ -37,9 +37,10 @@ public class Starter {
         TaskExecutorImpl taskExecutor = new TaskExecutorImpl("te", 2);
         ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
         TaskFactory taskFactory = new TaskFactoryImpl(taskExecutor, logicRegistry);
-        LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry, new GameRegistry(), taskFactory);
+        GameRegistry gameRegistry = new GameRegistry();
+        LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory);
         logicRegistry.initialize(logicResources);
-        ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, callbackHandler, clientRegistry, taskFactory);
+        ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, callbackHandler, clientRegistry, gameRegistry, taskFactory);
 
         NioServerListener proxy = new NioServerListener(connectionFactory, 8000);
         new Thread(proxy.start(), "proxy").start();

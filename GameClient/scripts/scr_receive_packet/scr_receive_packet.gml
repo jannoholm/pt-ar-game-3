@@ -29,7 +29,9 @@ switch (message_type) {
 		}
 		break;
 	case 2001: // get games response
-		scr_games_to_lobby(buffer);
+		if (room == lobby) {
+			scr_games_to_lobby(buffer);
+		}
 		break;
 	case 2007: // join game response
 		var error_code = buffer_read(buffer, buffer_s32);
@@ -38,6 +40,27 @@ switch (message_type) {
 		if (error_code != 0) {
 			show_message("Unable to join: " + string(error_code) + ":" + error_message);
 			room_goto(2);
+		} else {
+			obj_playerinit_physics.car_control = instance_create_layer(0, 0, "car", obj_join_car_control);
+			var team = buffer_read(buffer, buffer_s8);
+			var position = buffer_read(buffer, buffer_s8);
+			if (team == 0) {
+				if (position == 1) {
+					obj_playerinit_physics.car_control.car = obj_playerinit_physics.red1;
+					obj_playerinit_physics.car_control.car.remote_control=false;
+				} else if (position == 2) {
+					obj_playerinit_physics.car_control.car = obj_playerinit_physics.red2;
+					obj_playerinit_physics.car_control.car.remote_control=false;
+				}
+			} else if (team == 1) {
+				if (position == 1) {
+					obj_playerinit_physics.car_control.car = obj_playerinit_physics.blue1;
+					obj_playerinit_physics.car_control.car.remote_control=false;
+				} else if (position == 2) {
+					obj_playerinit_physics.car_control.car = obj_playerinit_physics.blue2;
+					obj_playerinit_physics.car_control.car.remote_control=false;
+				}
+			}
 		}
 		break;
 	case 2009: // host game response
@@ -48,6 +71,21 @@ switch (message_type) {
 			show_message("Unable to start hosting: " + string(error_code) + ":" + error_message);
 		} else {
 			obj_server_client.gameid = buffer_read(buffer, buffer_string);
+			obj_playerinit_physics.red1.remote_control=false;
+			obj_playerinit_physics.red2.remote_control=false;
+			obj_playerinit_physics.blue1.remote_control=false;
+			obj_playerinit_physics.blue2.remote_control=false;
+
+			var car_control = instance_create_layer(0, 0, "car", obj_hostcar_control);
+			car_control.car = obj_playerinit_physics.red1;
+
+			// setup drivers car
+			var space_pos = string_pos(" ", obj_server_client.client_name);
+			if (space_pos != 0) {
+				car_control.car.client_name = string_copy(obj_server_client.client_name, 1, space_pos);
+			} else {
+				car_control.car.client_name = obj_server_client.client_name;
+			}
 		}
 		break;
 	case 2010: // lobby update of joined clients
