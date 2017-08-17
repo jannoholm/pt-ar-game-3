@@ -138,8 +138,8 @@
                     "name_with_no_file_rename": "inst_3626C4E4",
                     "objId": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
                     "rotation": 0,
-                    "scaleX": 1,
-                    "scaleY": 47
+                    "scaleX": -1,
+                    "scaleY": 51
                 },
                 {
                     "id": "3a34dc47-cf95-4a37-8f49-0ff60c32a1d4",
@@ -162,8 +162,8 @@
                     "name_with_no_file_rename": "inst_3A83910D",
                     "objId": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
                     "rotation": 0,
-                    "scaleX": 65,
-                    "scaleY": 1
+                    "scaleX": 91,
+                    "scaleY": -1
                 },
                 {
                     "id": "9d8b9d5f-b138-4ae5-a9ed-fc90f14ec2cc",
@@ -175,7 +175,7 @@
                     "m_serialiseFrozen": false,
                     "name": "inst_7483AE2C",
                     "x": 0,
-                    "y": 736,
+                    "y": 832,
                     "IsDnD": false,
                     "colour": {
                         "Value": 4294967295
@@ -186,8 +186,8 @@
                     "name_with_no_file_rename": "inst_7483AE2C",
                     "objId": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
                     "rotation": 0,
-                    "scaleX": 65,
-                    "scaleY": 1
+                    "scaleX": 91,
+                    "scaleY": -1
                 },
                 {
                     "id": "6ca135d7-4046-43c3-83da-db53d5c49893",
@@ -198,7 +198,7 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_672AEDC0",
-                    "x": 1024,
+                    "x": 1440,
                     "y": 0,
                     "IsDnD": false,
                     "colour": {
@@ -211,7 +211,7 @@
                     "objId": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
                     "rotation": 0,
                     "scaleX": 1,
-                    "scaleY": 47
+                    "scaleY": 51
                 },
                 {
                     "id": "32e50623-4db1-4692-9dc7-e8e96cea6724",
@@ -222,8 +222,8 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_1FD09E8",
-                    "x": 832,
-                    "y": 0,
+                    "x": 1204.84534,
+                    "y": -10.3219566,
                     "IsDnD": false,
                     "colour": {
                         "Value": 4294967295
@@ -235,7 +235,7 @@
                     "objId": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
                     "rotation": 44.55212,
                     "scaleX": -1,
-                    "scaleY": 19
+                    "scaleY": 21.5892315
                 },
                 {
                     "id": "138b5f82-c58b-4057-9f4c-dcdccc7899e5",
@@ -246,8 +246,8 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_442E6D89",
-                    "x": 0,
-                    "y": 544,
+                    "x": 3.91443253,
+                    "y": 579.976135,
                     "IsDnD": false,
                     "colour": {
                         "Value": 4294967295
@@ -259,7 +259,7 @@
                     "objId": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
                     "rotation": 44.55212,
                     "scaleX": -1,
-                    "scaleY": 19
+                    "scaleY": 21.6391773
                 },
                 {
                     "id": "4511977f-588f-42ca-a5cb-da11598b0ded",
@@ -270,8 +270,8 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_7A2AD26C",
-                    "x": 0,
-                    "y": 192,
+                    "x": -27.6653061,
+                    "y": 251.763641,
                     "IsDnD": false,
                     "colour": {
                         "Value": 4294967295
@@ -281,9 +281,9 @@
                     "inheritCode": false,
                     "name_with_no_file_rename": "inst_7A2AD26C",
                     "objId": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
-                    "rotation": 134.342651,
+                    "rotation": 134.3427,
                     "scaleX": -1,
-                    "scaleY": 19
+                    "scaleY": 24.4229527
                 },
                 {
                     "id": "3903ea64-bfb4-4a9f-b083-c3fa9a7081b5",
@@ -294,8 +294,8 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_39410448",
-                    "x": 832,
-                    "y": 736,
+                    "x": 1198.39941,
+                    "y": 816.475342,
                     "IsDnD": false,
                     "colour": {
                         "Value": 4294967295
@@ -307,7 +307,7 @@
                     "objId": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
                     "rotation": 134.342651,
                     "scaleX": -1,
-                    "scaleY": 19
+                    "scaleY": 21.669342
                 }
             ]
         },
@@ -357,15 +357,15 @@
         "PhysicsWorld": true,
         "PhysicsWorldGravityX": 0,
         "PhysicsWorldGravityY": 0,
-        "PhysicsWorldPixToMeters": 0.025,
+        "PhysicsWorldPixToMeters": 0.1,
         "inheritPhysicsSettings": false
     },
     "roomSettings": {
         "id": "ef1a1e41-0e4c-4206-8718-d1d3e035cadc",
         "modelName": "GMRoomSettings",
         "mvc": "1.0",
-        "Height": 768,
-        "Width": 1024,
+        "Height": 820,
+        "Width": 1440,
         "inheritRoomSettings": false,
         "persistent": false
     },

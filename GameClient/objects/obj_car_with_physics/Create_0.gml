@@ -1,24 +1,13 @@
 // setup wheels and car in general
-fl_tire = instance_create_layer(x+32, y-28, "car", obj_tire);
-fl_j = physics_joint_revolute_create(id, fl_tire, fl_tire.x, fl_tire.y, -25, 25, 1, 2, 0, 1, 0);
-physics_joint_enable_motor(fl_j, 0);
+var carLayer = layer_create(0);
+var axelFicture = physics_fixture_create();
 
-fr_tire = instance_create_layer(x+32, y+28, "car", obj_tire);
-fr_j = physics_joint_revolute_create(id, fr_tire, fr_tire.x, fr_tire.y, -25, 25, 1, 2, 0, 1, 0);
-physics_joint_enable_motor(fr_j, 0);
+rearLeftTire = instance_create_layer(x-40, y+20, carLayer, obj_car_tire_back);
+rearRightTire = instance_create_layer(x-40, y-20, carLayer, obj_car_tire_back);
 
-bl_tire = instance_create_layer(x-32, y-28, "car", obj_tire);
-bl_j = physics_joint_revolute_create(id, bl_tire, bl_tire.x, bl_tire.y, 0, 0, 1, 0, 0, 0, 0);
+physics_joint_weld_create(id, rearLeftTire, x-40, y+20, 0, 0, 0, true);
+physics_joint_weld_create(id, rearRightTire, x-40, y-20, 0, 0, 0, true);
 
-br_tire = instance_create_layer(x-32, y+28, "car", obj_tire);
-br_j = physics_joint_revolute_create(id, br_tire, br_tire.x, br_tire.y, 0, 0, 1, 0, 0, 0, 0);
-
-// constants
-tire_dire=0;
-tire_maxdire=35;
-tire_mixdire=-35;
-trn_speed=3;
-world_size=0.025
 
 // debug
 dodraw=0;

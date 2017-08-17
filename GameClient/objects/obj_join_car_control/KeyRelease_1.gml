@@ -1,5 +1,5 @@
 var has_changes=false;
-if (car.go_forward != keyboard_check(vk_up) || car.go_forward != keyboard_check(vk_up)) {
+if (car.go_forward != keyboard_check(vk_up) || car.go_backward != keyboard_check(vk_down)) {
 	has_changes=true;
 }
 if (car.go_right != keyboard_check(vk_right) || car.go_left != keyboard_check(vk_left)) {

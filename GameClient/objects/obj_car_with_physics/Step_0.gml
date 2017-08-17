@@ -1,35 +1,30 @@
-if (!remote_control) {
-	var dire = (clamp(go_right,0,1)-clamp(go_left,0,1))*trn_speed;
+var leftWheelPower = 0;
+var rightWheelPower = 0;
 
-	tire_dire = clamp(tire_dire + dire, tire_mixdire, tire_maxdire);
-	if (dire == 0) {
-		var s = sign(tire_dire);
-		tire_dire = max(abs(tire_dire)-trn_speed,0)*s;
+if( go_forward ) {
+	leftWheelPower = 1;
+	rightWheelPower = 1;
+	
+	if( go_left ) {
+		rightWheelPower = 0.25;
+	}
+
+	if( go_right ) {
+		leftWheelPower = 0.25;
 	}
 }
 
-physics_joint_set_value(fr_j, phy_joint_upper_angle_limit, tire_dire);
-physics_joint_set_value(fr_j, phy_joint_lower_angle_limit, tire_dire);
-
-physics_joint_set_value(fl_j, phy_joint_upper_angle_limit, tire_dire);
-physics_joint_set_value(fl_j, phy_joint_lower_angle_limit, tire_dire);
-
-var tmp = phy_mass*3;
-if (go_forward) {
-	with(fl_tire) {
-		physics_apply_local_force(0, 0, tmp, 0);
+if( go_backward ) {
+	leftWheelPower = -1;
+	rightWheelPower = -1;
+	
+	if( go_left ) {
+		rightWheelPower = -0.25;
 	}
-	with(fr_tire) {
-		physics_apply_local_force(0, 0, tmp, 0);
+
+	if( go_right ) {
+		leftWheelPower = -0.25;
 	}
 }
 
-tmp = -1*phy_mass*3;
-if (go_backward) {
-	with(fl_tire) {
-		physics_apply_local_force(0, 0, tmp, 0);
-	}
-	with(fr_tire) {
-		physics_apply_local_force(0, 0, tmp, 0);
-	}
-}
+scr_car_move(leftWheelPower, rightWheelPower);

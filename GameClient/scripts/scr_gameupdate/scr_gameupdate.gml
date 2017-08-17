@@ -4,26 +4,26 @@ var gameid=buffer_read(buffer, buffer_string);
 var control_length=buffer_read(buffer, buffer_s32); 
 
 var i;
-for (i=0; i<4; ++i) {
+for (i=0; i<5; ++i) {
 	var carid=buffer_read(buffer, buffer_s8);
 	var angular_velocity=buffer_read(buffer, buffer_f32);
 	var linear_velocity_x=buffer_read(buffer, buffer_f32);
 	var linear_velocity_y=buffer_read(buffer, buffer_f32);
-	var speed_x=buffer_read(buffer, buffer_f32);
-	var speed_y=buffer_read(buffer, buffer_f32);
 	var position_x=buffer_read(buffer, buffer_f32);
 	var position_y=buffer_read(buffer, buffer_f32);
 	var rotation=buffer_read(buffer, buffer_f32);
-	var dire=buffer_read(buffer, buffer_f32);
-	var wheel_rotation=buffer_read(buffer, buffer_f32);
+
+	var forward = buffer_read(buffer, buffer_bool);
+	var backward = buffer_read(buffer, buffer_bool);
+	var left = buffer_read(buffer, buffer_bool);
+	var right = buffer_read(buffer, buffer_bool);
+
 	switch (carid) {
 		case 100: // ball
 			with (obj_ball){
 				phy_angular_velocity = angular_velocity;
 				phy_linear_velocity_x = linear_velocity_x;
 				phy_linear_velocity_y = linear_velocity_y;
-				phy_speed_x = speed_x;
-				phy_speed_y = speed_y;
 				phy_position_x = position_x;
 				phy_position_y = position_y;
 				phy_rotation = rotation;
@@ -34,14 +34,13 @@ for (i=0; i<4; ++i) {
 				phy_angular_velocity = angular_velocity;
 				phy_linear_velocity_x = linear_velocity_x;
 				phy_linear_velocity_y = linear_velocity_y;
-				phy_speed_x = speed_x;
-				phy_speed_y = speed_y;
 				phy_position_x = position_x;
 				phy_position_y = position_y;
 				phy_rotation = rotation;
-				tire_dire=dire;
-				fl_tire=wheel_rotation;
-				fr_tire=wheel_rotation;
+				go_forward = forward;
+				go_backward = backward;
+				go_left = left;
+				go_right = right;
 			}
 			break;
 		case 2:
@@ -49,14 +48,13 @@ for (i=0; i<4; ++i) {
 				phy_angular_velocity = angular_velocity;
 				phy_linear_velocity_x = linear_velocity_x;
 				phy_linear_velocity_y = linear_velocity_y;
-				phy_speed_x = speed_x;
-				phy_speed_y = speed_y;
 				phy_position_x = position_x;
 				phy_position_y = position_y;
 				phy_rotation = rotation;
-				tire_dire=dire;
-				fl_tire=wheel_rotation;
-				fr_tire=wheel_rotation;
+				go_forward = forward;
+				go_backward = backward;
+				go_left = left;
+				go_right = right;
 			}
 			break;
 		case 3:
@@ -64,14 +62,13 @@ for (i=0; i<4; ++i) {
 				phy_angular_velocity = angular_velocity;
 				phy_linear_velocity_x = linear_velocity_x;
 				phy_linear_velocity_y = linear_velocity_y;
-				phy_speed_x = speed_x;
-				phy_speed_y = speed_y;
 				phy_position_x = position_x;
 				phy_position_y = position_y;
 				phy_rotation = rotation;
-				tire_dire=dire;
-				fl_tire=wheel_rotation;
-				fr_tire=wheel_rotation;
+				go_forward = forward;
+				go_backward = backward;
+				go_left = left;
+				go_right = right;
 			}
 			break;
 		case 4:
@@ -79,14 +76,13 @@ for (i=0; i<4; ++i) {
 				phy_angular_velocity = angular_velocity;
 				phy_linear_velocity_x = linear_velocity_x;
 				phy_linear_velocity_y = linear_velocity_y;
-				phy_speed_x = speed_x;
-				phy_speed_y = speed_y;
 				phy_position_x = position_x;
 				phy_position_y = position_y;
 				phy_rotation = rotation;
-				tire_dire=dire;
-				fl_tire=wheel_rotation;
-				fr_tire=wheel_rotation;
+				go_forward = forward;
+				go_backward = backward;
+				go_left = left;
+				go_right = right;
 			}
 			break;
 	}

@@ -90,7 +90,7 @@
             "Key": "1d52add6-fad5-4028-aeb3-59dc1e5175f6",
             "Value": {
                 "id": "abe5d2dc-ecac-46e7-bd2d-3acaad7aefee",
-                "resourcePath": "sprites\\spr_tire\\spr_tire.yy",
+                "resourcePath": "sprites\\spr_car_tire_back\\spr_car_tire_back.yy",
                 "resourceType": "GMSprite"
             }
         },
@@ -111,6 +111,14 @@
             }
         },
         {
+            "Key": "29395e62-db41-4a3c-8b93-5b1506352e31",
+            "Value": {
+                "id": "9dd91c47-d706-41c9-b0aa-04a46291f34a",
+                "resourcePath": "scripts\\scr_car_move\\scr_car_move.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "304df605-a250-45d7-8df6-ff1597df6ea1",
             "Value": {
                 "id": "f5fa51b2-90d0-4c2f-ba8a-7ec1975dac0a",
@@ -122,7 +130,7 @@
             "Key": "4893e5bb-99ce-4736-95e8-4f1aef0af421",
             "Value": {
                 "id": "7b8d148c-6fb1-475b-890b-e94a431759fa",
-                "resourcePath": "objects\\obj_tire\\obj_tire.yy",
+                "resourcePath": "objects\\obj_car_tire_back\\obj_car_tire_back.yy",
                 "resourceType": "GMObject"
             }
         },
@@ -551,7 +559,8 @@
         "892b99e4-d722-4591-9f46-10a857b19cae",
         "ec98d8a9-42f2-4166-9ea9-9c982a0c05c7",
         "f5813fd7-e20f-4427-a83a-1188ff7dbd2b",
-        "19b71feb-935e-4587-803e-c49d4bc973b1"
+        "19b71feb-935e-4587-803e-c49d4bc973b1",
+        "29395e62-db41-4a3c-8b93-5b1506352e31"
     ],
     "tutorial": ""
 }
