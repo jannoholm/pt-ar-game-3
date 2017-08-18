@@ -53,8 +53,8 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_gameball",
-                    "x": 544,
-                    "y": 384,
+                    "x": 720,
+                    "y": 410,
                     "IsDnD": false,
                     "colour": {
                         "Value": 4294967295
@@ -77,7 +77,7 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_create_competitors",
-                    "x": 544,
+                    "x": 720,
                     "y": 544,
                     "IsDnD": false,
                     "colour": {

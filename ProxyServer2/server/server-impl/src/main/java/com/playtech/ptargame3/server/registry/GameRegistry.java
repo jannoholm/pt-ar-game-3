@@ -72,6 +72,7 @@ public class GameRegistry implements ClientListener {
 
     @Override
     public void clientConnected(String clientId) {
+        if (clientId == null) return;
         GameRegistryGame game = hosting.get(clientId);
         if (game != null) {
             game.setHostConnected(true);
@@ -80,6 +81,7 @@ public class GameRegistry implements ClientListener {
 
     @Override
     public void clientDisconnected(String clientId) {
+        if (clientId == null) return;
         GameRegistryGame game = hosting.get(clientId);
         if (game != null) {
             game.setHostConnected(false);

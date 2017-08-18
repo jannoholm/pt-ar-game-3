@@ -46,7 +46,7 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_1DD5E7F6",
-                    "x": 512,
+                    "x": 720,
                     "y": 256,
                     "IsDnD": false,
                     "colour": {
@@ -70,7 +70,7 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_55D431",
-                    "x": 512,
+                    "x": 720,
                     "y": 448,
                     "IsDnD": false,
                     "colour": {
@@ -94,7 +94,7 @@
                     "m_originalParentID": "00000000-0000-0000-0000-000000000000",
                     "m_serialiseFrozen": false,
                     "name": "inst_706356AD",
-                    "x": 512,
+                    "x": 720,
                     "y": 352,
                     "IsDnD": false,
                     "colour": {
@@ -164,8 +164,8 @@
         "id": "68a0e154-a8d7-4cbb-94ac-5c1fb8090476",
         "modelName": "GMRoomSettings",
         "mvc": "1.0",
-        "Height": 768,
-        "Width": 1024,
+        "Height": 820,
+        "Width": 1440,
         "inheritRoomSettings": false,
         "persistent": false
     },
