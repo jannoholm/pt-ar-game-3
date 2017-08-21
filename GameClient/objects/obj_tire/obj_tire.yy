@@ -2,7 +2,7 @@
     "id": "4893e5bb-99ce-4736-95e8-4f1aef0af421",
     "modelName": "GMObject",
     "mvc": "1.0",
-    "name": "obj_car_tire_back",
+    "name": "obj_tire",
     "eventList": [
         {
             "id": "6b6881d7-31a5-4b1f-a5c6-2d5578e2412c",
@@ -38,44 +38,44 @@
     "maskSpriteId": "00000000-0000-0000-0000-000000000000",
     "parentObjectId": "00000000-0000-0000-0000-000000000000",
     "persistent": false,
-    "physicsAngularDamping": 10,
-    "physicsDensity": 2,
+    "physicsAngularDamping": 0.5,
+    "physicsDensity": 150,
     "physicsFriction": 10,
     "physicsGroup": 0,
     "physicsKinematic": false,
-    "physicsLinearDamping": 10,
+    "physicsLinearDamping": 0.2,
     "physicsObject": true,
     "physicsRestitution": 0.1,
     "physicsSensor": false,
     "physicsShape": 1,
     "physicsShapePoints": [
         {
-            "id": "067d1fa9-2b60-4c7c-9641-d5ea0ae9ceb7",
+            "id": "5a55d6d6-6dd4-4f75-8693-950a3a5475f6",
             "modelName": "GMPoint",
             "mvc": "1.0",
             "x": 0,
             "y": 0
         },
         {
-            "id": "1d34557c-5c50-400b-8d4c-563e3e381428",
+            "id": "b84aa644-01d9-4cec-8aa5-d07150779451",
             "modelName": "GMPoint",
             "mvc": "1.0",
-            "x": 10,
+            "x": 32,
             "y": 0
         },
         {
-            "id": "d028a9a0-b49f-4513-8250-bd157f835128",
+            "id": "e9f4aef4-97e9-4667-9032-e79dc8073f7a",
             "modelName": "GMPoint",
             "mvc": "1.0",
-            "x": 10,
-            "y": 10
+            "x": 32,
+            "y": 14
         },
         {
-            "id": "55616a12-32eb-4afd-9368-adfcb60de26c",
+            "id": "df70b649-f2a2-4779-96dc-c6b9ce3fe1ab",
             "modelName": "GMPoint",
             "mvc": "1.0",
             "x": 0,
-            "y": 10
+            "y": 14
         }
     ],
     "physicsStartAwake": true,

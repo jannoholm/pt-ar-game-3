@@ -72,8 +72,8 @@ public class ClientSession implements Session {
 
     public void processMessage(List<ByteBuffer> messageBytes) {
         Message message = this.parser.parseMessage(messageBytes);
-        if (message instanceof GameUpdateMessage || message instanceof GameUpdateBroadcardMessage) {
-            logger.log(Level.FINEST, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "IN", message));
+        if (isNoisyRequest(message)) {
+            logger.log(Level.FINER, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "IN", message));
         } else {
             logger.log(Level.FINE, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "IN", message));
         }
@@ -95,8 +95,8 @@ public class ClientSession implements Session {
     }
 
     public void sendMessage(Message message) {
-        if (message instanceof GameUpdateMessage || message instanceof GameUpdateBroadcardMessage) {
-            logger.log(Level.FINEST, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "OUT", message));
+        if (isNoisyRequest(message)) {
+            logger.log(Level.FINER, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "OUT", message));
         } else {
             logger.log(Level.FINE, ()->String.format(" %6s %3s: %s", this.connection.getConnectionId(), "OUT", message));
         }
@@ -185,5 +185,9 @@ public class ClientSession implements Session {
             joinServerResponse.setErrorMessage(errorText);
         }
         sendMessage(joinServerResponse);
+    }
+
+    private boolean isNoisyRequest( Message message ) {
+        return message instanceof GameUpdateMessage || message instanceof GameUpdateBroadcardMessage;
     }
 }
