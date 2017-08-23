@@ -1,5 +1,10 @@
 **/target/**
 ProxyServer*/run/log/**
 ProxyServer*/run2/log/**
+ProxyServer*/**/.classpath
+ProxyServer*/**/.project
+ProxyServer*/**/.settings
 executable/GameClient.exe
 executable/data.win
+executable/assets/*
+executable/GameClient

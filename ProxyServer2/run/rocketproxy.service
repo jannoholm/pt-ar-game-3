@@ -1,0 +1,18 @@
+[Unit]
+Description=Running java server %I
+After=network.target
+
+[Service]
+Type=simple
+User=rocket
+Group=rocket
+WorkingDirectory=/home/rocket/game/pt-ar-game-3/ProxyServer2/run
+ExecStart=/usr/lib/jvm/java-8-oracle/bin/java -Djava.util.logging.config.file=/home/rocket/game/pt-ar-game-3/ProxyServer2/run/conf/logging.properties -XX:+UseG1GC -jar /home/rocket/game/pt-ar-game-3/ProxyServer2/server/server-impl/target/server-impl-1.0-SNAPSHOT-jar-with-dependencies.jar &
+ExecStop=/bin/kill -TERM $MAINPID
+
+# Restart
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
