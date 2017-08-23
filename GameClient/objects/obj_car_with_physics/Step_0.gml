@@ -1,6 +1,31 @@
 var leftWheelPower = 0;
 var rightWheelPower = 0;
 
+if (go_move > 0) {
+	if (go_turn >= 0) {
+		rightWheelPower=1+0.7*go_turn;
+		leftWheelPower=2-rightWheelPower;
+	} else if (go_turn < 0) {
+		leftWheelPower=1+0.7*go_turn*(-1);
+		rightWheelPower=2-leftWheelPower;
+	}
+	rightWheelPower=rightWheelPower*go_move;
+	leftWheelPower=leftWheelPower*go_move;
+} else if (go_move < 0) {
+	if (go_turn >= 0) {
+		rightWheelPower=1+0.3*go_turn;
+		leftWheelPower=2-rightWheelPower;
+	} else if (go_turn < 0) {
+		leftWheelPower=1+0.3*go_turn*(-1);
+		rightWheelPower=2-leftWheelPower;
+	}
+	rightWheelPower=rightWheelPower*go_move;
+	leftWheelPower=leftWheelPower*go_move;
+}
+/*
+var leftWheelPower = 0;
+var rightWheelPower = 0;
+
 if( go_forward ) {
 	if( go_left && go_right ) {
 		leftWheelPower = 1;
@@ -32,7 +57,7 @@ if( go_backward ) {
 		rightWheelPower = -1;
 	}
 }
-
+*/
 with(rearLeftTire){
 	physics_apply_local_force(0, 0, leftWheelPower*10000, 0);
 }

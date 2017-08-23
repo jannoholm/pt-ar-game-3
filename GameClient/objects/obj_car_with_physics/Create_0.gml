@@ -1,7 +1,7 @@
-rearLeftTire = instance_create_layer(x-20, y+23, "car", obj_tire);
+rearLeftTire = instance_create_layer(x-20, y+25, "car", obj_tire);
 physics_joint_weld_create(id, rearLeftTire, x-40, y+20, 0, 0, 0, true);
 
-rearRightTire = instance_create_layer(x-20, y-24, "car", obj_tire);
+rearRightTire = instance_create_layer(x-20, y-26, "car", obj_tire);
 physics_joint_weld_create(id, rearRightTire, x-40, y-20, 0, 0, 0, true);
 
 
@@ -17,10 +17,13 @@ dodraw=0;
 
 // controls
 remote_control=true;
+go_move=0;
+go_turn=0;
+/*
 go_forward=false;
 go_backward=false;
 go_left=false;
 go_right=false;
-
+*/
 // name
 client_name="";

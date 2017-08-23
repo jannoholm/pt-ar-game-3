@@ -3,7 +3,7 @@ if (selected==true) {
 		case vk_tab:
 		case vk_enter:
 			selected=false;
-			obj_button.selected=true;
+			obj_login_button.selected=true;
 			keyboard_string="";
 			keyboard_lastkey=-1;
 			break;

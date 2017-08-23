@@ -14,10 +14,8 @@ for (i=0; i<4; ++i) {
 	var position_x=buffer_read(buffer, buffer_f32);
 	var position_y=buffer_read(buffer, buffer_f32);
 	var rotation=buffer_read(buffer, buffer_f32);
-	var forward=buffer_read(buffer, buffer_bool);
-	var backward=buffer_read(buffer, buffer_bool);
-	var left=buffer_read(buffer, buffer_bool);
-	var right=buffer_read(buffer, buffer_bool);
+	var move=buffer_read(buffer, buffer_s8)/127.0;
+	var turn=buffer_read(buffer, buffer_s8)/127.0;
 	switch (carid) {
 		case 100: // ball
 			with (obj_ball){
@@ -42,10 +40,8 @@ for (i=0; i<4; ++i) {
 				phy_position_y = position_y;
 				phy_rotation = rotation;
 				if (remote_control) {
-					go_forward = forward;
-					go_backward = backward;
-					go_left = left;
-					go_right = right;
+					go_move = move;
+					go_turn = turn;
 				}
 			}
 			break;
@@ -60,10 +56,8 @@ for (i=0; i<4; ++i) {
 				phy_position_y = position_y;
 				phy_rotation = rotation;
 				if (remote_control) {
-					go_forward = forward;
-					go_backward = backward;
-					go_left = left;
-					go_right = right;
+					go_move = move;
+					go_turn = turn;
 				}
 			}
 			break;
@@ -78,10 +72,8 @@ for (i=0; i<4; ++i) {
 				phy_position_y = position_y;
 				phy_rotation = rotation;
 				if (remote_control) {
-					go_forward = forward;
-					go_backward = backward;
-					go_left = left;
-					go_right = right;
+					go_move = move;
+					go_turn = turn;
 				}
 			}
 			break;
@@ -96,10 +88,8 @@ for (i=0; i<4; ++i) {
 				phy_position_y = position_y;
 				phy_rotation = rotation;
 				if (remote_control) {
-					go_forward = forward;
-					go_backward = backward;
-					go_left = left;
-					go_right = right;
+					go_move = move;
+					go_turn = turn;
 				}
 			}
 			break;

@@ -18,13 +18,13 @@ with (red2) {
 blue1 = instance_create_layer(1340, 250, "car", obj_car_with_physics);
 with (blue1) {
 	image_blend = make_color_rgb(66, 134, 244);
-	phy_rotation = 182.5;
+	phy_rotation = 180;
 }
 
 blue2 = instance_create_layer(1340, 570, "car", obj_car_with_physics);
 with (blue2) {
 	image_blend = make_color_rgb(46, 108, 209);
-	phy_rotation = 182.5;
+	phy_rotation = 180;
 	dodraw = true;
 }
 

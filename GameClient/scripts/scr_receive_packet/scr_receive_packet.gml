@@ -14,6 +14,7 @@ switch (message_type) {
 		// send ping response
 		scr_write_messageheader(obj_server_client.out_buffer, 1001, message_id, client_id);
 		scr_send_packet(obj_server_client.out_buffer);
+		obj_server_client.last_ping=current_time;
 		show_debug_message("ping processed");
 		break;
 	case 1003: // join server response
