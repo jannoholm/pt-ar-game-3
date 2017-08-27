@@ -511,6 +511,14 @@
             }
         },
         {
+            "Key": "e93644d1-c3e1-468b-bebd-4a5f13abfb8a",
+            "Value": {
+                "id": "d97f8b3a-190c-4488-ad85-2aab31405027",
+                "resourcePath": "scripts\\scr_locationupdate\\scr_locationupdate.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "ec98d8a9-42f2-4166-9ea9-9c982a0c05c7",
             "Value": {
                 "id": "f53b45ee-8ff4-474d-9c9a-4f1244b7e63b",
@@ -599,7 +607,8 @@
         "892b99e4-d722-4591-9f46-10a857b19cae",
         "ec98d8a9-42f2-4166-9ea9-9c982a0c05c7",
         "f5813fd7-e20f-4427-a83a-1188ff7dbd2b",
-        "19b71feb-935e-4587-803e-c49d4bc973b1"
+        "19b71feb-935e-4587-803e-c49d4bc973b1",
+        "e93644d1-c3e1-468b-bebd-4a5f13abfb8a"
     ],
     "tutorial": ""
 }

@@ -3,6 +3,10 @@ package com.playtech.ptargame3.server.session;
 import com.playtech.ptargame3.api.ApiConstants;
 import com.playtech.ptargame3.api.game.GameUpdateBroadcardMessage;
 import com.playtech.ptargame3.api.game.GameUpdateMessage;
+import com.playtech.ptargame3.api.general.JoinServerRequest;
+import com.playtech.ptargame3.api.general.JoinServerResponse;
+import com.playtech.ptargame3.api.general.PingRequest;
+import com.playtech.ptargame3.api.general.PingResponse;
 import com.playtech.ptargame3.common.callback.CallbackHandler;
 import com.playtech.ptargame3.common.io.Connection;
 import com.playtech.ptargame3.common.message.Message;
@@ -10,14 +14,10 @@ import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.session.Session;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskFactory;
-import com.playtech.ptargame3.api.general.JoinServerResponse;
-import com.playtech.ptargame3.api.general.PingRequest;
 import com.playtech.ptargame3.common.util.StringUtil;
-import com.playtech.ptargame3.server.registry.GameRegistry;
-import com.playtech.ptargame3.server.task.MessageTaskInput;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
-import com.playtech.ptargame3.api.general.PingResponse;
-import com.playtech.ptargame3.api.general.JoinServerRequest;
+import com.playtech.ptargame3.server.task.MessageTaskInput;
+import com.playtech.ptargame3.server.util.ClientTypeConverter;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -173,6 +173,7 @@ public class ClientSession implements Session {
                     joinServerRequest.getHeader().getClientId(),
                     joinServerRequest.getName(),
                     joinServerRequest.getEmail(),
+                    ClientTypeConverter.convert(joinServerRequest.getClientType()),
                     this
             );
             logger.log(Level.INFO, () -> String.format(" %6s Identified as client: %s", this.connection.getConnectionId(), this.clientId));

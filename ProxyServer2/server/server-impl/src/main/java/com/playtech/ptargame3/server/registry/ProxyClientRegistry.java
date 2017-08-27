@@ -8,27 +8,33 @@ import com.playtech.ptargame3.common.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProxyClientRegistry implements ClientRegistry {
     private Map<String, SessionHolder> sessions = new ConcurrentHashMap<>();
+    private List<Session> tableSessions = new CopyOnWriteArrayList<>();
 
     private String generateClientId() {
         return UUID.randomUUID().toString();
     }
-    public String addClientConnection(String clientId, String name, String email, Session session) {
+    public String addClientConnection(String clientId, String name, String email, ClientType clientType, Session session) {
         if (StringUtil.isNull(clientId)) {
             clientId = generateClientId();
         }
 
         SessionHolder holder = sessions.get(clientId);
         if (holder == null) {
-            sessions.put(clientId, new SessionHolder(clientId, name, email, session));
+            holder = new SessionHolder(clientId, name, email, session);
+            sessions.put(clientId, holder);
         } else {
             holder.add(name, email, session);
         }
+        tableSessions.add(session);
 
         return clientId;
     }
@@ -37,6 +43,8 @@ public class ProxyClientRegistry implements ClientRegistry {
 
         SessionHolder removed = sessions.get(clientId);
         removed.removeSession(session);
+
+        tableSessions.removeIf(s -> s.getId() == session.getId());
     }
 
     public Collection<Session> getClientSession(String clientId) {
@@ -49,6 +57,10 @@ public class ProxyClientRegistry implements ClientRegistry {
         return Collections.emptyList();
     }
 
+    public Collection<Session> getTableSessions() {
+        return tableSessions; // todo: should be immutable
+    }
+
     @Override
     public String getName(String clientId) {
         if (!StringUtil.isNull(clientId)) {
@@ -58,6 +70,12 @@ public class ProxyClientRegistry implements ClientRegistry {
             }
         }
         return "noname";
+    }
+
+    public static enum ClientType {
+        TABLE,
+        CAMERA,
+        GAME_CLIENT
     }
 
     private static class SessionHolder {

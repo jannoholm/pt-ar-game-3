@@ -9,8 +9,15 @@ import java.nio.ByteBuffer;
 
 public class JoinServerRequest extends AbstractRequest {
 
+    public enum ClientType {
+        TABLE,
+        CAMERA,
+        GAME_CLIENT
+    }
+
     private String name;
     private String email;
+    private ClientType clientType = ClientType.GAME_CLIENT;
 
     public JoinServerRequest(MessageHeader header) {
         super(header);
@@ -21,6 +28,7 @@ public class JoinServerRequest extends AbstractRequest {
         super.parse(messageData);
         this.name = StringUtil.readUTF8String(messageData);
         this.email = StringUtil.readUTF8String(messageData);
+        this.clientType = ClientType.values()[messageData.get()];
     }
 
     @Override
@@ -28,12 +36,14 @@ public class JoinServerRequest extends AbstractRequest {
         super.format(messageData);
         StringUtil.writeUTF8String(name, messageData);
         StringUtil.writeUTF8String(email, messageData);
+        messageData.put((byte) clientType.ordinal());
     }
 
     protected void toStringImpl(StringBuilder s) {
         super.toStringImpl(s);
         s.append(", name=").append(getName());
         s.append(", email=").append(getEmail());
+        s.append(", type=").append(getClientType());
     }
 
     public String getName() {
@@ -50,5 +60,13 @@ public class JoinServerRequest extends AbstractRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ClientType getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(ClientType clientType) {
+        this.clientType = clientType;
     }
 }

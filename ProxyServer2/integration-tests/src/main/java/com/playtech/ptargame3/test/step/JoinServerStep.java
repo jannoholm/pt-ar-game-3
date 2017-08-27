@@ -7,6 +7,7 @@ import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskState;
 import com.playtech.ptargame3.common.task.state.TwoStepState;
+import com.playtech.ptargame3.server.util.ClientTypeConverter;
 import com.playtech.ptargame3.test.ConnectorSession;
 import com.playtech.ptargame3.test.ContextConstants;
 import com.playtech.ptargame3.server.exception.SystemException;
@@ -58,6 +59,7 @@ public class JoinServerStep extends AbstractStep {
             JoinServerRequest joinServerRequest = createMessage(task, JoinServerRequest.class);
             joinServerRequest.setName(clientName);
             joinServerRequest.setEmail("test@playtech.com");
+            joinServerRequest.setClientType(JoinServerRequest.ClientType.GAME_CLIENT);
             getLogicResources().getCallbackHandler().sendCallback(task, joinServerRequest, session);
             task.getContext().put(ContextConstants.CALLBACK_REQUEST, joinServerRequest);
         } else if (task.getCurrentState() == TwoStepState.FINAL) {
@@ -69,7 +71,13 @@ public class JoinServerStep extends AbstractStep {
                 String clientId = joinServerResponse.getHeader().getClientId();
                 session.setClientId(clientId);
                 task.getContext().put(ContextConstants.CLIENT_ID, clientId);
-                getLogicResources().getClientRegistry().addClientConnection(clientId, joinServerRequest.getName(), joinServerRequest.getEmail(), session);
+                getLogicResources().getClientRegistry().addClientConnection(
+                        clientId,
+                        joinServerRequest.getName(),
+                        joinServerRequest.getEmail(),
+                        ClientTypeConverter.convert(joinServerRequest.getClientType()),
+                        session
+                );
             } else {
                 throw new SystemException("Join failed with response status: " + status);
             }

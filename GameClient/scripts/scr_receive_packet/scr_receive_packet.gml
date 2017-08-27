@@ -27,6 +27,10 @@ switch (message_type) {
 			room_goto_next();
 			obj_server_client.client_id = client_id;
 			show_debug_message("obj_server_client.client_id=" + obj_server_client.client_id);
+			if (obj_server_client.client_type == 0) {
+				scr_start_host_game("table");
+				room_goto(3);
+			}
 		}
 		break;
 	case 2001: // get games response
@@ -77,6 +81,10 @@ switch (message_type) {
 			obj_playerinit_physics.blue1.remote_control=false;
 			obj_playerinit_physics.blue2.remote_control=false;
 
+			if (obj_server_client.client_type == 0) {
+				return;
+			}
+			
 			var car_control = instance_create_layer(0, 0, "car", obj_hostcar_control);
 			car_control.car = obj_playerinit_physics.red1;
 
@@ -97,5 +105,8 @@ switch (message_type) {
 		break;
 	case 3004: // game update message
 		scr_gameupdate(buffer);
+		break;
+	case 3006: // location notification
+		scr_locationupdate(buffer);
 		break;
 }

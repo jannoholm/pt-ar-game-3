@@ -16,6 +16,13 @@ messageid_counter=10000+random(10000);
 in_buffer = buffer_create(size, buffer_fixed, allignment);
 in_buffer_size = 0;
 
+// read if game is table
+client_type=2;
+var filename=working_directory + "/table.txt";
+if (file_exists(filename)) {
+	client_type=0;
+}
+
 connected=false;
 joined=false;
 client_id="";
