@@ -47,12 +47,14 @@ public abstract class SimpleCallbackStep extends AbstractStep {
         } else if (task.getCurrentState() == TwoStepState.FINAL) {
             AbstractRequest request = task.getContext().get(ContextConstants.CALLBACK_REQUEST, AbstractRequest.class);
             CallbackHandler.ResponseStatus status = getLogicResources().getCallbackHandler().getResponseStatus(task, request);
-            AbstractResponse response = null;
+            AbstractResponse response;
             if (status == CallbackHandler.ResponseStatus.SUCCESS) {
                 response = (AbstractResponse) getLogicResources().getCallbackHandler().getResponse(task, request);
+                checkResponse(status, response);
                 processResponse(task, response);
+            } else {
+                checkResponse(status, null);
             }
-            checkResponse(status, response);
         }
     }
 

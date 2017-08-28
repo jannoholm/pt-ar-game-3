@@ -1,10 +1,12 @@
 package com.playtech.ptargame3.test;
 
 
+import com.playtech.ptargame3.api.camera.LocationNotificationMessage;
 import com.playtech.ptargame3.api.lobby.PushGameLobbyUpdateMessage;
 import com.playtech.ptargame3.common.task.Logic;
 import com.playtech.ptargame3.common.task.LogicRegistry;
 import com.playtech.ptargame3.common.task.LogicResources;
+import com.playtech.ptargame3.test.logic.LocationNotificationLogic;
 import com.playtech.ptargame3.test.logic.PushGameLobbyUpdateStub;
 
 import java.util.HashMap;
@@ -22,6 +24,7 @@ public class TestLogicRegistry implements LogicRegistry {
     public void initialize(LogicResources logicResources) {
         this.logicResources = logicResources;
         addMapping(PushGameLobbyUpdateMessage.class.getName(), PushGameLobbyUpdateStub.class);
+        addMapping(LocationNotificationMessage.class.getName(), LocationNotificationLogic.class);
     }
 
     private void addMapping(String taskType, Class<? extends Logic> taskClass) {

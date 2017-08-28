@@ -7,6 +7,7 @@ import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskState;
 import com.playtech.ptargame3.common.task.state.TwoStepState;
+import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.server.util.ClientTypeConverter;
 import com.playtech.ptargame3.test.ConnectorSession;
 import com.playtech.ptargame3.test.ContextConstants;
@@ -20,8 +21,11 @@ import java.util.UUID;
 
 public class JoinServerStep extends AbstractStep {
 
-    public JoinServerStep(LogicResources logicResources) {
+    private final JoinServerRequest.ClientType clientType;
+
+    public JoinServerStep(LogicResources logicResources, JoinServerRequest.ClientType clientType) {
         super(logicResources);
+        this.clientType = clientType;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class JoinServerStep extends AbstractStep {
             JoinServerRequest joinServerRequest = createMessage(task, JoinServerRequest.class);
             joinServerRequest.setName(clientName);
             joinServerRequest.setEmail("test@playtech.com");
-            joinServerRequest.setClientType(JoinServerRequest.ClientType.GAME_CLIENT);
+            joinServerRequest.setClientType(clientType);
             getLogicResources().getCallbackHandler().sendCallback(task, joinServerRequest, session);
             task.getContext().put(ContextConstants.CALLBACK_REQUEST, joinServerRequest);
         } else if (task.getCurrentState() == TwoStepState.FINAL) {

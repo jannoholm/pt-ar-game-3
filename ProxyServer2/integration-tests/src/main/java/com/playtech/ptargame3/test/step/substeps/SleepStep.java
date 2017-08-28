@@ -10,11 +10,14 @@ import com.playtech.ptargame3.test.step.common.AbstractStep;
 import java.util.logging.Logger;
 
 
-public class Sleep500msStep extends AbstractStep {
-    private static final Logger logger = Logger.getLogger(Sleep500msStep.class.getName());
+public class SleepStep extends AbstractStep {
+    private static final Logger logger = Logger.getLogger(SleepStep.class.getName());
 
-    public Sleep500msStep(LogicResources logicResources) {
+    private final long sleepTime;
+
+    public SleepStep(LogicResources logicResources, long sleepTime) {
         super(logicResources);
+        this.sleepTime = sleepTime;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class Sleep500msStep extends AbstractStep {
     @Override
     public void execute(Task task) {
         if (task.getCurrentState() == TwoStepState.MIDDLE) {
-            long wakeup = System.currentTimeMillis() + 500;
+            long wakeup = System.currentTimeMillis() + sleepTime;
             task.getContext().put(ContextConstants.WAKEUP_TIME, wakeup);
             getLogicResources().getTestSleepManager().wakeupAt(task, wakeup);
         }

@@ -1,6 +1,7 @@
 package com.playtech.ptargame3.test.scenario;
 
 
+import com.playtech.ptargame3.api.general.JoinServerRequest;
 import com.playtech.ptargame3.common.task.Logic;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
@@ -24,7 +25,7 @@ public class HostGameScenario extends AbstractScenario {
     public List<Logic> createStateSubLogics(Task context) {
         if (context.getCurrentState() == TwoStepState.FINAL) {
             ArrayList<Logic> logics = new ArrayList<>();
-            logics.add(new JoinServerStep(getLogicResources()));
+            logics.add(new JoinServerStep(getLogicResources(), JoinServerRequest.ClientType.GAME_CLIENT));
             logics.add(new HostGameStep(getLogicResources()));
             logics.add(new ValidateHostedGameStep(getLogicResources()));
             //logics.add(new WaitGameStartStep(getLogicResources()));

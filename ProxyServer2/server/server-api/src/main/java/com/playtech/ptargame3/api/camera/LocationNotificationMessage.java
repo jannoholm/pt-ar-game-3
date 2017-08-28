@@ -37,4 +37,12 @@ public class LocationNotificationMessage extends AbstractMessage {
         super.toStringImpl(s);
         s.append(", controlData=").append(HexUtil.toHex(locationData));
     }
+
+    public byte[] getLocationData() {
+        return locationData;
+    }
+
+    public void setLocationData(byte[] locationData) {
+        this.locationData = locationData;
+    }
 }

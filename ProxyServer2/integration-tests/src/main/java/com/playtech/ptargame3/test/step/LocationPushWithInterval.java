@@ -10,14 +10,14 @@ import com.playtech.ptargame3.common.util.StringUtil;
 import com.playtech.ptargame3.test.ContextConstants;
 import com.playtech.ptargame3.test.exception.FlowStopExcepton;
 import com.playtech.ptargame3.test.step.common.AbstractStep;
-import com.playtech.ptargame3.test.step.substeps.GetGameToJoinStep;
+import com.playtech.ptargame3.test.step.substeps.LocationPushStep;
 import com.playtech.ptargame3.test.step.substeps.SleepStep;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GetGameToJoinWithWaitStep extends AbstractStep {
-    public GetGameToJoinWithWaitStep(LogicResources logicResources) {
+public class LocationPushWithInterval extends AbstractStep {
+    public LocationPushWithInterval(LogicResources logicResources) {
         super(logicResources);
     }
 
@@ -30,14 +30,14 @@ public class GetGameToJoinWithWaitStep extends AbstractStep {
     public Collection<Logic> createStateSubLogics(Task task) {
         if (task.getCurrentState() == TenStepState.INITIAL) {
             ArrayList<Logic> logics = new ArrayList<>();
-            logics.add(new GetGameToJoinStep(getLogicResources()));
+            logics.add(new LocationPushStep(getLogicResources()));
             return logics;
         } else if (task.getCurrentState() != TenStepState.FINAL) {
             String gameId = task.getContext().get(ContextConstants.JOIN_GAME_ID, String.class);
             if (StringUtil.isNull(gameId)) {
                 ArrayList<Logic> logics = new ArrayList<>();
-                logics.add(new SleepStep(getLogicResources(), 500));
-                logics.add(new GetGameToJoinStep(getLogicResources()));
+                logics.add(new SleepStep(getLogicResources(), 30));
+                logics.add(new LocationPushStep(getLogicResources()));
                 return logics;
             }
         }
