@@ -50,36 +50,36 @@
     "physicsShape": 1,
     "physicsShapePoints": [
         {
-            "id": "1b52b79d-3641-4bb9-92c0-c86c3fb6d53e",
+            "id": "3d71af59-e29d-4ca5-bb70-81c48a2e3852",
             "modelName": "GMPoint",
             "mvc": "1.0",
-            "x": 0,
-            "y": 0
+            "x": 2,
+            "y": 6
         },
         {
-            "id": "6139bc00-c5b8-4c07-9e34-767e1bac2479",
+            "id": "550a58e7-2f52-47b9-bbb4-9830e04e9eae",
             "modelName": "GMPoint",
             "mvc": "1.0",
-            "x": 100,
-            "y": 0
+            "x": 106,
+            "y": 6
         },
         {
-            "id": "af8ba90a-1528-40a8-8941-83cc74057c10",
+            "id": "21929d39-5ea6-4c11-a2a7-ceeb5b130448",
             "modelName": "GMPoint",
             "mvc": "1.0",
-            "x": 100,
-            "y": 61
+            "x": 106,
+            "y": 68
         },
         {
-            "id": "33cba87e-9c73-4653-b383-f5e197792124",
+            "id": "a5b8e56e-db7b-43d8-b80d-93ca880658de",
             "modelName": "GMPoint",
             "mvc": "1.0",
-            "x": 0,
-            "y": 61
+            "x": 2,
+            "y": 68
         }
     ],
     "physicsStartAwake": true,
     "solid": false,
-    "spriteId": "c440eb13-77f3-4f26-b432-e3669652196e",
+    "spriteId": "946c9ffd-0ebf-45cf-8ba2-f9e7d2ca86cf",
     "visible": true
 }

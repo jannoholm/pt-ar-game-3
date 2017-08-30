@@ -1,4 +1,4 @@
-rearLeftTire = instance_create_layer(x-20, y+25, "car", obj_tire);
+rearLeftTire = instance_create_layer(x-20, y+26, "car", obj_tire);
 physics_joint_weld_create(id, rearLeftTire, x-40, y+20, 0, 0, 0, true);
 
 rearRightTire = instance_create_layer(x-20, y-26, "car", obj_tire);
