@@ -5,3 +5,4 @@ lvx = dot*nx;
 lvy = dot*ny;
 
 physics_apply_impulse(x, y, -lvx*phy_mass, -lvy*phy_mass);
+

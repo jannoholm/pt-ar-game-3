@@ -7,3 +7,4 @@ draw_text(0, 60, "dot: " + string(dot_product(nx, ny, phy_linear_velocity_x * wo
 draw_text(0, 80, "vx: " + string(phy_linear_velocity_x));
 draw_text(0, 100, "vy: " + string(phy_linear_velocity_y));
 }
+
