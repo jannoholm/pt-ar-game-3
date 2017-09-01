@@ -1,0 +1,1 @@
+colliding=collision_ellipse( x-60, y-50, x+60, y+50, obj_playerinit_physics.red1, false, true );

@@ -1,4 +1,5 @@
 draw_self();
+scr_draw_trail(8,8,0,-1,0,1);
 if (dodraw == 1) {
 draw_text(0, 0, "nx/ny: " + string(nx) + "/" + string(ny));
 draw_text(0, 20, "Spd: " + string(phy_speed));

@@ -12,6 +12,8 @@ if (dodraw) {
 
 	var dx=40;
 	var dy=40;
+	/*draw_text(dx, dy+0, "colliding: " + string(colliding));
+	
 	draw_text(dx, dy+0, "velo: " + string(phy_angular_velocity));
 	draw_text(dx, dy+20, "angdamp: " + string(phy_angular_damping));
 	draw_text(dx, dy+40, "velx: " + string(phy_linear_velocity_x));
@@ -25,6 +27,7 @@ if (dodraw) {
 	draw_text(dx, dy+200, "prey: " + string(phy_position_yprevious));
 	draw_text(dx, dy+220, "rota: " + string(phy_rotation));
 	draw_text(dx, dy+240, "frot: " + string(phy_fixed_rotation));
+	*/
 }
 
 

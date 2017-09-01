@@ -24,7 +24,8 @@
         "4f1eb7fe-64b7-4bdf-ad73-c71b753edf2c",
         "8e094aa1-7b14-4f77-93a6-949f2aa37433",
         "b12e945e-c2af-445c-a82c-57bd071f10ee",
-        "5bb860db-2995-4a0c-afae-1bb750b61af5"
+        "5bb860db-2995-4a0c-afae-1bb750b61af5",
+        "680cf67e-ab21-4493-b6b0-3582b1672adb"
     ],
     "layers": [
         {
@@ -483,6 +484,30 @@
                     "rotation": 180,
                     "scaleX": 1,
                     "scaleY": 1
+                },
+                {
+                    "id": "680cf67e-ab21-4493-b6b0-3582b1672adb",
+                    "modelName": "GMRInstance",
+                    "mvc": "1.0",
+                    "ignore": false,
+                    "inheritItemSettings": false,
+                    "m_originalParentID": "00000000-0000-0000-0000-000000000000",
+                    "m_serialiseFrozen": false,
+                    "name": "inst_308ED077",
+                    "x": 480,
+                    "y": 608,
+                    "IsDnD": false,
+                    "colour": {
+                        "Value": 4294967295
+                    },
+                    "creationCodeFile": "",
+                    "creationCodeType": "",
+                    "inheritCode": false,
+                    "name_with_no_file_rename": "inst_308ED077",
+                    "objId": "093327f8-9bd1-427f-94b4-8da07efa43c0",
+                    "rotation": 0,
+                    "scaleX": 1,
+                    "scaleY": 1
                 }
             ]
         },
@@ -516,43 +541,6 @@
             "hspeed": 0,
             "htiled": false,
             "spriteId": "7e8bc048-936d-4755-bc98-1ff9bfb31ca7",
-            "stretch": false,
-            "userdefined_animFPS": false,
-            "vspeed": 0,
-            "vtiled": false,
-            "x": 0,
-            "y": 0
-        },
-        {
-            "__type": "GMRBackgroundLayer_Model:#YoYoStudio.MVCFormat",
-            "id": "63cc3ff0-6ae9-43f0-ba58-925634dfee50",
-            "modelName": "GMRBackgroundLayer",
-            "mvc": "1.0",
-            "depth": 400,
-            "grid_x": 32,
-            "grid_y": 32,
-            "hierarchyFrozen": false,
-            "hierarchyVisible": true,
-            "inheritLayerDepth": false,
-            "inheritLayerSettings": false,
-            "inheritSubLayers": false,
-            "inheritVisibility": false,
-            "layers": [
-                
-            ],
-            "m_parentID": "00000000-0000-0000-0000-000000000000",
-            "m_serialiseFrozen": false,
-            "name": "Background",
-            "userdefined_depth": false,
-            "visible": true,
-            "animationFPS": 15,
-            "animationSpeedType": 0,
-            "colour": {
-                "Value": 4291611852
-            },
-            "hspeed": 0,
-            "htiled": false,
-            "spriteId": "00000000-0000-0000-0000-000000000000",
             "stretch": false,
             "userdefined_animFPS": false,
             "vspeed": 0,
