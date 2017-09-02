@@ -167,18 +167,18 @@
             }
         },
         {
-            "Key": "1d52add6-fad5-4028-aeb3-59dc1e5175f6",
-            "Value": {
-                "id": "abe5d2dc-ecac-46e7-bd2d-3acaad7aefee",
-                "resourcePath": "sprites\\spr_tire\\spr_tire.yy",
-                "resourceType": "GMSprite"
-            }
-        },
-        {
             "Key": "1ff3fa0f-37a4-4c4a-8de9-f42358144605",
             "Value": {
                 "id": "d5a4f48b-4747-4982-b585-18d88d63e906",
                 "resourcePath": "objects\\obj_textbox_name\\obj_textbox_name.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
+            "Key": "22046fff-a1e2-4864-99b0-6e6d7b51eb26",
+            "Value": {
+                "id": "0217d34d-fd8e-469b-9bd3-01a3608ed0f1",
+                "resourcePath": "objects\\obj_car_tire\\obj_car_tire.yy",
                 "resourceType": "GMObject"
             }
         },
@@ -239,14 +239,6 @@
             }
         },
         {
-            "Key": "4893e5bb-99ce-4736-95e8-4f1aef0af421",
-            "Value": {
-                "id": "7b8d148c-6fb1-475b-890b-e94a431759fa",
-                "resourcePath": "objects\\obj_tire\\obj_tire.yy",
-                "resourceType": "GMObject"
-            }
-        },
-        {
             "Key": "49a2f867-f63f-4eb7-8b1d-336674af4bde",
             "Value": {
                 "id": "2676436b-4000-4ded-a1d7-ae69f59ad9d3",
@@ -284,14 +276,6 @@
                 "id": "ff84ddfd-d938-41e1-aa44-ac9106c3c096",
                 "resourcePath": "notes\\compatibility_report_010917_1534273427.yy",
                 "resourceType": "GMNotes"
-            }
-        },
-        {
-            "Key": "535e4655-e4d4-4aa0-8208-7b9159c0c95e",
-            "Value": {
-                "id": "bbc6042b-a71a-4eb6-a93d-886fc86a76c2",
-                "resourcePath": "sprites\\spr_tire2\\spr_tire2.yy",
-                "resourceType": "GMSprite"
             }
         },
         {
@@ -668,14 +652,6 @@
                 "id": "1d4448f5-958c-4a8e-b30f-3521100d6bba",
                 "resourcePath": "objects\\obj_lobby_game\\obj_lobby_game.yy",
                 "resourceType": "GMObject"
-            }
-        },
-        {
-            "Key": "c440eb13-77f3-4f26-b432-e3669652196e",
-            "Value": {
-                "id": "561c33af-0899-4492-ac6e-a078f2ebb1e0",
-                "resourcePath": "sprites\\spr_car\\spr_car.yy",
-                "resourceType": "GMSprite"
             }
         },
         {
