@@ -23,8 +23,8 @@ if ( abs(gamepad_axis_value(global.gamepadDeviceId, gp_axisrh)) > 0.05 ) {
 }
 
 
-car.boost = keyboard_check(vk_control) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickl)
-car.shoot = keyboard_check(vk_space) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickr)
+boost = keyboard_check(vk_control) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickl)
+shoot = keyboard_check(vk_space) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickr)
 
 if (car.go_move != go_move || car.go_turn != go_turn || car.boost != boost || car.shoot != shoot) {
 	car.go_move = go_move;
