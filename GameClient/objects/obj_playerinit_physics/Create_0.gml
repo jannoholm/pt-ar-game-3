@@ -2,6 +2,9 @@
 	display_reset(8, true);
 }*/
 
+// By default, gamepad is disabled
+global.gamepadDeviceId = -1;
+
 // setup cars on the grid
 red1 = instance_create_layer(100, 250, "car", obj_car_with_physics);
 with (red1) {
