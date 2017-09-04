@@ -1,8 +1,10 @@
 /// @description initialize connection to proxy
 
+var conf=instance_create_layer(0,0,"Instances", obj_configuration);
+
 var type = network_socket_tcp;
-var ip = "127.0.0.1";
-var port = 8000;
+var ip = conf.ip_address
+var port = conf.port;
 //network_set_config(network_config_use_non_blocking_socket, 1);
 network_set_config(network_config_connect_timeout, 5000);
 socket = network_create_socket(type);
@@ -17,11 +19,7 @@ in_buffer = buffer_create(size, buffer_fixed, allignment);
 in_buffer_size = 0;
 
 // read if game is table
-client_type=2;
-var filename=working_directory + "/table.txt";
-if (file_exists(filename)) {
-	client_type=0;
-}
+client_type=conf.client_type;
 
 connected=false;
 joined=false;
