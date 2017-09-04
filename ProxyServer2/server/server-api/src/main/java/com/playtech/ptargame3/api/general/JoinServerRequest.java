@@ -12,7 +12,8 @@ public class JoinServerRequest extends AbstractRequest {
     public enum ClientType {
         TABLE,
         CAMERA,
-        GAME_CLIENT
+        GAME_CLIENT,
+        PROXY
     }
 
     private String name;

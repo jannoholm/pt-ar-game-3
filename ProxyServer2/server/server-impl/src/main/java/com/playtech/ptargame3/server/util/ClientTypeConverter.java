@@ -13,6 +13,8 @@ public class ClientTypeConverter {
                 return ProxyClientRegistry.ClientType.CAMERA;
             case GAME_CLIENT:
                 return ProxyClientRegistry.ClientType.GAME_CLIENT;
+            case PROXY:
+                return ProxyClientRegistry.ClientType.PROXY;
             default:
                 throw new IllegalArgumentException("Unknown client type: " + clientType);
         }
@@ -26,6 +28,8 @@ public class ClientTypeConverter {
                 return JoinServerRequest.ClientType.CAMERA;
             case GAME_CLIENT:
                 return JoinServerRequest.ClientType.GAME_CLIENT;
+            case PROXY:
+                return JoinServerRequest.ClientType.PROXY;
             default:
                 throw new IllegalArgumentException("Unknown client type: " + clientType);
         }
