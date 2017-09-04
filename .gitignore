@@ -1,5 +1,6 @@
 **/target/**
-ProxyServer*/**/.idea/**
+**/.idea/**
+**/*.iml
 ProxyServer*/run/log/**
 ProxyServer*/run2/log/**
 ProxyServer*/**/.classpath
