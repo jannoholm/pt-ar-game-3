@@ -26,6 +26,7 @@ switch (message_type) {
 		} else {
 			room_goto_next();
 			obj_server_client.client_id = client_id;
+			scr_write_player_details();
 			show_debug_message("obj_server_client.client_id=" + obj_server_client.client_id);
 			if (obj_server_client.client_type == 0) {
 				scr_start_host_game("table");
@@ -46,25 +47,23 @@ switch (message_type) {
 			show_message("Unable to join: " + string(error_code) + ":" + error_message);
 			room_goto(2);
 		} else {
-			obj_playerinit_physics.car_control = instance_create_layer(0, 0, "car", obj_join_car_control);
 			var team = buffer_read(buffer, buffer_s8);
 			var position = buffer_read(buffer, buffer_s8);
-			if (team == 0) {
-				if (position == 1) {
-					obj_playerinit_physics.car_control.car = obj_playerinit_physics.red1;
-					obj_playerinit_physics.car_control.car.remote_control=false;
-				} else if (position == 2) {
-					obj_playerinit_physics.car_control.car = obj_playerinit_physics.red2;
-					obj_playerinit_physics.car_control.car.remote_control=false;
-				}
-			} else if (team == 1) {
-				if (position == 1) {
-					obj_playerinit_physics.car_control.car = obj_playerinit_physics.blue1;
-					obj_playerinit_physics.car_control.car.remote_control=false;
-				} else if (position == 2) {
-					obj_playerinit_physics.car_control.car = obj_playerinit_physics.blue2;
-					obj_playerinit_physics.car_control.car.remote_control=false;
-				}
+			if (team == 0 && position == 1) {
+				// host rejoin
+				scr_setuphost();
+			} else if (team == 0 && position == 2) {
+				obj_playerinit_physics.car_control = instance_create_layer(0, 0, "car", obj_join_car_control);
+				obj_playerinit_physics.car_control.car = obj_playerinit_physics.red2;
+				obj_playerinit_physics.car_control.car.remote_control=false;
+			} else if (team == 1 && position == 1) {
+				obj_playerinit_physics.car_control = instance_create_layer(0, 0, "car", obj_join_car_control);
+				obj_playerinit_physics.car_control.car = obj_playerinit_physics.blue1;
+				obj_playerinit_physics.car_control.car.remote_control=false;
+			} else if (team == 1 && position == 2) {
+				obj_playerinit_physics.car_control = instance_create_layer(0, 0, "car", obj_join_car_control);
+				obj_playerinit_physics.car_control.car = obj_playerinit_physics.blue2;
+				obj_playerinit_physics.car_control.car.remote_control=false;
 			}
 		}
 		break;
@@ -76,25 +75,7 @@ switch (message_type) {
 			show_message("Unable to start hosting: " + string(error_code) + ":" + error_message);
 		} else {
 			obj_server_client.gameid = buffer_read(buffer, buffer_string);
-			obj_playerinit_physics.red1.remote_control=false;
-			obj_playerinit_physics.red2.remote_control=false;
-			obj_playerinit_physics.blue1.remote_control=false;
-			obj_playerinit_physics.blue2.remote_control=false;
-
-			if (obj_server_client.client_type == 0) {
-				return;
-			}
-			
-			var car_control = instance_create_layer(0, 0, "car", obj_hostcar_control);
-			car_control.car = obj_playerinit_physics.red1;
-
-			// setup drivers car
-			var space_pos = string_pos(" ", obj_server_client.client_name);
-			if (space_pos != 0) {
-				car_control.car.client_name = string_copy(obj_server_client.client_name, 1, space_pos);
-			} else {
-				car_control.car.client_name = obj_server_client.client_name;
-			}
+			scr_setuphost();
 		}
 		break;
 	case 2010: // lobby update of joined clients

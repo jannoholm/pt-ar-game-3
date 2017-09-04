@@ -19,13 +19,13 @@ in_buffer = buffer_create(size, buffer_fixed, allignment);
 in_buffer_size = 0;
 
 // read if game is table
-client_type=conf.client_type;
-
 connected=false;
 joined=false;
 client_id="";
 client_name="not set";
 client_email="not set";
+client_type=conf.client_type;
+reuse_clientid=conf.reuse_clientid;
 gameid="";
 
 show_debug_message("create server_client");

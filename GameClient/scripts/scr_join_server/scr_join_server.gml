@@ -3,13 +3,13 @@ var email=argument[1];
 
 obj_server_client.client_name=name;
 obj_server_client.client_email=email;
+if (obj_server_client.reuse_clientid) {
+	obj_server_client.client_id=obj_player_details.client_id;
+}
 show_debug_message("Sending join: " + obj_server_client.client_name + " " + obj_server_client.client_email);
 
 // store to disk first
-var filehandle = file_text_open_write(working_directory + "/user_details.txt");
-file_text_write_string(filehandle, name); file_text_writeln(filehandle);
-file_text_write_string(filehandle, email); file_text_writeln(filehandle);
-file_text_close(filehandle);
+scr_write_player_details();
 
 // reset buffer
 var buffer=obj_server_client.out_buffer;
