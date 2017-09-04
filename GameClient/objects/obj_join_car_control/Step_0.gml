@@ -5,7 +5,7 @@ if ( global.gamepadDeviceId == -1 ) {
 	return;
 }
 
-var go_move, go_turn;
+var go_move, go_turn, boost, shoot;
 
 // Ignore small deadzone
 if ( abs(gamepad_axis_value(global.gamepadDeviceId, gp_axislv)) > 0.05 ) {
@@ -22,8 +22,14 @@ if ( abs(gamepad_axis_value(global.gamepadDeviceId, gp_axisrh)) > 0.05 ) {
 	go_turn = keyboard_check(vk_right)-keyboard_check(vk_left);
 }
 
-if (car.go_move != go_move || car.go_turn != go_turn) {
+
+car.boost = keyboard_check(vk_control) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickl)
+car.shoot = keyboard_check(vk_space) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickr)
+
+if (car.go_move != go_move || car.go_turn != go_turn || car.boost != boost || car.shoot != shoot) {
 	car.go_move = go_move;
 	car.go_turn = go_turn;
-	scr_send_game_control(gameid, client_id, car.go_move, car.go_turn);
+	car.boost = boost;
+	car.shoot = shoot;
+	scr_send_game_control(gameid, client_id, car.go_move, car.go_turn, car.boost, car.shoot);
 }
