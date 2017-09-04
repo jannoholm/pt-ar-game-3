@@ -1,3 +1,13 @@
+
+// Draw tire trails
+with ( rearLeftTire ) {
+	scr_draw_trail(8,8,0,-1,0,1);
+}
+
+with ( rearRightTire ) {
+	scr_draw_trail(8,8,0,-1,0,1);
+}
+
 draw_self();
 
 draw_set_font(fnt_textbox);
