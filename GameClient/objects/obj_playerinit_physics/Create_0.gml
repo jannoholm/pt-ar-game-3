@@ -7,7 +7,7 @@ red1 = instance_create_layer(100, 250, "car", obj_car_with_physics);
 with (red1) {
 	image_blend = make_color_rgb(240,128,128);
 	phy_rotation = 0;
-	//dodraw=1;
+	dodraw=1;
 }
 
 red2 = instance_create_layer(100, 570, "car", obj_car_with_physics);

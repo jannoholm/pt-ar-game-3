@@ -19,11 +19,14 @@ dodraw=0;
 remote_control=true;
 go_move=0;
 go_turn=0;
-/*
-go_forward=false;
-go_backward=false;
-go_left=false;
-go_right=false;
-*/
+
 // name
 client_name="";
+
+colliding=0;
+damaged=0;
+shoot=false;
+shoot_delay=0;
+boost=false;
+boost_power=180;
+bullets=ds_list_create();

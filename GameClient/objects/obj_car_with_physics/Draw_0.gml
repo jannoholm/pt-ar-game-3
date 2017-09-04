@@ -12,6 +12,7 @@ if (dodraw) {
 
 	var dx=40;
 	var dy=40;
+	
 	/*draw_text(dx, dy+0, "colliding: " + string(colliding));
 	
 	draw_text(dx, dy+0, "velo: " + string(phy_angular_velocity));
