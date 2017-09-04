@@ -5,30 +5,39 @@
 // By default, gamepad is disabled
 global.gamepadDeviceId = -1;
 
+// Game state tracking object
+instance_create_layer(room_width/2, room_height/2, "car", obj_gameplay);
+
 // setup cars on the grid
 red1 = instance_create_layer(100, 250, "car", obj_car_with_physics);
 with (red1) {
 	image_blend = make_color_rgb(240,128,128);
 	phy_rotation = 0;
+	initialRotation = 0;
 	dodraw=1;
 }
 
 red2 = instance_create_layer(100, 570, "car", obj_car_with_physics);
+// red2 = instance_create_layer(100, 570, "car", obj_car_ai_chaser);
 with (red2) {
 	image_blend = make_color_rgb(205,92,92);
 	phy_rotation = 0;
+	initialRotation = 0;
 }
 
 blue1 = instance_create_layer(1340, 250, "car", obj_car_with_physics);
 with (blue1) {
 	image_blend = make_color_rgb(66, 134, 244);
 	phy_rotation = 180;
+	initialRotation = 180;
 }
 
 blue2 = instance_create_layer(1340, 570, "car", obj_car_with_physics);
+// blue2 = instance_create_layer(1340, 570, "car", obj_car_ai_chaser);
 with (blue2) {
 	image_blend = make_color_rgb(46, 108, 209);
 	phy_rotation = 180;
+	initialRotation = 180;
 }
 
 client_map=ds_map_create();

@@ -3,6 +3,13 @@ world_size=0.025
 // debug
 dodraw=0;
 
+// Resetting position variables
+atPosition = true;
+currentResetPhase = ResetPhase.RESET_COMPLETE;
+initialPosX = x;
+initialPoxY = y;
+initialRotation = phy_rotation;
+
 // controls
 remote_control=true;
 go_move=0;

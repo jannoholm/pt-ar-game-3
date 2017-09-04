@@ -1,3 +1,17 @@
+if ( obj_gameplay.currentGamePhase == GamePhase.MOVE_TO_POSITIONS && !atPosition ) {
+	atPosition = ai_reset_position();
+	return;
+}
+
+if ( obj_gameplay.currentGamePhase != GamePhase.PLAY ) {
+	// If gameplay is not ongoing, don't allow movement
+	return;
+}
+
+// Reset position when game starts
+atPosition = false;
+
+
 var leftWheelPower = 0;
 var rightWheelPower = 0;
 
