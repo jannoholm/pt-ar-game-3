@@ -118,11 +118,11 @@ if (ds_list_size(obj_playerinit_physics.red1.bullets) > 0) {
 		var bullet = ds_list_find_value(obj_playerinit_physics.red1.bullets, i);
 		buffer_write(buffer, buffer_s8, 101);
 		with (bullet) {
-			buffer_write(buffer, buffer_s32, x);
-			buffer_write(buffer, buffer_s32, y);
-			buffer_write(buffer, buffer_s32, phy_rotation);
+			buffer_write(buffer, buffer_f32, phy_position_x);
+			buffer_write(buffer, buffer_f32, phy_position_y);
+			buffer_write(buffer, buffer_f32, phy_rotation);
+			show_debug_message("Bullet to update " + string(phy_position_x) + ":" + string(phy_position_y));
 		}
-		show_debug_message("Bullet to update");
 	}
 	ds_list_clear(obj_playerinit_physics.red1.bullets);
 }
@@ -132,11 +132,11 @@ if (ds_list_size(obj_playerinit_physics.red2.bullets) > 0) {
 		var bullet = ds_list_find_value(obj_playerinit_physics.red2.bullets, i);
 		buffer_write(buffer, buffer_s8, 101);
 		with (bullet) {
-			buffer_write(buffer, buffer_s32, x);
-			buffer_write(buffer, buffer_s32, y);
-			buffer_write(buffer, buffer_s32, phy_rotation);
+			buffer_write(buffer, buffer_f32, phy_position_x);
+			buffer_write(buffer, buffer_f32, phy_position_y);
+			buffer_write(buffer, buffer_f32, phy_rotation);
+			show_debug_message("Bullet to update " + string(phy_position_x) + ":" + string(phy_position_y));
 		}
-		show_debug_message("Bullet to update");
 	}
 	ds_list_clear(obj_playerinit_physics.red2.bullets);
 }
@@ -146,11 +146,11 @@ if (ds_list_size(obj_playerinit_physics.blue1.bullets) > 0) {
 		var bullet = ds_list_find_value(obj_playerinit_physics.blue1.bullets, i);
 		buffer_write(buffer, buffer_s8, 101);
 		with (bullet) {
-			buffer_write(buffer, buffer_s32, x);
-			buffer_write(buffer, buffer_s32, y);
-			buffer_write(buffer, buffer_s32, phy_rotation);
+			buffer_write(buffer, buffer_f32, phy_position_x);
+			buffer_write(buffer, buffer_f32, phy_position_y);
+			buffer_write(buffer, buffer_f32, phy_rotation);
+			show_debug_message("Bullet to update " + string(phy_position_x) + ":" + string(phy_position_y));
 		}
-		show_debug_message("Bullet to update");
 	}
 	ds_list_clear(obj_playerinit_physics.blue1.bullets);
 }
@@ -160,11 +160,11 @@ if (ds_list_size(obj_playerinit_physics.blue2.bullets) > 0) {
 		var bullet = ds_list_find_value(obj_playerinit_physics.blue2.bullets, i);
 		buffer_write(buffer, buffer_s8, 101);
 		with (bullet) {
-			buffer_write(buffer, buffer_s32, x);
-			buffer_write(buffer, buffer_s32, y);
-			buffer_write(buffer, buffer_s32, phy_rotation);
+			buffer_write(buffer, buffer_f32, phy_position_x);
+			buffer_write(buffer, buffer_f32, phy_position_y);
+			buffer_write(buffer, buffer_f32, phy_rotation);
+			show_debug_message("Bullet to update " + string(phy_position_x) + ":" + string(phy_position_y));
 		}
-		show_debug_message("Bullet to update");
 	}
 	ds_list_clear(obj_playerinit_physics.blue2.bullets);
 }

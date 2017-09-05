@@ -81,7 +81,9 @@ if (remote_control==false) {
 	if (shoot && shoot_delay < 0) {
 		shoot_delay=30;
 
-		var bullet=instance_create_layer(x+dcos((-1)*phy_rotation)*120,y+dsin(phy_rotation)*100,"car", obj_bullet);
+		var pos_x = x+dcos((-1)*phy_rotation)*120;
+		var pos_y = y+dsin(phy_rotation)*100;
+		var bullet=instance_create_layer(pos_x, pos_y, "car", obj_bullet);
 		bullet.phy_rotation = phy_rotation;
 		with(bullet){
 			physics_apply_local_force(0, 0, phy_mass*1000, 0);

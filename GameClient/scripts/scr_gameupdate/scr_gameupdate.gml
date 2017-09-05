@@ -34,7 +34,7 @@ show_debug_message("carid: " + string(carid) + ", remain: " + string(control_len
 				physics_apply_local_force(0, 0, phy_mass*1000, 0);
 			}
 			control_length=control_length-3*4;
-show_debug_message("Bullet created");
+show_debug_message("Bullet created at " + string(position_x) + ":" + string(position_y));
 			break;
 		case 1:
 			with (obj_playerinit_physics.red1) {
