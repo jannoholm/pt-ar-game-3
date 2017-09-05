@@ -37,7 +37,7 @@ public class Starter {
         TaskExecutorImpl taskExecutor = new TaskExecutorImpl("te", 2);
         ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
         TaskFactory taskFactory = new TaskFactoryImpl(taskExecutor, logicRegistry);
-        GameRegistry gameRegistry = new GameRegistry();
+        GameRegistry gameRegistry = new GameRegistry(scheduledExecutorService);
         LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory);
         logicRegistry.initialize(logicResources);
         ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, callbackHandler, clientRegistry, gameRegistry, taskFactory);

@@ -77,7 +77,7 @@ public class AbstractTest {
         proxyTaskExecutor = new TaskExecutorImpl("te", 2);
         ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
         TaskFactory taskFactory = new TaskFactoryImpl(proxyTaskExecutor, logicRegistry);
-        GameRegistry gameRegistry = new GameRegistry();
+        GameRegistry gameRegistry = new GameRegistry(maintenanceService);
         LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory);
         logicRegistry.initialize(logicResources);
         ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, proxyCallbackHandler, clientRegistry, gameRegistry, taskFactory);
