@@ -15,21 +15,45 @@ bullets=bullets+ds_list_size(obj_playerinit_physics.blue2.bullets);
 obj_server_client.messageid_counter+=10000;
 scr_write_messageheader(buffer, 3002, obj_server_client.messageid_counter, obj_server_client.client_id);
 buffer_write(buffer, buffer_string, obj_server_client.gameid);
-buffer_write(buffer, buffer_s32, (1*1 + 8*4) + 4 * (1*1 + 8*4 + 4*1 + 3*2) + (bullets*(1+3*4)) ); // length of update
+
+gameStateUpdateLength = 1 * 4;
+ballUpdateLength = instance_exists(obj_ball) ? (1 + 1 + 8*4) : (1 + 1);
+carUpdateLength = 1 + 8*4 + 4*1 + 3*2;
+bulletUpdateLength = 1 + 3*4;
+
+buffer_write(buffer, buffer_s32, gameStateUpdateLength + ballUpdateLength + 4*carUpdateLength + bullets*bulletUpdateLength ); // length of update
 show_debug_message("size before: " + string(buffer_tell(buffer)));
 
-// ball position
-with (obj_ball) {
+// Gameplay state
+with (obj_gameplay) {
 	buffer_write(buffer, buffer_s8, 100);
-	buffer_write(buffer, buffer_f32, phy_angular_velocity);
-	buffer_write(buffer, buffer_f32, phy_linear_velocity_x);
-	buffer_write(buffer, buffer_f32, phy_linear_velocity_y);
-	buffer_write(buffer, buffer_f32, phy_speed_x);
-	buffer_write(buffer, buffer_f32, phy_speed_y);
-	buffer_write(buffer, buffer_f32, phy_position_x);
-	buffer_write(buffer, buffer_f32, phy_position_y);
-	buffer_write(buffer, buffer_f32, phy_rotation);
+	buffer_write(buffer, buffer_s8, currentGamePhase);
+	buffer_write(buffer, buffer_s8, teamRedScore);
+	buffer_write(buffer, buffer_s8, teamBlueScore);
 }
+
+
+// ball position
+if ( instance_exists(obj_ball) ) {
+
+	with (obj_ball) {
+		buffer_write(buffer, buffer_s8, 101);
+		buffer_write(buffer, buffer_bool, true);		
+		buffer_write(buffer, buffer_f32, phy_angular_velocity);
+		buffer_write(buffer, buffer_f32, phy_linear_velocity_x);
+		buffer_write(buffer, buffer_f32, phy_linear_velocity_y);
+		buffer_write(buffer, buffer_f32, phy_speed_x);
+		buffer_write(buffer, buffer_f32, phy_speed_y);
+		buffer_write(buffer, buffer_f32, phy_position_x);
+		buffer_write(buffer, buffer_f32, phy_position_y);
+		buffer_write(buffer, buffer_f32, phy_rotation);	
+	}
+} else {
+	// Send update even if ball does not exists, but with less information in that case
+	buffer_write(buffer, buffer_s8, 101);
+	buffer_write(buffer, buffer_bool, false);
+}
+
 
 // red1 data
 with (obj_playerinit_physics.red1) {
@@ -116,7 +140,7 @@ if (ds_list_size(obj_playerinit_physics.red1.bullets) > 0) {
 	var i;
 	for (i=0; i < ds_list_size(obj_playerinit_physics.red1.bullets); ++i) {
 		var bullet = ds_list_find_value(obj_playerinit_physics.red1.bullets, i);
-		buffer_write(buffer, buffer_s8, 101);
+		buffer_write(buffer, buffer_s8, 110);
 		with (bullet) {
 			buffer_write(buffer, buffer_f32, phy_position_x);
 			buffer_write(buffer, buffer_f32, phy_position_y);
@@ -130,7 +154,7 @@ if (ds_list_size(obj_playerinit_physics.red2.bullets) > 0) {
 	var i;
 	for (i=0; i < ds_list_size(obj_playerinit_physics.red2.bullets); ++i) {
 		var bullet = ds_list_find_value(obj_playerinit_physics.red2.bullets, i);
-		buffer_write(buffer, buffer_s8, 101);
+		buffer_write(buffer, buffer_s8, 110);
 		with (bullet) {
 			buffer_write(buffer, buffer_f32, phy_position_x);
 			buffer_write(buffer, buffer_f32, phy_position_y);
@@ -144,7 +168,7 @@ if (ds_list_size(obj_playerinit_physics.blue1.bullets) > 0) {
 	var i;
 	for (i=0; i < ds_list_size(obj_playerinit_physics.blue1.bullets); ++i) {
 		var bullet = ds_list_find_value(obj_playerinit_physics.blue1.bullets, i);
-		buffer_write(buffer, buffer_s8, 101);
+		buffer_write(buffer, buffer_s8, 110);
 		with (bullet) {
 			buffer_write(buffer, buffer_f32, phy_position_x);
 			buffer_write(buffer, buffer_f32, phy_position_y);
@@ -158,7 +182,7 @@ if (ds_list_size(obj_playerinit_physics.blue2.bullets) > 0) {
 	var i;
 	for (i=0; i < ds_list_size(obj_playerinit_physics.blue2.bullets); ++i) {
 		var bullet = ds_list_find_value(obj_playerinit_physics.blue2.bullets, i);
-		buffer_write(buffer, buffer_s8, 101);
+		buffer_write(buffer, buffer_s8, 110);
 		with (bullet) {
 			buffer_write(buffer, buffer_f32, phy_position_x);
 			buffer_write(buffer, buffer_f32, phy_position_y);

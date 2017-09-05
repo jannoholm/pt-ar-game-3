@@ -5,6 +5,8 @@ enum GamePhase {
 	PLAY	
 }
 
+joinedClient = false;
+
 currentGamePhase = GamePhase.WAIT_TO_START;
 
 teamRedScore = 0;

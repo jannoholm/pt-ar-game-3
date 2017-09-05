@@ -53,14 +53,17 @@ switch (message_type) {
 				// host rejoin
 				scr_setuphost();
 			} else if (team == 0 && position == 2) {
+				obj_gameplay.joinedClient = true;
 				obj_playerinit_physics.car_control = instance_create_layer(0, 0, "car", obj_join_car_control);
 				obj_playerinit_physics.car_control.car = obj_playerinit_physics.red2;
 				//obj_playerinit_physics.car_control.car.remote_control=false;
 			} else if (team == 1 && position == 1) {
+				obj_gameplay.joinedClient = true;
 				obj_playerinit_physics.car_control = instance_create_layer(0, 0, "car", obj_join_car_control);
 				obj_playerinit_physics.car_control.car = obj_playerinit_physics.blue1;
 				//obj_playerinit_physics.car_control.car.remote_control=false;
 			} else if (team == 1 && position == 2) {
+				obj_gameplay.joinedClient = true;
 				obj_playerinit_physics.car_control = instance_create_layer(0, 0, "car", obj_join_car_control);
 				obj_playerinit_physics.car_control.car = obj_playerinit_physics.blue2;
 				//obj_playerinit_physics.car_control.car.remote_control=false;

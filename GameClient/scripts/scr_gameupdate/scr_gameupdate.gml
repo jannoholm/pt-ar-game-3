@@ -8,23 +8,45 @@ var i;
 while (control_length > 0) {
 	var carid=buffer_read(buffer, buffer_s8);
 	control_length=control_length-1;
-show_debug_message("carid: " + string(carid) + ", remain: " + string(control_length));
+	show_debug_message("carid: " + string(carid) + ", remain: " + string(control_length));
 
 	switch (carid) {
-		case 100: // ball
-			with (obj_ball){
-				phy_angular_velocity = buffer_read(buffer, buffer_f32);
-				phy_linear_velocity_x = buffer_read(buffer, buffer_f32);
-				phy_linear_velocity_y = buffer_read(buffer, buffer_f32);
-				phy_speed_x = buffer_read(buffer, buffer_f32);
-				phy_speed_y = buffer_read(buffer, buffer_f32);
-				phy_position_x = buffer_read(buffer, buffer_f32);
-				phy_position_y = buffer_read(buffer, buffer_f32);
-				phy_rotation = buffer_read(buffer, buffer_f32);
+		case 100: // gameplay state
+			with (obj_gameplay){
+				currentGamePhase = buffer_read(buffer, buffer_s8);
+				teamRedScore = buffer_read(buffer, buffer_s8);
+				teamBlueScore= buffer_read(buffer, buffer_s8);
+				
+				show_debug_message("Game state: " + string(currentGamePhase) + "-" + string(teamRedScore) + "-" + string(teamBlueScore) );
 			}
-			control_length=control_length-8*4;
+			control_length=control_length-1*3;
 			break;
-		case 101: // bullet
+		case 101: // ball
+		
+			var ballExists = buffer_read(buffer, buffer_bool);
+			control_length=control_length-1;
+			
+			show_debug_message("Ball exists: " + string(ballExists) + " " + string( ballExists ? "true" : "false" ))
+			
+			if ( ballExists ) {
+				with ( obj_ball ){
+					phy_angular_velocity = buffer_read(buffer, buffer_f32);
+					phy_linear_velocity_x = buffer_read(buffer, buffer_f32);
+					phy_linear_velocity_y = buffer_read(buffer, buffer_f32);
+					phy_speed_x = buffer_read(buffer, buffer_f32);
+					phy_speed_y = buffer_read(buffer, buffer_f32);
+					phy_position_x = buffer_read(buffer, buffer_f32);
+					phy_position_y = buffer_read(buffer, buffer_f32);
+					phy_rotation = buffer_read(buffer, buffer_f32);
+					
+					control_length=control_length-8*4;
+				}
+			} else {
+				instance_destroy(obj_ball);
+			}
+
+			break;
+		case 110: // bullet
 			var position_x = buffer_read(buffer, buffer_f32);
 			var position_y = buffer_read(buffer, buffer_f32);
 			var rotation = buffer_read(buffer, buffer_f32);
@@ -156,6 +178,4 @@ show_debug_message("Bullet created at " + string(position_x) + ":" + string(posi
 			show_debug_message("Unknown carid: " + string(carid));
 			return;
 	}
-	
-	
 }
