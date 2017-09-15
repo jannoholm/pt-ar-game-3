@@ -1,3 +1,10 @@
+enum TeamColor {
+	RED,
+	BLUE
+}
+
+teamColor = TeamColor.RED;
+
 world_size=0.025
 
 // debug

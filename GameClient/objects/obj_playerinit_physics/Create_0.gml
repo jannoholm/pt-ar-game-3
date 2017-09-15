@@ -15,6 +15,7 @@ with (red1) {
 	phy_rotation = 0;
 	initialRotation = 0;
 	dodraw=1;
+	teamColor = TeamColor.RED;
 }
 
 red2 = instance_create_layer(100, 570, "car", obj_car_with_physics);
@@ -23,6 +24,7 @@ with (red2) {
 	image_blend = make_color_rgb(205,92,92);
 	phy_rotation = 0;
 	initialRotation = 0;
+	teamColor = TeamColor.RED;
 }
 
 blue1 = instance_create_layer(1340, 250, "car", obj_car_with_physics);
@@ -30,6 +32,7 @@ with (blue1) {
 	image_blend = make_color_rgb(66, 134, 244);
 	phy_rotation = 180;
 	initialRotation = 180;
+	teamColor = TeamColor.BLUE;
 }
 
 blue2 = instance_create_layer(1340, 570, "car", obj_car_with_physics);
@@ -38,6 +41,7 @@ with (blue2) {
 	image_blend = make_color_rgb(46, 108, 209);
 	phy_rotation = 180;
 	initialRotation = 180;
+	teamColor = TeamColor.BLUE;
 }
 
 client_map=ds_map_create();

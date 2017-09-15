@@ -47,6 +47,14 @@
             }
         },
         {
+            "Key": "089b14a3-863e-4142-ab62-e360045de089",
+            "Value": {
+                "id": "cbd8ae26-4e10-4da5-928f-d54e0cc0f3a2",
+                "resourcePath": "objects\\obj_car_ai_defender\\obj_car_ai_defender.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "093327f8-9bd1-427f-94b4-8da07efa43c0",
             "Value": {
                 "id": "c8efd881-3c21-4c07-9ebc-da86fee39a05",
