@@ -15,5 +15,5 @@ if (file_exists(filename)) {
 	file_text_close(filehandle);
 }
 
-show_debug_message("Using ip: " + ip_address + ":" + port);
-show_debug_message("client_type: " + client_type);
+show_debug_message("Using ip: " + ip_address + ":" + string(port));
+show_debug_message("client_type: " + string(client_type));
