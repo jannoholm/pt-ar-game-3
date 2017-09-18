@@ -38,7 +38,7 @@ if ( instance_exists(obj_ball) ) {
 
 	with (obj_ball) {
 		buffer_write(buffer, buffer_s8, 101);
-		buffer_write(buffer, buffer_bool, true);		
+		buffer_write(buffer, buffer_s8, 1);		
 		buffer_write(buffer, buffer_f32, phy_angular_velocity);
 		buffer_write(buffer, buffer_f32, phy_linear_velocity_x);
 		buffer_write(buffer, buffer_f32, phy_linear_velocity_y);
@@ -51,7 +51,15 @@ if ( instance_exists(obj_ball) ) {
 } else {
 	// Send update even if ball does not exists, but with less information in that case
 	buffer_write(buffer, buffer_s8, 101);
-	buffer_write(buffer, buffer_bool, false);
+	buffer_write(buffer, buffer_s8, 0);
+	buffer_write(buffer, buffer_f32, 0);
+	buffer_write(buffer, buffer_f32, 0);
+	buffer_write(buffer, buffer_f32, 0);
+	buffer_write(buffer, buffer_f32, 0);
+	buffer_write(buffer, buffer_f32, 0);
+	buffer_write(buffer, buffer_f32, 0);
+	buffer_write(buffer, buffer_f32, 0);
+	buffer_write(buffer, buffer_f32, 0);	
 }
 
 

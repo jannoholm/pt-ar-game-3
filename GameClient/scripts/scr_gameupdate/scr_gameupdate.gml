@@ -23,23 +23,29 @@ while (control_length > 0) {
 			break;
 		case 101: // ball
 		
-			var ballExists = buffer_read(buffer, buffer_bool);
-			control_length=control_length-1;
+			var ballExists = buffer_read(buffer, buffer_s8);
+			var angular_velocity = buffer_read(buffer, buffer_f32);
+			var linear_velocity_x = buffer_read(buffer, buffer_f32);
+			var linear_velocity_y = buffer_read(buffer, buffer_f32);
+			var speed_x = buffer_read(buffer, buffer_f32);
+			var speed_y = buffer_read(buffer, buffer_f32);
+			var position_x = buffer_read(buffer, buffer_f32);
+			var position_y = buffer_read(buffer, buffer_f32);
+			var rotation = buffer_read(buffer, buffer_f32);
+			control_length=control_length-1-8*4;
 			
 			show_debug_message("Ball exists: " + string(ballExists) + " " + string( ballExists ? "true" : "false" ))
 			
-			if ( ballExists ) {
+			if ( ballExists > 0 ) {
 				with ( obj_ball ){
-					phy_angular_velocity = buffer_read(buffer, buffer_f32);
-					phy_linear_velocity_x = buffer_read(buffer, buffer_f32);
-					phy_linear_velocity_y = buffer_read(buffer, buffer_f32);
-					phy_speed_x = buffer_read(buffer, buffer_f32);
-					phy_speed_y = buffer_read(buffer, buffer_f32);
-					phy_position_x = buffer_read(buffer, buffer_f32);
-					phy_position_y = buffer_read(buffer, buffer_f32);
-					phy_rotation = buffer_read(buffer, buffer_f32);
-					
-					control_length=control_length-8*4;
+					phy_angular_velocity = angular_velocity;
+					phy_linear_velocity_x = linear_velocity_x;
+					phy_linear_velocity_y = linear_velocity_y;
+					phy_speed_x = speed_x;
+					phy_speed_y = speed_y;
+					phy_position_x = position_x;
+					phy_position_y = position_y;
+					phy_rotation = rotation;
 				}
 			} else {
 				instance_destroy(obj_ball);
