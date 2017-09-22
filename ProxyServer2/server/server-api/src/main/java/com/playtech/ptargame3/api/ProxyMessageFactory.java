@@ -1,6 +1,7 @@
 package com.playtech.ptargame3.api;
 
-import com.playtech.ptargame3.api.camera.LocationNotificationMessage;
+import com.playtech.ptargame3.api.table.CarControlMessage;
+import com.playtech.ptargame3.api.table.LocationNotificationMessage;
 import com.playtech.ptargame3.api.game.GameUpdateBroadcardMessage;
 import com.playtech.ptargame3.api.lobby.PushGameLobbyUpdateMessage;
 import com.playtech.ptargame3.common.message.Message;
@@ -52,6 +53,7 @@ public class ProxyMessageFactory implements MessageFactory {
         addMessage(3002, GameUpdateBroadcardMessage.class);
         addMessage(3004, GameUpdateMessage.class);
         addMessage(3006, LocationNotificationMessage.class);
+        addMessage(3008, CarControlMessage.class);
     }
 
     private void addMessage(int messageType, Class<? extends Message> messageClass) {

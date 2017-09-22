@@ -16,6 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ProxyClientRegistry implements ClientRegistry {
     private Map<String, SessionHolder> sessions = new ConcurrentHashMap<>();
     private Collection<Session> tableSessions = Collections.unmodifiableCollection(new ArrayList<>());
+    private Collection<Session> carControlSessions = Collections.unmodifiableCollection(new ArrayList<>());
     private Collection<Session> proxySessions = Collections.unmodifiableCollection(new ArrayList<>());
 
     private String generateClientId() {
@@ -42,6 +43,13 @@ public class ProxyClientRegistry implements ClientRegistry {
                 tableSessions.addAll(this.tableSessions);
                 tableSessions.add(session);
                 this.tableSessions = Collections.unmodifiableCollection(tableSessions);
+            }
+        } else if (ClientType.CAR_CONTROL == clientType) {
+            synchronized (this) {
+                Collection<Session> carControlSessions = new ArrayList<>(this.carControlSessions.size()+1);
+                carControlSessions.addAll(this.carControlSessions);
+                carControlSessions.add(session);
+                this.carControlSessions = Collections.unmodifiableCollection(carControlSessions);
             }
         } else if (ClientType.PROXY == clientType) {
             synchronized (this) {
@@ -85,6 +93,10 @@ public class ProxyClientRegistry implements ClientRegistry {
         return tableSessions; // todo: should be immutable
     }
 
+    public Collection<Session> getCarControlSessions() {
+        return carControlSessions; // todo: should be immutable
+    }
+
     @Override
     public String getName(String clientId) {
         if (!StringUtil.isNull(clientId)) {
@@ -100,7 +112,8 @@ public class ProxyClientRegistry implements ClientRegistry {
         TABLE,
         CAMERA,
         GAME_CLIENT,
-        PROXY
+        PROXY,
+        CAR_CONTROL
     }
 
     private static class SessionHolder {

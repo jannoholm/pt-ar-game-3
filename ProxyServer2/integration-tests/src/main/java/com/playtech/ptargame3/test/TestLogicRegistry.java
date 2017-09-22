@@ -1,7 +1,7 @@
 package com.playtech.ptargame3.test;
 
 
-import com.playtech.ptargame3.api.camera.LocationNotificationMessage;
+import com.playtech.ptargame3.api.table.LocationNotificationMessage;
 import com.playtech.ptargame3.api.lobby.PushGameLobbyUpdateMessage;
 import com.playtech.ptargame3.common.task.Logic;
 import com.playtech.ptargame3.common.task.LogicRegistry;

@@ -15,6 +15,8 @@ public class ClientTypeConverter {
                 return ProxyClientRegistry.ClientType.GAME_CLIENT;
             case PROXY:
                 return ProxyClientRegistry.ClientType.PROXY;
+            case CAR_CONTROL:
+                return ProxyClientRegistry.ClientType.CAR_CONTROL;
             default:
                 throw new IllegalArgumentException("Unknown client type: " + clientType);
         }
@@ -30,6 +32,8 @@ public class ClientTypeConverter {
                 return JoinServerRequest.ClientType.GAME_CLIENT;
             case PROXY:
                 return JoinServerRequest.ClientType.PROXY;
+            case CAR_CONTROL:
+                return JoinServerRequest.ClientType.CAR_CONTROL;
             default:
                 throw new IllegalArgumentException("Unknown client type: " + clientType);
         }

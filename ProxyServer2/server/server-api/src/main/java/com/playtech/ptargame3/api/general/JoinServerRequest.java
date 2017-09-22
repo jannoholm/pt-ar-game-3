@@ -13,7 +13,8 @@ public class JoinServerRequest extends AbstractRequest {
         TABLE,
         CAMERA,
         GAME_CLIENT,
-        PROXY
+        PROXY,
+        CAR_CONTROL
     }
 
     private String name;
