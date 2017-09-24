@@ -11,7 +11,7 @@ public class Test1000Connections extends AbstractTest {
 
     private static final Logger logger = Logger.getLogger(Test1000Connections.class.getName());
 
-    public void testKeepAlive() throws IOException {
+    public void testKeepAlive() throws Exception {
         // start server and connector
         setupServer();
         setupConnector();

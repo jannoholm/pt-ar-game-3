@@ -11,18 +11,18 @@ import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.common.task.TaskFactoryImpl;
 import com.playtech.ptargame3.server.LogicResourcesImpl;
 import com.playtech.ptargame3.server.ProxyConnectionFactory;
+import com.playtech.ptargame3.server.database.DatabaseAccessImpl;
 import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.server.registry.ProxyLogicRegistry;
-import com.playtech.ptargame3.test.registry.GameRegistryStub;
-import com.playtech.ptargame3.test.scenario.ScenarioFactory;
 import com.playtech.ptargame3.test.TestConnectionFactory;
 import com.playtech.ptargame3.test.TestLogicRegistry;
 import com.playtech.ptargame3.test.TestLogicResources;
 import com.playtech.ptargame3.test.TestLogicResourcesImpl;
+import com.playtech.ptargame3.test.registry.GameRegistryStub;
 import com.playtech.ptargame3.test.registry.TestSleepManager;
+import com.playtech.ptargame3.test.scenario.ScenarioFactory;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -66,7 +66,7 @@ public class AbstractTest {
         }
     }
 
-    protected void setupServer() throws IOException {
+    protected void setupServer() throws Exception {
         // initialize parser
         setupMessageParser();
 
@@ -78,7 +78,9 @@ public class AbstractTest {
         ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
         TaskFactory taskFactory = new TaskFactoryImpl(proxyTaskExecutor, logicRegistry);
         GameRegistry gameRegistry = new GameRegistry(maintenanceService);
-        LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory);
+        DatabaseAccessImpl databaseAccess = new DatabaseAccessImpl(maintenanceService);
+        databaseAccess.setup();
+        LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory, databaseAccess);
         logicRegistry.initialize(logicResources);
         ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, proxyCallbackHandler, clientRegistry, gameRegistry, taskFactory);
 

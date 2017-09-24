@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +22,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.playtech.ptargame3.server.database.DatabaseAccess;
+import com.playtech.ptargame3.server.database.model.User;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -32,17 +36,20 @@ import com.sun.net.httpserver.HttpServer;
  */
 public final class WebListener {
     private static final Logger logger = Logger.getLogger(WebListener.class.getName());
-    private static final String CTX_LOCATION = "/location";
-    private static final String CTX_COMPETITOR = "/competitor";
+    private static final String CTX_LEADERBOARD = "/leaderboard";
+    private static final String CTX_USER = "/user";
+    private static final String CTX_SERVER = "/server";
     private static final String METHOD_GET = "GET";
     private static final String METHOD_POST = "POST";
     private static final String ENCODING = "UTF-8";
 
     private final int port;
     private final HttpServer s;
+    private final DatabaseAccess databaseAccess;
 
-    public WebListener(int port) throws IOException {
+    public WebListener(int port, DatabaseAccess databaseAccess) throws IOException {
         this.port = port;
+        this.databaseAccess = databaseAccess;
         s = HttpServer.create(new InetSocketAddress(getPort()), 0);
     }
 
@@ -51,10 +58,13 @@ public final class WebListener {
     }
 
     public void start() {
-        HttpContext ctxLocation = s.createContext(CTX_LOCATION);
-        ctxLocation.setHandler(this::handleExchange);
+        HttpContext ctxServer = s.createContext(CTX_SERVER);
+        ctxServer.setHandler(this::handleExchange);
 
-        HttpContext ctxCompetitor = s.createContext(CTX_COMPETITOR);
+        HttpContext ctxLeaderboard = s.createContext(CTX_LEADERBOARD);
+        ctxLeaderboard.setHandler(this::handleExchange);
+
+        HttpContext ctxCompetitor = s.createContext(CTX_USER);
         ctxCompetitor.setHandler(this::handleExchange);
 
         if (s.getExecutor()!=null)
@@ -92,9 +102,19 @@ public final class WebListener {
     private void processMapping(HttpExchange httpExchange, String path) throws IOException {
         switch(path){
             case "status":
-                checkContext(httpExchange, CTX_COMPETITOR);
+                checkContext(httpExchange, CTX_SERVER);
                 checkRequestMethod(httpExchange, METHOD_GET);
                 getStatusRequest(httpExchange);
+                break;
+            case "create":
+                checkContext(httpExchange, CTX_USER);
+                checkRequestMethod(httpExchange, METHOD_POST);
+                createUserRequest(httpExchange);
+                break;
+            case "list":
+                checkContext(httpExchange, CTX_USER);
+                checkRequestMethod(httpExchange, METHOD_GET);
+                listUsersRequest(httpExchange);
                 break;
             default:
                 if (logger.isLoggable(Level.INFO)) {
@@ -119,7 +139,31 @@ public final class WebListener {
 
     private void getStatusRequest( HttpExchange httpExchange ) {
         try {
-            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, "");
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, "OK");
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
+    private void createUserRequest( HttpExchange httpExchange ) {
+        try {
+            Map<String, String> params = parsePostParameters(httpExchange);
+            String name = params.get("name");
+            String email = params.get("email");
+            databaseAccess.getUserDatabase().addUser(name, email);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, "OK");
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
+    private void listUsersRequest( HttpExchange httpExchange ) {
+        try {
+            Collection<User> users = databaseAccess.getUserDatabase().getUsers();
+            ObjectMapper objectMapper = new ObjectMapper();
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, objectMapper.writeValueAsString(users));
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
             writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);

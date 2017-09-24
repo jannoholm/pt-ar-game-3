@@ -13,7 +13,7 @@ public class TestOneTable extends AbstractTest {
 
     private static final Logger logger = Logger.getLogger(TestOneTable.class.getName());
 
-    private void testOneRequest() throws IOException, InterruptedException {
+    private void testOneRequest() throws Exception {
         // start server and connector
         setupServer();
         setupConnector();

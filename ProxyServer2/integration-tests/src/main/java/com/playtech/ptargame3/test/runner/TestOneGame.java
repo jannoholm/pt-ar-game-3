@@ -4,14 +4,13 @@ package com.playtech.ptargame3.test.runner;
 import com.playtech.ptargame3.test.scenario.HostGameScenario;
 import com.playtech.ptargame3.test.scenario.JoinGameScenario;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 
 public class TestOneGame extends AbstractTest {
 
     private static final Logger logger = Logger.getLogger(TestOneGame.class.getName());
 
-    private void testOneRequest() throws IOException, InterruptedException {
+    private void testOneRequest() throws Exception {
         // start server and connector
         setupServer();
         setupConnector();

@@ -8,6 +8,7 @@ import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.task.TaskExecutorImpl;
 import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.common.task.TaskFactoryImpl;
+import com.playtech.ptargame3.server.database.DatabaseAccessImpl;
 import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.server.registry.ProxyLogicRegistry;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Starter {
 
-    private void run() throws IOException {
+    private void run() throws Exception {
         ProxyMessageFactory messageFactory = new ProxyMessageFactory();
         messageFactory.initialize();
         MessageParser messageParser = new ProxyMessageParser(messageFactory);
@@ -38,14 +39,16 @@ public class Starter {
         ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
         TaskFactory taskFactory = new TaskFactoryImpl(taskExecutor, logicRegistry);
         GameRegistry gameRegistry = new GameRegistry(scheduledExecutorService);
-        LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory);
+        DatabaseAccessImpl databaseAccess = new DatabaseAccessImpl(scheduledExecutorService);
+        databaseAccess.setup();
+        LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory, databaseAccess);
         logicRegistry.initialize(logicResources);
         ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, callbackHandler, clientRegistry, gameRegistry, taskFactory);
 
         NioServerListener proxy = new NioServerListener(connectionFactory, 8000);
         new Thread(proxy.start(), "proxy").start();
 
-        WebListener web = new WebListener(8001);
+        WebListener web = new WebListener(8001, databaseAccess);
         web.start();
     }
 
