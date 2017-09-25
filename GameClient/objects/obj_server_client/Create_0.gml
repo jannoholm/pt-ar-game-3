@@ -31,6 +31,6 @@ gameid="";
 show_debug_message("create server_client");
 
 if (room==play) {
-	if (somenonsens=1) return;
+	return;
 }
 room_goto_next();

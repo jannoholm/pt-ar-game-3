@@ -15,7 +15,7 @@ buffer_write(buffer, buffer_string, ""); // ai type
 if (obj_server_client.client_type == 0) {
 	buffer_write(buffer, buffer_s8, 0); // just table
 } else {
-	buffer_write(buffer, buffer_s8, 1); // join as player
+	buffer_write(buffer, buffer_s8, 2); // join as player
 }
 
 // send message

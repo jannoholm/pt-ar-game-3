@@ -1,13 +1,3 @@
-
-// Draw tire trails
-with ( rearLeftTire ) {
-	scr_draw_trail(8,8,0,-1,0,1);
-}
-
-with ( rearRightTire ) {
-	scr_draw_trail(8,8,0,-1,0,1);
-}
-
 draw_self();
 if (highlight > 0) {
 	draw_sprite_ext(spr_car_highlight, 0, x, y, 1, 1, image_angle, c_white, 1);

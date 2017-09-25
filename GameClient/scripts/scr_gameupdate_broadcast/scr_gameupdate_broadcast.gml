@@ -22,7 +22,7 @@ carUpdateLength = 1 + 8*4 + 4*1 + 3*2;
 bulletUpdateLength = 1 + 3*4;
 
 buffer_write(buffer, buffer_s32, gameStateUpdateLength + ballUpdateLength + 4*carUpdateLength + bullets*bulletUpdateLength ); // length of update
-show_debug_message("size before: " + string(buffer_tell(buffer)));
+//show_debug_message("size before: " + string(buffer_tell(buffer)));
 
 // Gameplay state
 with (obj_gameplay) {

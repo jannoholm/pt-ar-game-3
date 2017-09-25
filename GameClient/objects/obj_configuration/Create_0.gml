@@ -10,8 +10,8 @@ if (file_exists(filename)) {
 	var filehandle = file_text_open_read(filename);
 	ip_address=file_text_read_string(filehandle);file_text_readln(filehandle);
 	port=file_text_read_string(filehandle);file_text_readln(filehandle);
-	client_type=file_text_read_string(filehandle);file_text_readln(filehandle);
-	reuse_clientid=file_text_read_string(filehandle);
+	client_type=real(file_text_read_string(filehandle));file_text_readln(filehandle);
+	reuse_clientid=real(file_text_read_string(filehandle));
 	file_text_close(filehandle);
 }
 
