@@ -17,7 +17,7 @@ scr_write_messageheader(buffer, 3002, obj_server_client.messageid_counter, obj_s
 buffer_write(buffer, buffer_string, obj_server_client.gameid);
 
 gameStateUpdateLength = 1 * 4;
-ballUpdateLength = instance_exists(obj_ball) ? (1 + 1 + 8*4) : (1 + 1);
+ballUpdateLength = 1 + 1 + 8*4;
 carUpdateLength = 1 + 8*4 + 4*1 + 3*2;
 bulletUpdateLength = 1 + 3*4;
 

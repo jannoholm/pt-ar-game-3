@@ -9,6 +9,9 @@ with ( rearRightTire ) {
 }
 
 draw_self();
+if (highlight > 0) {
+	draw_sprite_ext(spr_car_highlight, 0, x, y, 1, 1, image_angle, c_white, 1);
+}
 
 draw_set_font(fnt_textbox);
 draw_set_halign(fa_center);

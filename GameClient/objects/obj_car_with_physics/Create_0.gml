@@ -25,6 +25,7 @@ go_turn=0;
 // name
 client_name="";
 
+highlight=0;
 colliding=0;
 damaged=0;
 shoot=false;
