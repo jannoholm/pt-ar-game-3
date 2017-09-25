@@ -22,12 +22,14 @@ public class HostGameLogic extends AbstractLogic {
         HostGameRequest request = getInputRequest(task, HostGameRequest.class);
         String clientId = request.getHeader().getClientId();
         String name = getLogicResources().getClientRegistry().getName(clientId);
+        boolean tableGame = getLogicResources().getClientRegistry().isTableSession(clientId);
         String gameId = getLogicResources().getGameRegistry().createGame(
                 clientId,
                 name + " " + count.incrementAndGet(),
                 request.getPlayers(),
                 request.isJoinAsPlayer(),
-                request.getAiType()
+                request.getAiType(),
+                tableGame
         );
         HostGameResponse response = getResponse(task, HostGameResponse.class);
         response.setGameId(gameId);

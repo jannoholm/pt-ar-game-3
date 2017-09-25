@@ -27,6 +27,7 @@ public class GameRegistryGame {
     private final String gameName;
     private final int positions;
     private final String aiType;
+    private final boolean tableGame;
     private volatile Collection<GameRegistryGamePlayer> players;
     private volatile Collection<String> subscribers;
     private Status gameStatus;
@@ -34,7 +35,7 @@ public class GameRegistryGame {
     private boolean hostConnected = true;
     private long hostDisconnectTime = 0;
 
-    public GameRegistryGame(String hostClientId, String gameId, String gameName, int positions, String aiType) {
+    public GameRegistryGame(String hostClientId, String gameId, String gameName, int positions, String aiType, boolean tableGame) {
         if (positions%2 != 0) throw new SystemException("Invalid player count. Has to be even. Was: " + positions);
 
         this.hostClientId = hostClientId;
@@ -42,6 +43,7 @@ public class GameRegistryGame {
         this.gameName = gameName;
         this.positions = positions;
         this.aiType = aiType;
+        this.tableGame = tableGame;
         this.players = Collections.unmodifiableCollection(new ArrayList<>());
         this.subscribers = Collections.unmodifiableCollection(new ArrayList<>());
         this.gameStatus = Status.COLLECTING;
@@ -95,6 +97,7 @@ public class GameRegistryGame {
         if (StringUtil.isNull(clientId)) throw new SystemException("clientId not set");
         if (gameStatus != Status.COLLECTING) throw new GameFullException("Game status " + gameStatus);
         if (players.size() >= positions) throw new GameFullException("Player limit reached: " + positions);
+        if (tableGame) throw new GameFullException("Table is closed for remote clients.");
 
         // check if player already joined. idempotent calls are allowed
         for (GameRegistryGamePlayer player : players) {

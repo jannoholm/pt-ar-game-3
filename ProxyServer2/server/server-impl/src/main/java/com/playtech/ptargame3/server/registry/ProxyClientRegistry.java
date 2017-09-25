@@ -30,7 +30,7 @@ public class ProxyClientRegistry implements ClientRegistry {
         // session registry
         SessionHolder holder = sessions.get(clientId);
         if (holder == null) {
-            holder = new SessionHolder(clientId, name, email, session);
+            holder = new SessionHolder(clientId, name, email, clientType, session);
             sessions.put(clientId, holder);
         } else {
             holder.add(name, email, session);
@@ -90,11 +90,11 @@ public class ProxyClientRegistry implements ClientRegistry {
     }
 
     public Collection<Session> getTableSessions() {
-        return tableSessions; // todo: should be immutable
+        return tableSessions;
     }
 
     public Collection<Session> getCarControlSessions() {
-        return carControlSessions; // todo: should be immutable
+        return carControlSessions;
     }
 
     @Override
@@ -106,6 +106,16 @@ public class ProxyClientRegistry implements ClientRegistry {
             }
         }
         return "noname";
+    }
+
+    public boolean isTableSession(String clientId) {
+        if (!StringUtil.isNull(clientId)) {
+            SessionHolder holder = sessions.get(clientId);
+            if (holder != null) {
+                return holder.clientType == ClientType.TABLE;
+            }
+        }
+        return false;
     }
 
     public static enum ClientType {
@@ -120,10 +130,11 @@ public class ProxyClientRegistry implements ClientRegistry {
         private final String clientId;
         private final String name;
         private final String email;
+        private final ClientType clientType;
         private Collection<Session> sessions;
         private long lastSeen;
 
-        private SessionHolder(String clientId, String name, String email, Session session) {
+        private SessionHolder(String clientId, String name, String email, ClientType clientType, Session session) {
             if (StringUtil.isNull(name)) {
                 throw new IllegalArgumentException("Name is missing.");
             }
@@ -134,6 +145,7 @@ public class ProxyClientRegistry implements ClientRegistry {
             this.clientId = clientId;
             this.name = name;
             this.email = email;
+            this.clientType = clientType;
             this.sessions = Collections.singletonList(session);
         }
 
