@@ -9,6 +9,22 @@ draw_set_valign(fa_center);
 
 draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
+if (show_user_select) {
+	draw_sprite_ext(spr_user_select, 0, x+50, y+70, 1, 1, 0, c_white, 1);
+	draw_set_font(fnt_textbox);
+	draw_set_color(c_black);
+	draw_set_halign(fa_left);
+	
+	var name = "";
+	if (show_user_select_id == 0 && ds_list_size(user_name_list) > 0) {
+		var show_user_selected=ds_list_find_value(user_name_list, 0);
+		show_user_select_id=show_user_selected.user_id;
+		show_user_select_name=show_user_selected.user_name;
+	}
+	name = show_user_select_name;
+	draw_text(x-25, y+70, name);
+}
+
 if (dodraw) {
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);

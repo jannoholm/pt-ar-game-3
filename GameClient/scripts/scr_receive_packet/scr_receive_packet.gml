@@ -93,4 +93,7 @@ switch (message_type) {
 	case 3006: // location notification
 		scr_locationupdate(buffer);
 		break;
+	case 3011: // location notification
+		scr_get_users_response(buffer);
+		break;
 }

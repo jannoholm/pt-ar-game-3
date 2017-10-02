@@ -3,3 +3,9 @@ car.go_turn=keyboard_check(vk_right)-keyboard_check(vk_left);
 car.boost=keyboard_check(vk_control);
 car.shoot=keyboard_check(vk_space);
 car.highlight=keyboard_check(ord("A"));
+if (!car.show_user_select) {
+	car.show_user_select=keyboard_check(ord("X"));
+	if (car.show_user_select) {
+		scr_get_users_request();
+	}
+}

@@ -32,6 +32,10 @@ shoot=false;
 shoot_delay=0;
 boost=false;
 boost_power=180;
+show_user_select=false;
+show_user_select_id=0;
+show_user_select_name="";
+user_name_list=ds_list_create();
 bullets=ds_list_create();
 
 // Wheel offsets
