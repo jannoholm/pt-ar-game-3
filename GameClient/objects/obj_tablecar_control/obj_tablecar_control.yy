@@ -1,18 +1,18 @@
 {
-    "id": "43ed8eb7-9168-4a15-af58-1d85a89ca5da",
+    "id": "210e19f0-e1fe-40cf-be4a-e259481722aa",
     "modelName": "GMObject",
     "mvc": "1.0",
     "name": "obj_tablecar_control",
     "eventList": [
         {
-            "id": "6898eaf2-92e5-4cd6-a384-38482b7eff9d",
+            "id": "b4b56ac0-3ee6-4185-85df-3878471ebdf7",
             "modelName": "GMEvent",
             "mvc": "1.0",
             "IsDnD": false,
             "collisionObjectId": "00000000-0000-0000-0000-000000000000",
             "enumb": 0,
             "eventtype": 3,
-            "m_owner": "43ed8eb7-9168-4a15-af58-1d85a89ca5da"
+            "m_owner": "210e19f0-e1fe-40cf-be4a-e259481722aa"
         }
     ],
     "maskSpriteId": "00000000-0000-0000-0000-000000000000",

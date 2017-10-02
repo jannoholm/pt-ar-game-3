@@ -5,7 +5,7 @@ if ( global.gamepadDeviceId == -1 ) {
 	return;
 }
 
-var go_move, go_turn, boost, shoot;
+var go_move, go_turn, boost, shoot, highlight;
 
 // Ignore small deadzone
 if ( abs(gamepad_axis_value(global.gamepadDeviceId, gp_axislv)) > 0.05 ) {
@@ -23,13 +23,15 @@ if ( abs(gamepad_axis_value(global.gamepadDeviceId, gp_axisrh)) > 0.05 ) {
 }
 
 
-boost = keyboard_check(vk_control) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickl)
-shoot = keyboard_check(vk_space) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickr)
+boost = keyboard_check(vk_control) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickl);
+shoot = keyboard_check(vk_space) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickr);
+highlight = keyboard_check(ord("A")) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickr);
 
-if (car.go_move != go_move || car.go_turn != go_turn || car.boost != boost || car.shoot != shoot) {
+if (car.go_move != go_move || car.go_turn != go_turn || car.boost != boost || car.shoot != shoot || car.highlight != highlight) {
 	car.go_move = go_move;
 	car.go_turn = go_turn;
 	car.boost = boost;
 	car.shoot = shoot;
-	scr_send_game_control(gameid, client_id, car.go_move, car.go_turn, car.boost, car.shoot);
+	car.highlight = highlight;
+	scr_send_game_control(gameid, client_id, car.go_move, car.go_turn, car.boost, car.shoot, car.highlight);
 }

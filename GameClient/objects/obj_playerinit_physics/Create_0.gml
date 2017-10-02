@@ -1,12 +1,8 @@
-/*if (display_aa > 12) {
-	display_reset(8, true);
-}*/
-
-// By default, gamepad is disabled
-global.gamepadDeviceId = -1;
-
 // Game state tracking object
 instance_create_layer(room_width/2, room_height/2, "car", obj_gameplay);
+
+// Game pad controls for table mode
+instance_create_layer(0, 0, "car", obj_gamepad_control);
 
 // setup cars on the grid
 red1 = instance_create_layer(100, 250, "car", obj_car_with_physics);
@@ -15,6 +11,7 @@ with (red1) {
 	phy_rotation = 0;
 	initialRotation = 0;
 	dodraw=1;
+	carId = "red1";
 	teamColor = TeamColor.RED;
 }
 
@@ -24,6 +21,7 @@ with (red2) {
 	image_blend = make_color_rgb(205,92,92);
 	phy_rotation = 0;
 	initialRotation = 0;
+	carId = "red2";
 	teamColor = TeamColor.RED;
 }
 
@@ -32,6 +30,7 @@ with (blue1) {
 	image_blend = make_color_rgb(66, 134, 244);
 	phy_rotation = 180;
 	initialRotation = 180;
+	carId = "blue1";
 	teamColor = TeamColor.BLUE;
 }
 
@@ -41,6 +40,7 @@ with (blue2) {
 	image_blend = make_color_rgb(46, 108, 209);
 	phy_rotation = 180;
 	initialRotation = 180;
+	carId = "blue2";
 	teamColor = TeamColor.BLUE;
 }
 

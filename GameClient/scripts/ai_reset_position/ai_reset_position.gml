@@ -1,11 +1,3 @@
-enum ResetPhase {
-	GO_TO_MID,
-	ROTATE_AT_MID,
-	BACK_UP_TO_START,
-	RESET_COMPLETE
-}
-
-
 var currentDistance = distance_to_point(initialPosX, initialPoxY);
 var currentAngleDiff = angle_difference(phy_rotation mod 360, initialRotation);
 
@@ -44,7 +36,7 @@ if ( currentResetPhase == ResetPhase.ROTATE_AT_MID ) {
 
 if ( currentResetPhase == ResetPhase.BACK_UP_TO_START ) {
 
-	var distance = point_distance(x, y, initialPosX, initialPoxY);
+	var distance = point_distance(x, y, initialPosX, initialPoxY) * 1.0;
 	
 	if (distance_to_point(initialPosX, initialPoxY) < 8) {
 		currentResetPhase = ResetPhase.RESET_COMPLETE;
@@ -54,7 +46,14 @@ if ( currentResetPhase == ResetPhase.BACK_UP_TO_START ) {
 	}
 	
 	// If car was on left side of the field initially, then point ahead is positive
-	var fixturePoint = initialPosX < room_width / 2 ? distance/2 : -distance/2;
+	var roomWidthHalf = room_width / 2;
+	var fixturePoint;
+	if ( initialPosX < roomWidthHalf ) {
+		fixturePoint = distance / 2;
+	} else {
+		fixturePoint = distance / -2;
+	}
+	// var fixturePoint = initialPosX < roomWidthHalf ? distance/2 : -distance/2;
 	
 	var curveX = ai_curve(x, initialPosX + fixturePoint, initialPosX, 0.95);
 	var curveY = ai_curve(y, initialPoxY, initialPoxY, 0.95);

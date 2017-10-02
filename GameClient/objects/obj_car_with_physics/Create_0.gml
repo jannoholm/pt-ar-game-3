@@ -3,6 +3,14 @@ enum TeamColor {
 	BLUE
 }
 
+enum ResetPhase {
+	GO_TO_MID,
+	ROTATE_AT_MID,
+	BACK_UP_TO_START,
+	RESET_COMPLETE
+}
+
+
 teamColor = TeamColor.RED;
 
 world_size=0.025

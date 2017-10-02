@@ -10,6 +10,12 @@ case "gamepad discovered":                     // A game pad has been discovered
     gamepad_set_axis_deadzone(pad, 0.05);      // Set the "deadzone" for the axis
     gamepad_set_button_threshold(pad, 0.1);    // Set the "threshold" for the triggers
 	
+	// Host/join car control a single gamepad - new attached pad becomes the controlling one
+	global.gamepadDeviceId = pad;
+	show_debug_message("Setting host/join client gamepad control to " + string(pad));
+	
+	
+	// Table mode gamepad control
 	if ( ds_map_find_value(global.gamepads, "red1") == -1 ) {
 		ds_map_replace( global.gamepads, "red1", pad );
 		gamepad_set_color(pad, c_red);
@@ -35,6 +41,11 @@ case "gamepad discovered":                     // A game pad has been discovered
 case "gamepad lost":                           // Gamepad has been removed or otherwise disabled
     var pad = async_load[? "pad_index"];       // Get the pad index
 	
+	// Host/join car control a single gamepad
+	global.gamepadDeviceId = -1;
+	show_debug_message("Removing host/join client gamepad control from " + string(pad));
+	
+	// Table mode gamepad control
 	if ( ds_map_find_value(global.gamepads, "red1") == pad ) {
 		ds_map_replace( global.gamepads, "red1", -1 );
 		show_debug_message("Removing gamepad from red1, pad index=" + string(pad));

@@ -191,6 +191,14 @@
             }
         },
         {
+            "Key": "210e19f0-e1fe-40cf-be4a-e259481722aa",
+            "Value": {
+                "id": "74fe6c25-2b2d-49c6-987a-54beba9511a7",
+                "resourcePath": "objects\\obj_tablecar_control\\obj_tablecar_control.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "22046fff-a1e2-4864-99b0-6e6d7b51eb26",
             "Value": {
                 "id": "0217d34d-fd8e-469b-9bd3-01a3608ed0f1",
@@ -364,6 +372,14 @@
                 "id": "9f54bbe9-41c5-4cc0-b4cc-915de892a44d",
                 "resourcePath": "scripts\\@__global_object_depths\\__global_object_depths.yy",
                 "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "60bc0322-6af3-4a37-bb80-0b892b212f75",
+            "Value": {
+                "id": "bcfa7ce5-897d-4dce-bed3-7d466572d4cd",
+                "resourcePath": "objects\\obj_gamepad_control\\obj_gamepad_control.yy",
+                "resourceType": "GMObject"
             }
         },
         {

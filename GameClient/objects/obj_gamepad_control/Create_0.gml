@@ -14,6 +14,16 @@ ds_map_replace( global.gamepads, "blue2", -1 );
 
 var gamepadCount = gamepad_get_device_count();
 
+// Host/join car control a single gamepad - first gamepad found is bound
+for ( var pad = 0; pad < gamepadCount; pad++ ) {
+	if ( gamepad_is_connected(pad) ) {
+		show_debug_message("Setting host/join client gamepad control to " + string(pad));
+		global.gamepadDeviceId = pad;
+		break;
+	}
+}
+
+// Table mode gamepad control - fill for all cars
 for ( var pad = 0; pad < gamepadCount; pad++ ) {
 	if ( gamepad_is_connected(pad) ) {
 		
