@@ -3,12 +3,8 @@ obj_playerinit_physics.red2.remote_control=false;
 obj_playerinit_physics.blue1.remote_control=false;
 obj_playerinit_physics.blue2.remote_control=false;
 
-if (obj_server_client.client_type == 0) {
-	return;
-}
-
 // Table mode, all cars controlled by gamepad
-if ( obj_server_client.client_type == 2 ) {
+if ( obj_server_client.client_type == 0 ) {
 	show_debug_message("Creating gamepad controls for table cars")
 	var gamepadControl = instance_create_layer(0, 0, "car", obj_tablecar_control);
 	with ( gamepadControl ) {

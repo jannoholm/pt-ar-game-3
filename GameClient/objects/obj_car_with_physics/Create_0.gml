@@ -33,6 +33,7 @@ go_turn=0;
 // name
 client_name="";
 
+// game elements
 highlight=0;
 colliding=0;
 damaged=0;
@@ -40,11 +41,14 @@ shoot=false;
 shoot_delay=0;
 boost=false;
 boost_power=180;
+bullets=ds_list_create();
+
+// user select in table
 show_user_select=false;
 show_user_select_id=0;
 show_user_select_name="";
-user_name_list=ds_list_create();
-bullets=ds_list_create();
+show_user_select_scroll_cooldown=5;
+
 
 // Wheel offsets
 rearTireOffsetX = -40;

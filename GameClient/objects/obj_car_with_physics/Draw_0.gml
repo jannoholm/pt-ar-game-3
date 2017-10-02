@@ -7,6 +7,7 @@ draw_set_font(fnt_textbox);
 draw_set_halign(fa_center);
 draw_set_valign(fa_center);
 
+draw_set_color(c_white);
 draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
 if (show_user_select) {
@@ -14,15 +15,7 @@ if (show_user_select) {
 	draw_set_font(fnt_textbox);
 	draw_set_color(c_black);
 	draw_set_halign(fa_left);
-	
-	var name = "";
-	if (show_user_select_id == 0 && ds_list_size(user_name_list) > 0) {
-		var show_user_selected=ds_list_find_value(user_name_list, 0);
-		show_user_select_id=show_user_selected.user_id;
-		show_user_select_name=show_user_selected.user_name;
-	}
-	name = show_user_select_name;
-	draw_text(x-25, y+70, name);
+	draw_text(x-25, y+70, show_user_select_name);
 }
 
 if (dodraw) {

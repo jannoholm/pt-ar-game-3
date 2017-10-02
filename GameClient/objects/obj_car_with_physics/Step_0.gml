@@ -8,6 +8,51 @@ if ( obj_gameplay.currentGamePhase != GamePhase.PLAY ) {
 	return;
 }
 
+// user select
+show_user_select_scroll_cooldown=show_user_select_scroll_cooldown-1;
+if (show_user_select && ds_list_size(obj_server_client.user_name_list) > 0) {
+	if (show_user_select_id == 0) {
+		var show_user_selected=ds_list_find_value(obj_server_client.user_name_list, 0);
+		show_user_select_id=show_user_selected.user_id;
+		show_user_select_name=show_user_selected.user_name;
+	}
+	if (show_user_select_scroll_cooldown <=0 && go_move != 0) {
+		show_user_select_scroll_cooldown=5;
+		
+		// find position of current element
+		var show_user_select_pos=0;
+		var i;
+		for (i=0; i < ds_list_size(obj_server_client.user_name_list); ++i) {
+			var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, i);
+			if (show_user_selected.user_id == show_user_select_id) {
+				show_user_select_pos=i;
+				break;
+			}
+		}
+		
+		// scroll user
+		if (go_move > 0) {
+			if (show_user_select_pos <= 0) {
+				show_user_select_pos=ds_list_size(obj_server_client.user_name_list)-1;
+			} else {
+				show_user_select_pos=show_user_select_pos-1;
+			}
+		} else if (go_move < 0) {
+			if (show_user_select_pos >= ds_list_size(obj_server_client.user_name_list)-1) {
+				show_user_select_pos=0;
+			} else {
+				show_user_select_pos=show_user_select_pos+1;
+			}
+		}
+		
+		// set data of scrolled user
+		var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos);
+		show_user_select_id=show_user_selected.user_id;
+		show_user_select_name=show_user_selected.user_name;
+	}
+	return;
+}
+
 // Reset position when game starts
 atPosition = false;
 
@@ -96,3 +141,4 @@ if (remote_control==false) {
 damaged=damaged-1;
 shoot_delay=shoot_delay-1;
 boost_power=boost_power+1;
+

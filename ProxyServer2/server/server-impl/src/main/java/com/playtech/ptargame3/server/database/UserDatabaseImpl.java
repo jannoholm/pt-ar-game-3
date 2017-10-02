@@ -71,7 +71,7 @@ public class UserDatabaseImpl implements UserDatabase {
                 int id = result.getInt("ID");
                 String name = result.getString("NAME");
                 String email = result.getString("EMAIL");
-                User user = new User(id, name, email);
+                User user = new User(id, name.toUpperCase(), email);
                 users.add(user);
                 logger.info("User read from database: " + user);
                 if (idGenerator.get() < id) {
@@ -121,7 +121,7 @@ public class UserDatabaseImpl implements UserDatabase {
 
     public void addUser(String name, String email) {
         if (StringUtil.isNull(name)) throw new NullPointerException("Name cannot be null.");
-        User user = new User(idGenerator.incrementAndGet(), name, email);
+        User user = new User(idGenerator.incrementAndGet(), name.toUpperCase(), email);
         synchronized (this) {
             pendingWrites.add(user);
             users.add(user);
@@ -144,7 +144,7 @@ public class UserDatabaseImpl implements UserDatabase {
         ArrayList<User> match = new ArrayList<>();
         synchronized (this) {
             for (User user : users) {
-                if (user.getName() != null && user.getName().contains(filter)) {
+                if (user.getName().contains(filter)) {
                     match.add(user);
                 }
             }

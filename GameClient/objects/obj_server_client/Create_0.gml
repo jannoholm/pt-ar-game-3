@@ -28,6 +28,9 @@ client_type=conf.client_type;
 reuse_clientid=conf.reuse_clientid;
 gameid="";
 
+// Names from server
+user_name_list=ds_list_create();
+
 show_debug_message("create server_client");
 
 if (room==play) {

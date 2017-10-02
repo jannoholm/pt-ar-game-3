@@ -5,26 +5,6 @@
     "name": "obj_hostcar_control",
     "eventList": [
         {
-            "id": "ae3c9225-5ae9-4617-acd0-628cf5e10a07",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 1,
-            "eventtype": 5,
-            "m_owner": "65e55d37-5702-4366-9481-3721ea57f9eb"
-        },
-        {
-            "id": "818cd7d8-0978-4dde-9e1f-309afc35b70e",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 1,
-            "eventtype": 10,
-            "m_owner": "65e55d37-5702-4366-9481-3721ea57f9eb"
-        },
-        {
             "id": "497acd4b-1c91-4b2f-9059-26d6d424106e",
             "modelName": "GMEvent",
             "mvc": "1.0",
