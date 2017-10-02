@@ -129,7 +129,27 @@ public class UserDatabaseImpl implements UserDatabase {
     }
 
     public Collection<User> getUsers() {
-        return Collections.unmodifiableCollection(users);
+        synchronized (this) {
+            return Collections.unmodifiableCollection(new ArrayList<>(users));
+        }
+    }
+
+    @Override
+    public Collection<User> getUsers(String filter) {
+        Collection<User> users = getUsers();
+        if (StringUtil.isNull(filter)) {
+            return users;
+        }
+
+        ArrayList<User> match = new ArrayList<>();
+        synchronized (this) {
+            for (User user : users) {
+                if (user.getName() != null && user.getName().contains(filter)) {
+                    match.add(user);
+                }
+            }
+        }
+        return Collections.unmodifiableCollection(match);
     }
 
 }

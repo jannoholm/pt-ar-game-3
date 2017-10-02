@@ -2,6 +2,7 @@ package com.playtech.ptargame3.server.registry;
 
 
 import com.playtech.ptargame3.api.table.CarControlMessage;
+import com.playtech.ptargame3.api.table.GetUsersRequest;
 import com.playtech.ptargame3.api.table.LocationNotificationMessage;
 import com.playtech.ptargame3.api.game.GameControlMessage;
 import com.playtech.ptargame3.api.game.GameUpdateBroadcardMessage;
@@ -21,6 +22,7 @@ import com.playtech.ptargame3.server.task.lobby.GetDetailedGameInfoLogic;
 import com.playtech.ptargame3.server.task.lobby.GetGamesLogic;
 import com.playtech.ptargame3.server.task.lobby.HostGameLogic;
 import com.playtech.ptargame3.server.task.lobby.JoinGameLogic;
+import com.playtech.ptargame3.server.task.table.GetUsersLogic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +48,7 @@ public class ProxyLogicRegistry implements LogicRegistry {
         addMapping(GameUpdateBroadcardMessage.class.getName(), GameUpdateBroadcastLogic.class);
         addMapping(LocationNotificationMessage.class.getName(), LocationNotificationLogic.class);
         addMapping(CarControlMessage.class.getName(), CarControlLogic.class);
+        addMapping(GetUsersRequest.class.getName(), GetUsersLogic.class);
     }
 
     private void addMapping(String taskType, Class<? extends Logic> taskClass) {

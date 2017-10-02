@@ -11,4 +11,6 @@ public interface UserDatabase {
 
     Collection<User> getUsers();
 
+    Collection<User> getUsers(String filter);
+
 }
