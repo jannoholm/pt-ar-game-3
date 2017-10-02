@@ -22,3 +22,5 @@ if ( abs(gamepad_axis_value(global.gamepadDeviceId, gp_axisrh)) > 0.05 ) {
 
 car.boost = keyboard_check(vk_control) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickl)
 car.shoot = keyboard_check(vk_space) || gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickr)
+car.highlight=keyboard_check(ord("A")) || gamepad_button_check(global.gamepadDeviceId, gp_face4);
+car.show_user_select = keyboard_check(ord("X")) || gamepad_button_check(global.gamepadDeviceId, gp_face1);

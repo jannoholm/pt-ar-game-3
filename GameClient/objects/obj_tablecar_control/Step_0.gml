@@ -24,5 +24,7 @@ if ( abs(gamepad_axis_value(currentGamePad, gp_axisrh)) > 0.05 ) {
 
 car.boost = keyboard_check(vk_control) || gamepad_button_check_pressed(currentGamePad, gp_stickl)
 car.shoot = keyboard_check(vk_space) || gamepad_button_check_pressed(currentGamePad, gp_stickr)
+car.highlight=keyboard_check(ord("A")) || gamepad_button_check(currentGamePad, gp_face4);
+car.show_user_select = keyboard_check(ord("X")) || gamepad_button_check(currentGamePad, gp_face1);
 
 // TODO: Send to Bluetooth controller via proxy
