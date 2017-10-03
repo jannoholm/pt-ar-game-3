@@ -11,11 +11,23 @@ draw_set_color(c_white);
 draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
 if (show_user_select) {
-	draw_sprite_ext(spr_user_select, 0, x+50, y+70, 1, 1, 0, c_white, 1);
-	draw_set_font(fnt_textbox);
+	var offset_x=x+50;
+	var offset_y=y+70;
+	if (x > 760) {
+		var offset_x=x-50;
+	}
+
+	draw_sprite_ext(spr_user_select, 0, offset_x, offset_y, 1, 1, 0, c_white, 1);
+	draw_set_halign(fa_left);	
+	draw_set_font(fnt_textbox_small);
+	
+	draw_set_color(c_gray);
+	draw_text(offset_x-90, offset_y-14, show_user_select_name_prev);
+	draw_text(offset_x-90, offset_y+14, show_user_select_name_next);
+
 	draw_set_color(c_black);
-	draw_set_halign(fa_left);
-	draw_text(x-25, y+70, show_user_select_name);
+	draw_set_font(fnt_textbox);
+	draw_text(offset_x-100, offset_y, show_user_select_name);
 }
 
 if (dodraw) {

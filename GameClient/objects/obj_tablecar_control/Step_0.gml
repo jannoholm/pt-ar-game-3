@@ -31,8 +31,9 @@ var new_user_select=keyboard_check(ord("X")) || gamepad_button_check(currentGame
 if (!car.show_user_select && new_user_select) {
 	car.show_user_select=new_user_select;
 	scr_get_users_request();
-} else if (!new_user_select) {
+} else if (car.show_user_select && !new_user_select) {
 	car.show_user_select=new_user_select;
+	scr_update_name_in_table(car);
 }
 
 // TODO: Send to Bluetooth controller via proxy

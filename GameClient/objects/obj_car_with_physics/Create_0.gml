@@ -47,6 +47,8 @@ bullets=ds_list_create();
 show_user_select=false;
 show_user_select_id=0;
 show_user_select_name="";
+show_user_select_name_prev="";
+show_user_select_name_next="";
 show_user_select_scroll_cooldown=5;
 
 

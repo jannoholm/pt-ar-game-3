@@ -11,13 +11,13 @@ if ( obj_gameplay.currentGamePhase != GamePhase.PLAY ) {
 // user select
 show_user_select_scroll_cooldown=show_user_select_scroll_cooldown-1;
 if (show_user_select && ds_list_size(obj_server_client.user_name_list) > 0) {
+	var show_user_select_pos=0;
+	var set_values=false;
 	if (show_user_select_id == 0) {
-		var show_user_selected=ds_list_find_value(obj_server_client.user_name_list, 0);
-		show_user_select_id=show_user_selected.user_id;
-		show_user_select_name=show_user_selected.user_name;
-	}
-	if (show_user_select_scroll_cooldown <=0 && go_move != 0) {
+		set_values=true;
+	} else if (show_user_select_scroll_cooldown <=0 && go_move != 0) {
 		show_user_select_scroll_cooldown=5;
+		set_values=true;
 		
 		// find position of current element
 		var show_user_select_pos=0;
@@ -32,23 +32,35 @@ if (show_user_select && ds_list_size(obj_server_client.user_name_list) > 0) {
 		
 		// scroll user
 		if (go_move > 0) {
-			if (show_user_select_pos <= 0) {
-				show_user_select_pos=ds_list_size(obj_server_client.user_name_list)-1;
-			} else {
+			if (show_user_select_pos > 0) {
 				show_user_select_pos=show_user_select_pos-1;
 			}
 		} else if (go_move < 0) {
-			if (show_user_select_pos >= ds_list_size(obj_server_client.user_name_list)-1) {
-				show_user_select_pos=0;
-			} else {
+			if (show_user_select_pos+1 < ds_list_size(obj_server_client.user_name_list)) {
 				show_user_select_pos=show_user_select_pos+1;
 			}
 		}
-		
-		// set data of scrolled user
+	}
+	
+	// set data for scrolled user
+	if (set_values) {
 		var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos);
 		show_user_select_id=show_user_selected.user_id;
 		show_user_select_name=show_user_selected.user_name;
+		
+		if (show_user_select_pos > 0) {
+			var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos-1);
+			show_user_select_name_prev=show_user_selected.user_name;
+		} else {
+			show_user_select_name_prev="";
+		}
+		
+		if (show_user_select_pos+1<ds_list_size(obj_server_client.user_name_list)) {
+			var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos+1);
+			show_user_select_name_next=show_user_selected.user_name;
+		} else {
+			show_user_select_name_next="";
+		}
 	}
 	return;
 }

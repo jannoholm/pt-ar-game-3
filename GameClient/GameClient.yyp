@@ -135,6 +135,14 @@
             }
         },
         {
+            "Key": "14f7761a-8b46-440e-b6e8-125f70dea527",
+            "Value": {
+                "id": "572cb110-3817-4303-aed6-6fd2a58ebdcc",
+                "resourcePath": "fonts\\fnt_textbox_small\\fnt_textbox_small.yy",
+                "resourceType": "GMFont"
+            }
+        },
+        {
             "Key": "16003374-378d-44ef-bdcd-6fbce82c5341",
             "Value": {
                 "id": "5f70d407-b0c0-4409-afb1-8ee8e8f5b7a0",
@@ -951,6 +959,14 @@
             }
         },
         {
+            "Key": "eac6f7e1-0182-4935-97d3-cb896d3a38d1",
+            "Value": {
+                "id": "1b78da47-8769-4aca-950b-d998b76088a5",
+                "resourcePath": "scripts\\scr_update_name_in_table\\scr_update_name_in_table.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "ec98d8a9-42f2-4166-9ea9-9c982a0c05c7",
             "Value": {
                 "id": "f53b45ee-8ff4-474d-9c9a-4f1244b7e63b",
@@ -1090,7 +1106,8 @@
         "76ec494e-a861-4f71-bc8d-25a79b5263e1",
         "3b6fcecb-709a-4825-9e8b-d00ab640a995",
         "e2ae8c3d-eb68-40a5-b91d-ba337fd5a86e",
-        "bfaea1c7-11b8-42e5-8f82-49bbf4ad2a09"
+        "bfaea1c7-11b8-42e5-8f82-49bbf4ad2a09",
+        "eac6f7e1-0182-4935-97d3-cb896d3a38d1"
     ],
     "tutorial": ""
 }

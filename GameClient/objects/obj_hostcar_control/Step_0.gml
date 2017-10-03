@@ -22,11 +22,15 @@ car.boost = keyboard_check(vk_control) || global.gamepadDeviceId != -1 && gamepa
 car.shoot = keyboard_check(vk_space) || global.gamepadDeviceId != -1 && gamepad_button_check_pressed(global.gamepadDeviceId, gp_stickr)
 car.highlight=keyboard_check(ord("A")) || global.gamepadDeviceId != -1 && gamepad_button_check(global.gamepadDeviceId, gp_face4);
 
+/*
+// enable for debug. actually used with tablecar_control
 // choose player. drive buttons are used to scroll and cannot drive
 var new_user_select=keyboard_check(ord("X")) || global.gamepadDeviceId != -1 && gamepad_button_check(global.gamepadDeviceId, gp_face1);
 if (!car.show_user_select && new_user_select) {
 	car.show_user_select=new_user_select;
 	scr_get_users_request();
-} else if (!new_user_select) {
+} else if (car.show_user_select && !new_user_select) {
 	car.show_user_select=new_user_select;
+	scr_update_name_in_table(car);
 }
+*/
