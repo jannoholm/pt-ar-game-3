@@ -73,6 +73,7 @@ var leftWheelPower = 0;
 var rightWheelPower = 0;
 
 if (colliding) {
+	// drive uncontrollably, when on oil spill
 	if (go_turn < 0) {
 		rightWheelPower=2;
 		leftWheelPower=0;
@@ -81,6 +82,19 @@ if (colliding) {
 		leftWheelPower=2;
 	}
 	if (go_move < 0) {
+		rightWheelPower=-1*rightWheelPower;
+		leftWheelPower=-1*leftWheelPower;
+	}
+} else if ( damaged>0 ) {
+	// drive uncontrollably, when shot
+	if (damage_direction < 0) {
+		rightWheelPower=2;
+		leftWheelPower=0;
+	} else {
+		rightWheelPower=0;
+		leftWheelPower=2;
+	}
+	if (damage_turn < 0) {
 		rightWheelPower=-1*rightWheelPower;
 		leftWheelPower=-1*leftWheelPower;
 	}
@@ -106,15 +120,13 @@ if (colliding) {
 		rightWheelPower=rightWheelPower*go_move;
 		leftWheelPower=leftWheelPower*go_move;
 	}
-}
-
-if (damaged>0) {
-    rightWheelPower=rightWheelPower/2;
-    leftWheelPower=leftWheelPower/2;
-} else if (boost && boost_power>0) {
-    boost_power=boost_power-30;
-    rightWheelPower=rightWheelPower*2;
-    leftWheelPower=leftWheelPower*2;
+	
+	// apply boost
+	if (boost && boost_power>0) {
+	    boost_power=boost_power-30;
+	    rightWheelPower=rightWheelPower*2;
+	    leftWheelPower=leftWheelPower*2;
+	}
 }
 
 // Apply physical force to tire locations
@@ -136,7 +148,7 @@ ny = lengthdir_y(1, (-phy_rotation)+90);
 
 if (remote_control==false) {
 	if (shoot && shoot_delay < 0) {
-		shoot_delay=30;
+		shoot_delay=4*30;
 
 		var pos_x = x+dcos((-1)*phy_rotation)*120;
 		var pos_y = y+dsin(phy_rotation)*100;
