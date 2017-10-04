@@ -41,8 +41,10 @@ damage_direction=0;
 damage_turn=0;
 shoot=false;
 shoot_delay=0;
+shoot_interval=10*30; // every 10s
 boost=false;
 boost_power=180;
+boost_max=1440; // 1.6 sec
 bullets=ds_list_create();
 
 // user select in table

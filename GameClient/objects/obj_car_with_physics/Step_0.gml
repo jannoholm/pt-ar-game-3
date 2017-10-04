@@ -148,10 +148,10 @@ ny = lengthdir_y(1, (-phy_rotation)+90);
 
 if (remote_control==false) {
 	if (shoot && shoot_delay < 0) {
-		shoot_delay=4*30;
+		shoot_delay=shoot_interval;
 
-		var pos_x = x+dcos((-1)*phy_rotation)*120;
-		var pos_y = y+dsin(phy_rotation)*100;
+		var pos_x = x+dcos((-1)*phy_rotation)*sprite_width;
+		var pos_y = y+dsin(phy_rotation)*sprite_width;
 		var bullet=instance_create_layer(pos_x, pos_y, "car", obj_bullet);
 		bullet.phy_rotation = phy_rotation;
 		with(bullet){
@@ -164,5 +164,5 @@ if (remote_control==false) {
 }
 damaged=damaged-1;
 shoot_delay=shoot_delay-1;
-boost_power=boost_power+1;
+boost_power=clamp(boost_power+1, 0, boost_max);
 

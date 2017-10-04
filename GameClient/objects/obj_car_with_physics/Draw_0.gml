@@ -1,15 +1,35 @@
-draw_self();
+// draw highlight
 if (highlight > 0) {
 	draw_sprite_ext(spr_car_highlight, 0, x, y, 1, 1, image_angle, c_white, 1);
 }
 
+// draw car 
+draw_self();
+
+// draw bullet to shoot
+if (shoot_delay < 0) {
+	var pos_x = x+dcos((-1)*phy_rotation)*sprite_width/2;
+	var pos_y = y+dsin(phy_rotation)*sprite_width/2;
+
+	draw_sprite_ext(spr_bullet, 0, pos_x, pos_y, 1, 1, (-1)*phy_rotation, c_white, 1);
+}
+
+// draw boost availability
+var boost_availability = clamp(boost_power, 0, boost_max)/boost_max*60;
+var pos_x = x;
+var pos_y = y+60;
+draw_rectangle_colour(pos_x-30, pos_y-5, pos_x+30, pos_y+5, c_lime, c_lime, c_lime, c_lime, 0);
+draw_rectangle_colour(pos_x-30, pos_y-5, pos_x-30+boost_availability, pos_y+5, c_green, c_green, c_green, c_green, 0);
+draw_rectangle_colour(pos_x-30, pos_y-5, pos_x+30, pos_y+5, c_white, c_white, c_white, c_white, 1);
+
+// draw name on car
 draw_set_font(fnt_textbox);
 draw_set_halign(fa_center);
 draw_set_valign(fa_center);
-
 draw_set_color(c_white);
 draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
+// draw select name box
 if (show_user_select) {
 	var offset_x=x+50;
 	var offset_y=y+70;
@@ -30,6 +50,7 @@ if (show_user_select) {
 	draw_text(offset_x-100, offset_y, show_user_select_name);
 }
 
+// draw debug info
 if (dodraw) {
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
