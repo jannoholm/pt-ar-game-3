@@ -1,1 +1,1 @@
-scr_draw_trail(8,8,0,-1,0,1);
+scr_draw_trail(12,12,0,-1,0,1);

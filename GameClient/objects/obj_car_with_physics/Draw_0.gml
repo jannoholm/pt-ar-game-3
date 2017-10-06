@@ -15,12 +15,12 @@ if (shoot_delay < 0) {
 }
 
 // draw boost availability
-var boost_availability = clamp(boost_power, 0, boost_max)/boost_max*60;
+var boost_availability = clamp(boost_power, 0, boost_max)/boost_max*80;
 var pos_x = x;
-var pos_y = y+60;
-draw_rectangle_colour(pos_x-30, pos_y-5, pos_x+30, pos_y+5, c_lime, c_lime, c_lime, c_lime, 0);
-draw_rectangle_colour(pos_x-30, pos_y-5, pos_x-30+boost_availability, pos_y+5, c_green, c_green, c_green, c_green, 0);
-draw_rectangle_colour(pos_x-30, pos_y-5, pos_x+30, pos_y+5, c_white, c_white, c_white, c_white, 1);
+var pos_y = y+80;
+draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_lime, c_lime, c_lime, c_lime, 0);
+draw_rectangle_colour(pos_x-40, pos_y-7, pos_x-40+boost_availability, pos_y+7, c_green, c_green, c_green, c_green, 0);
+draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_white, c_white, c_white, c_white, 1);
 
 // draw name on car
 draw_set_font(fnt_textbox);

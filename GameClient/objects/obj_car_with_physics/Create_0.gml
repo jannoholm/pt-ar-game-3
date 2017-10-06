@@ -57,9 +57,9 @@ show_user_select_scroll_cooldown=5;
 
 
 // Wheel offsets
-rearTireOffsetX = -40;
-rearLeftTireOffsetY = 20;
-rearRightTireOffsetY = -20;
+rearTireOffsetX = -50;
+rearLeftTireOffsetY = 35;
+rearRightTireOffsetY = -35;
 
 // Since trailing script does not support multiple trails for the same object, fake ones need to be created
 rearLeftTire = instance_create_layer(x + rearTireOffsetX, y + rearLeftTireOffsetY, "car", obj_car_tire);
