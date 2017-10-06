@@ -166,3 +166,4 @@ damaged=damaged-1;
 shoot_delay=shoot_delay-1;
 boost_power=clamp(boost_power+1, 0, boost_max);
 
+keyboard_show=keyboard_check(keyboard_enabler);

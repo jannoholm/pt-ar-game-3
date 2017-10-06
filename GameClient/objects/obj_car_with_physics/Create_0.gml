@@ -30,6 +30,10 @@ remote_control=true;
 go_move=0;
 go_turn=0;
 
+// enable keyboard in table
+keyboard_enabler=-1;
+keyboard_show=false;
+
 // name
 client_name="";
 

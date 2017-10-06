@@ -22,6 +22,11 @@ draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_lime, c_lime, c_li
 draw_rectangle_colour(pos_x-40, pos_y-7, pos_x-40+boost_availability, pos_y+7, c_green, c_green, c_green, c_green, 0);
 draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_white, c_white, c_white, c_white, 1);
 
+// draw keyboard enabled
+if (keyboard_show) {
+	draw_sprite_ext(spr_show_arrowkeys, 0, pos_x, pos_y, 1, 1, 0, c_white, 1);
+}
+
 // draw name on car
 draw_set_font(fnt_textbox);
 draw_set_halign(fa_center);

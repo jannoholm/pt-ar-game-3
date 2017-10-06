@@ -11,3 +11,4 @@ if (file_exists(filename)) {
 	client_id=file_text_read_string(filehandle);file_text_readln(filehandle);
 	file_text_close(filehandle);
 }
+

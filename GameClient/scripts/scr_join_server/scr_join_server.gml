@@ -6,7 +6,7 @@ obj_server_client.client_email=email;
 if (obj_server_client.reuse_clientid) {
 	obj_server_client.client_id=obj_player_details.client_id;
 }
-show_debug_message("Sending join: " + obj_server_client.client_name + " " + obj_server_client.client_email);
+show_debug_message("Sending join: " + obj_server_client.client_name + " " + obj_server_client.client_email + " " + obj_server_client.client_id);
 
 // store to disk first
 scr_write_player_details();

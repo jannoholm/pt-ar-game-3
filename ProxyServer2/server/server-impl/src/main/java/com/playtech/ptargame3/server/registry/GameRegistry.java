@@ -54,7 +54,10 @@ public class GameRegistry implements ClientListener {
     }
 
     public synchronized String createGame(String clientId, String gameName, int players, boolean joinAsPlayer, String aiType, boolean tableGame) {
-        if (hosting.get(clientId) != null) throw new CannotHostException("Client can host only one game. Open game: " + hosting.get(clientId));
+        GameRegistryGame game = hosting.get(clientId);
+        if (game != null) {
+            return game.getGameId();
+        }
 
         // create new game
         GameRegistryGame newGame = new GameRegistryGame(clientId, UUID.randomUUID().toString(), gameName, players, aiType, tableGame);

@@ -13,6 +13,7 @@ with (red1) {
 	dodraw=1;
 	carId = "red1";
 	teamColor = TeamColor.RED;
+	keyboard_enabler=ord("1");
 }
 
 red2 = instance_create_layer(100, 730, "car", obj_car_with_physics);
@@ -23,6 +24,7 @@ with (red2) {
 	initialRotation = 0;
 	carId = "red2";
 	teamColor = TeamColor.RED;
+	keyboard_enabler=ord("3");
 }
 
 blue1 = instance_create_layer(1820, 350, "car", obj_car_with_physics);
@@ -32,6 +34,7 @@ with (blue1) {
 	initialRotation = 180;
 	carId = "blue1";
 	teamColor = TeamColor.BLUE;
+	keyboard_enabler=ord("2");
 }
 
 blue2 = instance_create_layer(1820, 730, "car", obj_car_with_physics);
@@ -42,6 +45,7 @@ with (blue2) {
 	initialRotation = 180;
 	carId = "blue2";
 	teamColor = TeamColor.BLUE;
+	keyboard_enabler=ord("4");
 }
 
 client_map=ds_map_create();

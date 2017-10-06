@@ -35,5 +35,7 @@ show_debug_message("create server_client");
 
 if (room==play) {
 	return;
+} else {
+	room_goto_next();
 }
-room_goto_next();
+
