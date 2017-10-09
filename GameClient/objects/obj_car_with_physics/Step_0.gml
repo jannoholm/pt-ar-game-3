@@ -10,7 +10,7 @@ if ( obj_gameplay.currentGamePhase != GamePhase.PLAY ) {
 
 // user select
 show_user_select_scroll_cooldown=show_user_select_scroll_cooldown-1;
-if (show_user_select && ds_list_size(obj_server_client.user_name_list) > 0) {
+if (show_user_select) {
 	var show_user_select_pos=0;
 	var set_values=false;
 	if (show_user_select_id == 0) {
