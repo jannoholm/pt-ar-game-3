@@ -45,11 +45,17 @@ damage_direction=0;
 damage_turn=0;
 shoot=false;
 shoot_delay=0;
-shoot_interval=10*30; // every 10s
+shoot_interval=10*room_speed; // every 10s
 boost=false;
-boost_power=180;
-boost_max=1440; // 1.6 sec
+boost_power=6*room_speed;
+boost_max=30*room_speed; // 1.6 sec
 bullets=ds_list_create();
+
+// score elements
+score_last_touch=current_time;
+score_goals=0;
+score_bullet_hits=0;
+score_boost_touches=0;
 
 // user select in table
 show_user_select=false;
@@ -57,6 +63,7 @@ show_user_select_id=0;
 show_user_select_name="";
 show_user_select_name_prev="";
 show_user_select_name_next="";
+
 show_user_select_scroll_cooldown=5;
 
 

@@ -18,8 +18,8 @@ if (shoot_delay < 0) {
 var boost_availability = clamp(boost_power, 0, boost_max)/boost_max*80;
 var pos_x = x;
 var pos_y = y+80;
-draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_lime, c_lime, c_lime, c_lime, 0);
-draw_rectangle_colour(pos_x-40, pos_y-7, pos_x-40+boost_availability, pos_y+7, c_green, c_green, c_green, c_green, 0);
+draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_green, c_green, c_green, c_green, 0);
+draw_rectangle_colour(pos_x-40, pos_y-7, pos_x-40+boost_availability, pos_y+7, c_lime, c_lime, c_lime, c_lime, 0);
 draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_white, c_white, c_white, c_white, 1);
 
 // draw keyboard enabled
@@ -59,13 +59,19 @@ if (show_user_select) {
 if (dodraw) {
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
+	draw_set_font(fnt_textbox);
+	draw_set_color(c_white);
 
 	var dx=40;
 	var dy=40;
 	
-	/*draw_text(dx, dy+0, "colliding: " + string(colliding));
-	
-	draw_text(dx, dy+0, "velo: " + string(phy_angular_velocity));
+	draw_text(dx, dy+0, "fps: " + string(fps));
+	draw_text(dx, dy+20, "score_last_touch: " + string(score_last_touch));
+	draw_text(dx, dy+40, "score_goals: " + string(score_goals));
+	draw_text(dx, dy+60, "score_bullet_hits: " + string(score_bullet_hits));
+	draw_text(dx, dy+80, "score_boost_touches: " + string(score_boost_touches));
+
+	/*draw_text(dx, dy+0, "velo: " + string(phy_angular_velocity));
 	draw_text(dx, dy+20, "angdamp: " + string(phy_angular_damping));
 	draw_text(dx, dy+40, "velx: " + string(phy_linear_velocity_x));
 	draw_text(dx, dy+60, "vely: " + string(phy_linear_velocity_y));

@@ -639,11 +639,27 @@
             }
         },
         {
+            "Key": "9fc9be21-d08e-4148-b81b-70e09c7d8331",
+            "Value": {
+                "id": "eaf10149-eb8a-46ff-99ec-bf70bd65da46",
+                "resourcePath": "fonts\\fnt_gamewin\\fnt_gamewin.yy",
+                "resourceType": "GMFont"
+            }
+        },
+        {
             "Key": "a102a5fc-c945-44b4-8122-f444abcc2a24",
             "Value": {
                 "id": "e23b19bf-ce0c-4cfd-92f8-c56c7c0477b4",
                 "resourcePath": "views\\a102a5fc-c945-44b4-8122-f444abcc2a24.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "a104b58c-6bcf-45b0-be05-35628ea39a18",
+            "Value": {
+                "id": "3f65df05-3bb0-4a03-b4b8-39e80cc3a8b3",
+                "resourcePath": "scripts\\scr_reset_game_for_start\\scr_reset_game_for_start.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -668,6 +684,14 @@
                 "id": "044d3953-4b8e-403f-a4ce-3913a78bfd03",
                 "resourcePath": "scripts\\scr_set_messageLength\\scr_set_messageLength.yy",
                 "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "a5b0aa56-4719-4272-b754-36559590b67f",
+            "Value": {
+                "id": "f8d64142-9930-4544-9437-97b56cba8131",
+                "resourcePath": "views\\a5b0aa56-4719-4272-b754-36559590b67f.yy",
+                "resourceType": "GMFolder"
             }
         },
         {
@@ -835,6 +859,14 @@
             "Value": {
                 "id": "1eec3405-5e98-4632-a0ef-88149f6b8df2",
                 "resourcePath": "views\\c5918ede-11df-49cd-ab63-6a84226f94cd.yy",
+                "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "c9155158-af0a-4827-b752-254d511081e8",
+            "Value": {
+                "id": "74dfc5e2-32e6-46bf-853e-4c1d79699c87",
+                "resourcePath": "views\\c9155158-af0a-4827-b752-254d511081e8.yy",
                 "resourceType": "GMFolder"
             }
         },
@@ -1099,6 +1131,7 @@
         "f5813fd7-e20f-4427-a83a-1188ff7dbd2b",
         "19b71feb-935e-4587-803e-c49d4bc973b1",
         "e93644d1-c3e1-468b-bebd-4a5f13abfb8a",
+        "a104b58c-6bcf-45b0-be05-35628ea39a18",
         "9aa00b3d-0a46-4f51-8cc3-e199f4c00ded",
         "f50331ed-e5c2-42b8-aee7-a77ae55d1d23",
         "d5c86e80-94ba-43a4-95c4-1bdd55710f54",

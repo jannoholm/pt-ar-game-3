@@ -72,20 +72,7 @@ atPosition = false;
 var leftWheelPower = 0;
 var rightWheelPower = 0;
 
-if (colliding) {
-	// drive uncontrollably, when on oil spill
-	if (go_turn < 0) {
-		rightWheelPower=2;
-		leftWheelPower=0;
-	} else {
-		rightWheelPower=0;
-		leftWheelPower=2;
-	}
-	if (go_move < 0) {
-		rightWheelPower=-1*rightWheelPower;
-		leftWheelPower=-1*leftWheelPower;
-	}
-} else if ( damaged>0 ) {
+if ( damaged>0 ) {
 	// drive uncontrollably, when shot
 	if (damage_direction < 0) {
 		rightWheelPower=2;
@@ -98,6 +85,20 @@ if (colliding) {
 		rightWheelPower=-1*rightWheelPower;
 		leftWheelPower=-1*leftWheelPower;
 	}
+} else if (colliding) {
+	// drive uncontrollably, when on oil spill
+	if (go_turn < 0) {
+		rightWheelPower=2;
+		leftWheelPower=0;
+	} else {
+		rightWheelPower=0;
+		leftWheelPower=2;
+	}
+	if (go_move < 0) {
+		rightWheelPower=-1*rightWheelPower;
+		leftWheelPower=-1*leftWheelPower;
+	}
+	colliding=0;
 } else {
 	if (go_move > 0) {
 		if (go_turn >= 0) {
@@ -123,7 +124,7 @@ if (colliding) {
 	
 	// apply boost
 	if (boost && boost_power>0) {
-	    boost_power=boost_power-30;
+	    boost_power=boost_power-room_speed;
 	    rightWheelPower=rightWheelPower*2;
 	    leftWheelPower=leftWheelPower*2;
 	}
@@ -154,13 +155,12 @@ if (remote_control==false) {
 		var pos_y = y+dsin(phy_rotation)*sprite_width;
 		var bullet=instance_create_layer(pos_x, pos_y, "car", obj_bullet);
 		bullet.phy_rotation = phy_rotation;
+		bullet.shooter=self;
 		with(bullet){
-			physics_apply_local_force(0, 0, phy_mass*1000, 0);
+			physics_apply_local_force(0, 0, phy_mass*2500, 0);
 		}
 		ds_list_add(bullets, bullet);
 	}
-
-	colliding=0;
 }
 damaged=damaged-1;
 shoot_delay=shoot_delay-1;

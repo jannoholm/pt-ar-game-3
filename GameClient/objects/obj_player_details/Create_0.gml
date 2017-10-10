@@ -2,7 +2,7 @@
 filename=working_directory + "/user_details.txt";
 client_name="";
 client_email="";
-client_clientid="";
+client_id="";
 
 if (file_exists(filename)) {
 	var filehandle = file_text_open_read(filename);

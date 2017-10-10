@@ -31,7 +31,22 @@ switch (currentGamePhase) {
 	
 		break;
 	case (GamePhase.PLAY):
-	
 		break;
 }
 
+switch (newPhase) {
+	case (GamePhaseRename.PLAY):
+		if ( game_timer <= 0 ) {
+			newPhase = GamePhaseRename.GAME_END_ANIMATION;
+			game_timer=win_animation_length;
+		}
+		break;
+	case (GamePhaseRename.GAME_END_ANIMATION):
+		if ( game_timer <= 0 ) {
+			newPhase = GamePhaseRename.PLAY;
+			game_timer=game_length;
+			scr_reset_game_for_start();
+		}
+		break;
+}
+game_timer=game_timer-1;
