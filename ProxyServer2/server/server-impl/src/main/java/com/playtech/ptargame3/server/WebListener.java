@@ -4,10 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,6 +27,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.playtech.ptargame3.server.database.DatabaseAccess;
 import com.playtech.ptargame3.server.database.model.User;
+import com.playtech.ptargame3.server.exception.SystemException;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -263,7 +266,11 @@ public final class WebListener {
             String key = idx<0? p : p.substring(0, idx);
             String value = idx<0? "" : p.substring(idx+1, p.length());
 
-            queryParameters.put(key, value);
+            try {
+                queryParameters.put(key, URLDecoder.decode(value, ENCODING));
+            } catch (UnsupportedEncodingException e) {
+                throw new SystemException("Unable to decode: " + value, e);
+            }
         }
         if (logger.isLoggable(Level.INFO)) {
             logger.info(String.format("HttpUtilityServer uri parameters: %s", queryParameters));

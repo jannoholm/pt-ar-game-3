@@ -33,10 +33,11 @@ while (user_iterator++ < user_count) {
 	
 	// add to list, but keep list sorted
 	var size = ds_list_size(obj_server_client.user_name_list);
-	for (i=0; i < size; ++i) {
+	for (var i=0; i < size; ++i) {
 		var search_obj = ds_list_find_value(obj_server_client.user_name_list, i);
 		if (user_obj.user_name < search_obj.user_name) {
 			ds_list_insert(obj_server_client.user_name_list, i, user_obj);
+			break;
 		}
 	}
 	
@@ -44,4 +45,11 @@ while (user_iterator++ < user_count) {
 	if ( size == ds_list_size(obj_server_client.user_name_list) ) {
 		ds_list_add(obj_server_client.user_name_list, user_obj);
 	}
+}
+
+size = ds_list_size(obj_server_client.user_name_list);
+show_debug_message("list size: " + string(size));
+for (var i=0; i < size; ++i) {
+	var search_obj = ds_list_find_value(obj_server_client.user_name_list, i);
+	show_debug_message("user in list: " + search_obj.user_name);
 }
