@@ -1,4 +1,5 @@
-with (obj_playerinit_physics.red1) {
+//with (obj_playerinit_physics.red1) {
+with (obj_car_with_physics) {
 	damaged=0;
 	shoot=false;
 	shoot_delay=0;
@@ -13,7 +14,9 @@ with (obj_playerinit_physics.red1) {
 	score_goals=0;
 	score_bullet_hits=0;
 	score_boost_touches=0;
+	ready=0;
 }
+/*
 with (obj_playerinit_physics.red2) {
 	damaged=0;
 	shoot=false;
@@ -29,6 +32,7 @@ with (obj_playerinit_physics.red2) {
 	score_goals=0;
 	score_bullet_hits=0;
 	score_boost_touches=0;
+	ready=0;
 }
 with (obj_playerinit_physics.blue1) {
 	damaged=0;
@@ -45,8 +49,9 @@ with (obj_playerinit_physics.blue1) {
 	score_goals=0;
 	score_bullet_hits=0;
 	score_boost_touches=0;
+	ready=0;
 }
-with (obj_playerinit_physics.blue1) {
+with (obj_playerinit_physics.blue2) {
 	damaged=0;
 	shoot=false;
 	shoot_delay=0;
@@ -61,4 +66,5 @@ with (obj_playerinit_physics.blue1) {
 	score_goals=0;
 	score_bullet_hits=0;
 	score_boost_touches=0;
-}
+	ready=0;
+}*/

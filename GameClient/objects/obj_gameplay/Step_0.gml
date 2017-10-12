@@ -19,8 +19,9 @@ switch (currentCarPhase) {
 	case (CarPhase.COUNTDOWN_TO_START):
 	
 		// TODO: Add some nice graphics
-		
-		instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
+		if (currentGamePhase == GamePhase.PLAY) {
+			instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
+		}
 		currentCarPhase = CarPhase.PLAY;
 	
 		break;
@@ -33,27 +34,34 @@ switch (currentGamePhase) {
 		currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
 		currentGamePhase = GamePhase.WAIT_TO_START;
 		scr_reset_game_for_start();
+		break;
 	case (GamePhase.WAIT_TO_START):
-		// TODO
-		currentGamePhase = GamePhase.COUNTDOWN_TO_START;
-		game_timer = countdown_length;
+		if (obj_playerinit_physics.red1.ready && obj_playerinit_physics.red2.ready
+			&& obj_playerinit_physics.blue1.ready && obj_playerinit_physics.blue2.ready) {
+				
+			currentGamePhase = GamePhase.COUNTDOWN_TO_START;
+			game_timer = countdown_length;
+		}
 		break;
 	case (GamePhase.COUNTDOWN_TO_START):
 		if ( game_timer <= 0 ) {
 			currentGamePhase = GamePhase.PLAY;
 			game_timer=game_length;
+			instance_destroy(obj_ball);
+			instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
 		}
 		break;
 	case (GamePhase.PLAY):
 		if ( game_timer <= 0 ) {
 			currentGamePhase = GamePhase.GAME_END_ANIMATION;
 			game_timer=win_animation_length;
+			instance_destroy(obj_ball);
 		}
 		break;
 	case (GamePhase.GAME_END_ANIMATION):
 		currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
 		if ( game_timer <= 0 ) {
-			currentGamePhase = GamePhase.WAIT_TO_START;
+			currentGamePhase = GamePhase.PREPARE_TO_START;
 			game_timer=game_length;
 		}
 		break;

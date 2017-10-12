@@ -1,14 +1,20 @@
+// out of game checks
+keyboard_show=keyboard_check(keyboard_enabler);
+if (obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && shoot) {
+	ready=1;
+}
+
+// do nothing, while car drives
 if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS && !atPosition ) {
 	atPosition = ai_reset_position();
 	return;
 }
 
+// allow nothing, if game not in proper state
 if ( (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.currentGamePhase != GamePhase.PLAY) && !show_user_select ) {
 	// If gameplay is not ongoing, don't allow movement
 	return;
 }
-
-keyboard_show=keyboard_check(keyboard_enabler);
 
 // user select
 show_user_select_scroll_cooldown=show_user_select_scroll_cooldown-1;

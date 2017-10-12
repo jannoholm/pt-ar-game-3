@@ -1,5 +1,7 @@
 // draw highlight
-if (highlight > 0) {
+if (highlight > 0 
+	|| obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && ready
+	|| obj_gameplay.currentGamePhase == GamePhase.COUNTDOWN_TO_START && ready) {
 	draw_sprite_ext(spr_car_highlight, 0, x, y, 1, 1, image_angle, c_white, 1);
 }
 
@@ -55,6 +57,24 @@ if (show_user_select) {
 	draw_text(offset_x-100, offset_y, show_user_select_name);
 }
 
+// temp draw of stats at end of game
+if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
+	var offset_x=x+50;
+	var offset_y=y+100;
+	if (x > 760) {
+		var offset_x=x-50;
+	}
+	if (y > 600) {
+		var offset_y=y-90;
+	}
+	draw_set_color(c_white);
+	draw_set_font(fnt_textbox);
+	draw_set_halign(fa_right);
+	draw_text(offset_x, offset_y, "goals: " + string(score_goals));
+	draw_text(offset_x, offset_y+15, "bullet hits: " + string(score_bullet_hits));
+	draw_text(offset_x, offset_y+30, "boost touches: " + string(score_boost_touches));
+}
+
 // draw debug info
 if (dodraw) {
 	draw_set_halign(fa_left);
@@ -66,10 +86,10 @@ if (dodraw) {
 	var dy=40;
 	
 	draw_text(dx, dy+0, "fps: " + string(fps));
-	draw_text(dx, dy+20, "score_last_touch: " + string(score_last_touch));
-	draw_text(dx, dy+40, "score_goals: " + string(score_goals));
-	draw_text(dx, dy+60, "score_bullet_hits: " + string(score_bullet_hits));
-	draw_text(dx, dy+80, "score_boost_touches: " + string(score_boost_touches));
+	//draw_text(dx, dy+20, "score_last_touch: " + string(score_last_touch));
+	//draw_text(dx, dy+40, "score_goals: " + string(score_goals));
+	//draw_text(dx, dy+60, "score_bullet_hits: " + string(score_bullet_hits));
+	//draw_text(dx, dy+80, "score_boost_touches: " + string(score_boost_touches));
 
 	/*draw_text(dx, dy+0, "velo: " + string(phy_angular_velocity));
 	draw_text(dx, dy+20, "angdamp: " + string(phy_angular_damping));

@@ -50,6 +50,7 @@ boost=false;
 boost_power=6*room_speed;
 boost_max=30*room_speed; // 1.6 sec
 bullets=ds_list_create();
+ready=0;
 
 // score elements
 score_last_touch=current_time;

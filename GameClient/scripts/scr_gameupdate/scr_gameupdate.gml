@@ -20,7 +20,7 @@ while (control_length > 0) {
 				
 				show_debug_message("Game state: " + string(currentGamePhase) + "-" + string(currentCarPhase) + "-" + string(teamRedScore) + "-" + string(teamBlueScore) );
 			}
-			control_length=control_length-1*3;
+			control_length=control_length-1*4;
 			break;
 		case 101: // ball
 		
