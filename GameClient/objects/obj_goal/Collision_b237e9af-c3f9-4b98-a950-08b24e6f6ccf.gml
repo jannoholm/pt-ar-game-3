@@ -28,5 +28,5 @@ with ( obj_gameplay ) {
 	
 	show_debug_message( "GOAL! Red:" + string(teamRedScore) + " Blue: " + string(teamBlueScore) );
 	
-	currentGamePhase = GamePhase.WAIT_TO_START;
+	currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
 }

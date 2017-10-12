@@ -1,12 +1,6 @@
 ///@description Control game flow
-switch (currentGamePhase) {
-	case (GamePhase.WAIT_TO_START):
-	
-		// TODO: Add logic to detect cards on fields, once all cars are on field move to next phase
-		currentGamePhase = GamePhase.MOVE_TO_POSITIONS;
-	
-		break;
-	case (GamePhase.MOVE_TO_POSITIONS):
+switch (currentCarPhase) {
+	case (CarPhase.MOVE_TO_POSITIONS):
 
 		for ( var i = 0; i < instance_number(obj_car_with_physics); i += 1 ) {
 			var car = instance_find( obj_car_with_physics, i );
@@ -19,33 +13,48 @@ switch (currentGamePhase) {
 		show_debug_message("All cars at position, proceeding to countdown");
 		
 		// All cars at position, move to next phase
-		currentGamePhase = GamePhase.COUNTDOWN_TO_START;
+		currentCarPhase = CarPhase.COUNTDOWN_TO_START;
 		
 		break;
-	case (GamePhase.COUNTDOWN_TO_START):
+	case (CarPhase.COUNTDOWN_TO_START):
 	
 		// TODO: Add some nice graphics
 		
 		instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
-		currentGamePhase = GamePhase.PLAY;
+		currentCarPhase = CarPhase.PLAY;
 	
 		break;
-	case (GamePhase.PLAY):
+	case (CarPhase.PLAY):
 		break;
 }
 
-switch (newPhase) {
-	case (GamePhaseRename.PLAY):
+switch (currentGamePhase) {
+	case (GamePhase.PREPARE_TO_START):
+		currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
+		currentGamePhase = GamePhase.WAIT_TO_START;
+		scr_reset_game_for_start();
+	case (GamePhase.WAIT_TO_START):
+		// TODO
+		currentGamePhase = GamePhase.COUNTDOWN_TO_START;
+		game_timer = countdown_length;
+		break;
+	case (GamePhase.COUNTDOWN_TO_START):
 		if ( game_timer <= 0 ) {
-			newPhase = GamePhaseRename.GAME_END_ANIMATION;
+			currentGamePhase = GamePhase.PLAY;
+			game_timer=game_length;
+		}
+		break;
+	case (GamePhase.PLAY):
+		if ( game_timer <= 0 ) {
+			currentGamePhase = GamePhase.GAME_END_ANIMATION;
 			game_timer=win_animation_length;
 		}
 		break;
-	case (GamePhaseRename.GAME_END_ANIMATION):
+	case (GamePhase.GAME_END_ANIMATION):
+		currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
 		if ( game_timer <= 0 ) {
-			newPhase = GamePhaseRename.PLAY;
+			currentGamePhase = GamePhase.WAIT_TO_START;
 			game_timer=game_length;
-			scr_reset_game_for_start();
 		}
 		break;
 }

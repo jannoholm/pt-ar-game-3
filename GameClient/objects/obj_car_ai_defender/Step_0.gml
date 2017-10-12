@@ -1,9 +1,9 @@
-if ( obj_gameplay.currentGamePhase == GamePhase.MOVE_TO_POSITIONS && !atPosition ) {
+if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS && !atPosition ) {
 	atPosition = ai_reset_position();
 	return;
 }
 
-if ( obj_gameplay.currentGamePhase != GamePhase.PLAY ) {
+if ( obj_gameplay.currentCarPhase != CarPhase.PLAY ) {
 	// If gameplay is not ongoing, don't allow movement
 	return;
 }

@@ -14,10 +14,11 @@ while (control_length > 0) {
 		case 100: // gameplay state
 			with (obj_gameplay){
 				currentGamePhase = buffer_read(buffer, buffer_s8);
+				currentCarPhase = buffer_read(buffer, buffer_s8);
 				teamRedScore = buffer_read(buffer, buffer_s8);
 				teamBlueScore= buffer_read(buffer, buffer_s8);
 				
-				show_debug_message("Game state: " + string(currentGamePhase) + "-" + string(teamRedScore) + "-" + string(teamBlueScore) );
+				show_debug_message("Game state: " + string(currentGamePhase) + "-" + string(currentCarPhase) + "-" + string(teamRedScore) + "-" + string(teamBlueScore) );
 			}
 			control_length=control_length-1*3;
 			break;

@@ -1,12 +1,14 @@
-if ( obj_gameplay.currentGamePhase == GamePhase.MOVE_TO_POSITIONS && !atPosition ) {
+if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS && !atPosition ) {
 	atPosition = ai_reset_position();
 	return;
 }
 
-if ( obj_gameplay.currentGamePhase != GamePhase.PLAY ) {
+if ( (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.currentGamePhase != GamePhase.PLAY) && !show_user_select ) {
 	// If gameplay is not ongoing, don't allow movement
 	return;
 }
+
+keyboard_show=keyboard_check(keyboard_enabler);
 
 // user select
 show_user_select_scroll_cooldown=show_user_select_scroll_cooldown-1;
@@ -15,8 +17,8 @@ if (show_user_select) {
 	var set_values=false;
 	if (show_user_select_id == 0) {
 		set_values=true;
-	} else if (show_user_select_scroll_cooldown <=0 && go_move != 0) {
-		show_user_select_scroll_cooldown=5;
+	} else if (show_user_select_scroll_cooldown <0 && go_move != 0 || go_move != 0 && sign(go_move) != sign(go_move_prev)) {
+		show_user_select_scroll_cooldown=floor(room_speed/6);
 		set_values=true;
 		
 		// find position of current element
@@ -62,6 +64,7 @@ if (show_user_select) {
 			show_user_select_name_next="";
 		}
 	}
+	go_move_prev=go_move;
 	return;
 }
 
@@ -166,4 +169,3 @@ damaged=damaged-1;
 shoot_delay=shoot_delay-1;
 boost_power=clamp(boost_power+1, 0, boost_max);
 
-keyboard_show=keyboard_check(keyboard_enabler);

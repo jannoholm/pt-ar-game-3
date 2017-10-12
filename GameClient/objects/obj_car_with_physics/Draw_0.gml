@@ -44,11 +44,11 @@ if (show_user_select) {
 
 	draw_sprite_ext(spr_user_select, 0, offset_x, offset_y, 1, 1, 0, c_white, 1);
 	draw_set_halign(fa_left);	
-	draw_set_font(fnt_textbox_small);
-	
+	draw_set_font(fnt_textbox);
+
 	draw_set_color(c_gray);
-	draw_text(offset_x-90, offset_y-14, show_user_select_name_prev);
-	draw_text(offset_x-90, offset_y+14, show_user_select_name_next);
+	draw_text_color(offset_x-100, offset_y-17, show_user_select_name_prev, c_white, c_white, c_gray, c_gray, 1);
+	draw_text_color(offset_x-100, offset_y+17, show_user_select_name_next, c_gray, c_gray, c_white, c_white, 1);
 
 	draw_set_color(c_black);
 	draw_set_font(fnt_textbox);
