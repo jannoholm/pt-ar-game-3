@@ -1,4 +1,10 @@
 //with (obj_playerinit_physics.red1) {
+with (obj_gameplay) {
+	teamRedScore=0;
+	teamBlueScore=0;
+}
+
+
 with (obj_car_with_physics) {
 	damaged=0;
 	shoot=false;

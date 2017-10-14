@@ -140,8 +140,8 @@ if ( damaged>0 ) {
 }
 
 // Apply physical force to tire locations
-physics_apply_local_force(rearTireOffsetX, rearLeftTireOffsetY, leftWheelPower*30000, 0);
-physics_apply_local_force(rearTireOffsetX, rearRightTireOffsetY, rightWheelPower*30000, 0);
+physics_apply_local_force(rearTireOffsetX, rearLeftTireOffsetY, leftWheelPower*20000, 0);
+physics_apply_local_force(rearTireOffsetX, rearRightTireOffsetY, rightWheelPower*20000, 0);
 
 // Avoid sideways drifting by applying counter impulse
 nx = lengthdir_x(1, (-phy_rotation)+90);
