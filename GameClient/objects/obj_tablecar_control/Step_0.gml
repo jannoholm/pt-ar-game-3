@@ -1,16 +1,20 @@
 /// @description Gamepad control
 
 var currentGamePad = ds_map_find_value(global.gamepads, car.carId);
+// Acceleration control - rest position value is -1 and fully pressed value is 1; the end value has to be between 0..1
+var forwardAccelValue = (gamepad_axis_value(currentGamePad, global.gp_axis_forward) + 1) / 2;
+var reverseAccelValue = (gamepad_axis_value(currentGamePad, global.gp_axis_reverse) + 1) / 2;
+var goMoveGamepadValue = forwardAccelValue - reverseAccelValue;
 
 // Ignore small deadzone
-if ( abs(gamepad_axis_value(currentGamePad, global.gp_axis_speed)) > 0.05 ) {
-	// Vertical axis is reversed on the gamepad
-	car.go_move = -gamepad_axis_value(currentGamePad, global.gp_axis_speed);
+if ( abs(goMoveGamepadValue) > 0.05 ) {
+	car.go_move = goMoveGamepadValue;
 } else if (keyboard_check(car.keyboard_enabler)) {
 	car.go_move = keyboard_check(vk_up)-keyboard_check(vk_down);
 } else {
 	car.go_move = 0;
 }
+
 
 // Ignore small deadzone
 if ( abs(gamepad_axis_value(currentGamePad, global.gp_axis_turn)) > 0.05 ) {
@@ -21,8 +25,8 @@ if ( abs(gamepad_axis_value(currentGamePad, global.gp_axis_turn)) > 0.05 ) {
 	car.go_turn = 0;
 }
 
-car.boost = keyboard_check(car.keyboard_enabler) && keyboard_check(vk_control) || gamepad_button_check(currentGamePad, global.gp_button_boost)
-car.shoot = keyboard_check(car.keyboard_enabler) && keyboard_check(vk_space) || gamepad_button_check(currentGamePad, global.gp_button_shoot)
+car.boost = keyboard_check(car.keyboard_enabler) && keyboard_check(vk_control) || gamepad_button_check(currentGamePad, global.gp_button_boost1) || gamepad_button_check(currentGamePad, global.gp_button_boost2);
+car.shoot = keyboard_check(car.keyboard_enabler) && keyboard_check(vk_space) || gamepad_button_check(currentGamePad, global.gp_button_shoot);
 car.highlight = keyboard_check(car.keyboard_enabler) && keyboard_check(ord("A")) || gamepad_button_check(currentGamePad, global.gp_button_highlight);
 
 // choose player. drive buttons are used to scroll and cannot drive
