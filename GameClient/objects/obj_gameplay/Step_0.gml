@@ -14,15 +14,22 @@ switch (currentCarPhase) {
 		
 		// All cars at position, move to next phase
 		currentCarPhase = CarPhase.COUNTDOWN_TO_START;
+		move_to_position_timer=move_to_position_length;
 		
 		break;
 	case (CarPhase.COUNTDOWN_TO_START):
-	
-		// TODO: Add some nice graphics
-		if (currentGamePhase == GamePhase.PLAY) {
-			instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
+		
+		move_to_position_timer=move_to_position_timer-1;
+		if ( move_to_position_timer <= 0 ) {
+			// TODO: Add some nice graphics
+			if (currentGamePhase == GamePhase.PLAY) {
+				instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
+				instance_create_layer(room_width/2, room_height/2, "car", obj_go);
+			}
+			currentCarPhase = CarPhase.PLAY;
+		} else {
+			return;
 		}
-		currentCarPhase = CarPhase.PLAY;
 	
 		break;
 	case (CarPhase.PLAY):
@@ -49,15 +56,29 @@ switch (currentGamePhase) {
 			game_timer=game_length;
 			instance_destroy(obj_ball);
 			instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
+			instance_create_layer(room_width/2, room_height/2, "car", obj_go);
 		}
 		break;
 	case (GamePhase.PLAY):
+		if ( game_timer <= 0 ) {
+			if (teamRedScore == teamBlueScore) {
+				currentGamePhase = GamePhase.SUDDEN_DEATH;
+				instance_create_layer(room_width/2, room_height/2, "car", obj_sudden_death);
+				game_timer=sudden_death_length;
+			} else {
+				currentGamePhase = GamePhase.GAME_END_ANIMATION;
+				game_timer=win_animation_length;
+				instance_destroy(obj_ball);
+			}
+		}
+		break;
+	case (GamePhase.SUDDEN_DEATH):
 		if ( game_timer <= 0 ) {
 			currentGamePhase = GamePhase.GAME_END_ANIMATION;
 			game_timer=win_animation_length;
 			instance_destroy(obj_ball);
 		}
-		break;
+	break;
 	case (GamePhase.GAME_END_ANIMATION):
 		currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
 		if ( game_timer <= 0 ) {

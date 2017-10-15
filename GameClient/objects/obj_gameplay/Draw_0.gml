@@ -17,7 +17,11 @@ if (currentGamePhase == GamePhase.COUNTDOWN_TO_START) {
 	draw_text(1920/2, 1080/2-150, "GAME OVER");
 	draw_text(1920/2, 1080/2, wintext);
 	draw_text(1920/2, 1080/2+150, "Score: " + string(teamRedScore) + " vs. " + string(teamBlueScore));
-} else if (currentGamePhase == GamePhase.PLAY) {
+} else if (currentGamePhase == GamePhase.PLAY || currentGamePhase == GamePhase.SUDDEN_DEATH) {
 	draw_set_halign(fa_right);
 	draw_text(1850, 60, string(floor(game_timer/room_speed+1)));
+	if (currentCarPhase == CarPhase.COUNTDOWN_TO_START) {
+		draw_set_halign(fa_center);
+		draw_text(1920/2, 1080/2, string(floor(move_to_position_timer/room_speed)+1));
+	}
 }

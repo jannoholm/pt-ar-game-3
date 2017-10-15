@@ -7,11 +7,14 @@ if (obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && shoot) {
 // do nothing, while car drives
 if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS && !atPosition ) {
 	atPosition = ai_reset_position();
-	return;
+	if (!keyboard_show) {
+		return;
+	}
 }
-
 // allow nothing, if game not in proper state
-if ( (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.currentGamePhase != GamePhase.PLAY) && !show_user_select ) {
+else if ( (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.currentGamePhase != GamePhase.PLAY) 
+			&& (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.currentGamePhase != GamePhase.SUDDEN_DEATH)
+			&& !show_user_select ) {
 	// If gameplay is not ongoing, don't allow movement
 	return;
 }
@@ -23,8 +26,13 @@ if (show_user_select) {
 	var set_values=false;
 	if (show_user_select_id == 0) {
 		set_values=true;
-	} else if (show_user_select_scroll_cooldown <0 && go_move != 0 || go_move != 0 && sign(go_move) != sign(go_move_prev)) {
-		show_user_select_scroll_cooldown=floor(room_speed/6);
+	} else if (show_user_select_scroll_cooldown > 0 ) {
+		// don't move
+	} else if (go_move != 0 || go_move != 0 && sign(go_move) != sign(go_move_prev)) {
+		if ( show_user_select_scroll_cooldown=0 ) {
+			show_user_select_scroll_speedup=show_user_select_scroll_speedup+1;
+		}
+		show_user_select_scroll_cooldown=clamp(floor(room_speed/6)-floor(show_user_select_scroll_speedup/2),2,100);
 		set_values=true;
 		
 		// find position of current element
@@ -48,10 +56,12 @@ if (show_user_select) {
 				show_user_select_pos=show_user_select_pos+1;
 			}
 		}
+	} else {
+		show_user_select_scroll_speedup=0;
 	}
 	
 	// set data for scrolled user
-	if (set_values) {
+	if (set_values && ds_list_size(obj_server_client.user_name_list) > 0) {
 		var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos);
 		show_user_select_id=show_user_selected.user_id;
 		show_user_select_name=show_user_selected.user_name;
@@ -72,6 +82,8 @@ if (show_user_select) {
 	}
 	go_move_prev=go_move;
 	return;
+} else {
+	show_user_select_scroll_speedup=0;
 }
 
 // Reset position when game starts

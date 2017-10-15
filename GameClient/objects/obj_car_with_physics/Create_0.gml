@@ -66,6 +66,7 @@ show_user_select_name_prev="";
 show_user_select_name_next="";
 
 show_user_select_scroll_cooldown=5;
+show_user_select_scroll_speedup=0;
 go_move_prev=0;
 
 // Wheel offsets

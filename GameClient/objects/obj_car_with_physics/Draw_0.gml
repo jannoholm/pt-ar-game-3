@@ -61,18 +61,23 @@ if (show_user_select) {
 if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	var offset_x=x+50;
 	var offset_y=y+100;
-	if (x > 760) {
+	/*if (x > 760) {
 		var offset_x=x-50;
-	}
+	}*/
 	if (y > 600) {
 		var offset_y=y-90;
 	}
-	draw_set_color(c_white);
+	draw_set_color(c_gray);
 	draw_set_font(fnt_textbox);
 	draw_set_halign(fa_right);
 	draw_text(offset_x, offset_y, "goals: " + string(score_goals));
 	draw_text(offset_x, offset_y+15, "bullet hits: " + string(score_bullet_hits));
 	draw_text(offset_x, offset_y+30, "boost touches: " + string(score_boost_touches));
+	
+	draw_set_color(c_white);
+	draw_text(offset_x-1, offset_y-1, "goals: " + string(score_goals));
+	draw_text(offset_x-1, offset_y+15-1, "bullet hits: " + string(score_bullet_hits));
+	draw_text(offset_x-1, offset_y+30-1, "boost touches: " + string(score_boost_touches));
 }
 
 // draw debug info

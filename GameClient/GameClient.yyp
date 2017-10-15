@@ -71,6 +71,22 @@
             }
         },
         {
+            "Key": "0acdc41e-1842-416d-95a1-ea3e846bb409",
+            "Value": {
+                "id": "29bb3414-1cf5-4b7c-b130-9693ba89f657",
+                "resourcePath": "objects\\obj_sudden_death\\obj_sudden_death.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
+            "Key": "0cbf43f4-8509-415b-a3c1-8bddfe70299b",
+            "Value": {
+                "id": "05dd4f6a-a7aa-4e85-9f50-86a261d58890",
+                "resourcePath": "fonts\\fnt_go\\fnt_go.yy",
+                "resourceType": "GMFont"
+            }
+        },
+        {
             "Key": "0ce0e483-9328-4c74-b5b2-9f903ebb4bde",
             "Value": {
                 "id": "0ff3b7f1-9232-4215-b5f4-a8838b73d21f",
@@ -172,6 +188,14 @@
                 "id": "7202e2a3-5ddc-4bbb-a63e-4cac4ff050bd",
                 "resourcePath": "scripts\\scr_game_control_message\\scr_game_control_message.yy",
                 "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "1a7ca358-f6a5-4838-b509-d304c62b20e5",
+            "Value": {
+                "id": "05e8d00a-250e-40a4-ab91-e55dbfafa4c6",
+                "resourcePath": "objects\\obj_go\\obj_go.yy",
+                "resourceType": "GMObject"
             }
         },
         {

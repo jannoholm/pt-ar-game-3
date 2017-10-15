@@ -1,5 +1,4 @@
-goal=goal+1;
-show_goal=120;
+show_goal=room_speed*4;
 
 if ( !obj_gameplay.joinedClient ) {
 	// Only host should destroy the ball via network update
@@ -29,4 +28,11 @@ with ( obj_gameplay ) {
 	show_debug_message( "GOAL! Red:" + string(teamRedScore) + " Blue: " + string(teamBlueScore) );
 	
 	currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
+	if (currentGamePhase == GamePhase.SUDDEN_DEATH) {
+		currentGamePhase = GamePhase.GAME_END_ANIMATION;
+		show_goal=0;
+	}
+}
+if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
+	show_goal=0;
 }
