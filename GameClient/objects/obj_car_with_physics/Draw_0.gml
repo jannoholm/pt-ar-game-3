@@ -72,12 +72,14 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_set_halign(fa_right);
 	draw_text(offset_x, offset_y, "goals: " + string(score_goals));
 	draw_text(offset_x, offset_y+15, "bullet hits: " + string(score_bullet_hits));
-	draw_text(offset_x, offset_y+30, "boost touches: " + string(score_boost_touches));
+	draw_text(offset_x, offset_y+30, "ball touches: " + string(score_ball_touches));
+	draw_text(offset_x, offset_y+45, "boost touches: " + string(score_boost_touches));
 	
 	draw_set_color(c_white);
 	draw_text(offset_x-1, offset_y-1, "goals: " + string(score_goals));
 	draw_text(offset_x-1, offset_y+15-1, "bullet hits: " + string(score_bullet_hits));
-	draw_text(offset_x-1, offset_y+30-1, "boost touches: " + string(score_boost_touches));
+	draw_text(offset_x-1, offset_y+30-1, "ball touches: " + string(score_ball_touches));
+	draw_text(offset_x-1, offset_y+45-1, "boost touches: " + string(score_boost_touches));
 }
 
 // draw debug info

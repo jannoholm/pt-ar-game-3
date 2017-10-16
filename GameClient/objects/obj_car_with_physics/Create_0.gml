@@ -54,8 +54,10 @@ ready=0;
 
 // score elements
 score_last_touch=current_time;
+score_last_touch_interval=current_time;
 score_goals=0;
 score_bullet_hits=0;
+score_ball_touches=0;
 score_boost_touches=0;
 
 // user select in table
