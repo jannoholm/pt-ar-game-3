@@ -47,6 +47,17 @@ while (user_iterator++ < user_count) {
 	}
 }
 
+// Add hardcoded AI bots, should be done via some other setting in future
+var aiChaser = instance_create(-1, -1, obj_user);
+aiChaser.user_id = -1;
+aiChaser.user_name = "AI_BOT_CHASER";
+ds_list_insert(obj_server_client.user_name_list, 0, aiChaser);
+// Add hardcoded AI bots, should be done via some other setting in future
+var aiDefender = instance_create(-1, -1, obj_user);
+aiDefender.user_id = -1;
+aiDefender.user_name = "AI_BOT_DEFENDER";
+ds_list_insert(obj_server_client.user_name_list, 1, aiDefender);
+
 size = ds_list_size(obj_server_client.user_name_list);
 show_debug_message("list size: " + string(size));
 for (var i=0; i < size; ++i) {

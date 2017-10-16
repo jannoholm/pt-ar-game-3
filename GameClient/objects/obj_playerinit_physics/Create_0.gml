@@ -13,17 +13,18 @@ with (red1) {
 	dodraw=1;
 	carId = "red1";
 	teamColor = TeamColor.RED;
+	playerType = PlayerType.PLAYER;
 	keyboard_enabler=ord("1");
 }
 
 red2 = instance_create_layer(100, 730, "car", obj_car_with_physics);
-// red2 = instance_create_layer(100, 570, "car", obj_car_ai_chaser);
 with (red2) {
 	image_blend = make_color_rgb(205,92,92);
 	phy_rotation = 0;
 	initialRotation = 0;
 	carId = "red2";
 	teamColor = TeamColor.RED;
+	playerType = PlayerType.PLAYER;
 	keyboard_enabler=ord("3");
 }
 
@@ -34,17 +35,18 @@ with (blue1) {
 	initialRotation = 180;
 	carId = "blue1";
 	teamColor = TeamColor.BLUE;
+	playerType = PlayerType.PLAYER;
 	keyboard_enabler=ord("2");
 }
 
 blue2 = instance_create_layer(1820, 730, "car", obj_car_with_physics);
-// blue2 = instance_create_layer(1340, 570, "car", obj_car_ai_chaser);
 with (blue2) {
 	image_blend = make_color_rgb(46, 108, 209);
 	phy_rotation = 180;
 	initialRotation = 180;
 	carId = "blue2";
 	teamColor = TeamColor.BLUE;
+	playerType = PlayerType.PLAYER;
 	keyboard_enabler=ord("4");
 }
 

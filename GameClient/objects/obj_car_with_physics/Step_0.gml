@@ -7,10 +7,12 @@ if (obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && shoot) {
 // do nothing, while car drives
 if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS && !atPosition ) {
 	atPosition = ai_reset_position();
-	if (!keyboard_show) {
-		return;
-	}
+} else if ( obj_gameplay.currentCarPhase != CarPhase.MOVE_TO_POSITIONS && atPosition ){
+	// Reset at position step when game starts
+	atPosition = false;
 }
+
+
 // allow nothing, if game not in proper state
 else if ( (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.currentGamePhase != GamePhase.PLAY) 
 			&& (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.currentGamePhase != GamePhase.SUDDEN_DEATH)
@@ -66,6 +68,15 @@ if (show_user_select) {
 		show_user_select_id=show_user_selected.user_id;
 		show_user_select_name=show_user_selected.user_name;
 		
+		// Hardcoded user names to AI
+		if ( show_user_select_name == "AI_BOT_CHASER" ) {
+			playerType = PlayerType.AI_CHASER;	
+		} else if ( show_user_select_name == "AI_BOT_DEFENDER" ) {
+			playerType = PlayerType.AI_DEFENDER;
+		} else {
+			playerType = PlayerType.PLAYER;	
+		}
+		
 		if (show_user_select_pos > 0) {
 			var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos-1);
 			show_user_select_name_prev=show_user_selected.user_name;
@@ -85,10 +96,6 @@ if (show_user_select) {
 } else {
 	show_user_select_scroll_speedup=0;
 }
-
-// Reset position when game starts
-atPosition = false;
-
 
 var leftWheelPower = 0;
 var rightWheelPower = 0;
@@ -120,6 +127,12 @@ if ( damaged>0 ) {
 		leftWheelPower=-1*leftWheelPower;
 	}
 	colliding=0;
+} else if ( playerType == PlayerType.AI_CHASER && go_move == 0 && go_turn == 0 && obj_gameplay.currentCarPhase == CarPhase.PLAY && instance_exists(obj_ball) ) {
+	// Allow AI to control only if player is not overriding, using aiLeftWheelPower and aiRightWheelPower params via scripts
+	ai_car_chaser();
+} else if ( playerType == PlayerType.AI_DEFENDER && go_move == 0 && go_turn == 0 && obj_gameplay.currentCarPhase == CarPhase.PLAY && instance_exists(obj_ball) ) {
+	// Allow AI to control only if player is not overriding, using aiLeftWheelPower and aiRightWheelPower params via scripts
+	ai_car_defender();
 } else {
 	if (go_move > 0) {
 		if (go_turn >= 0) {
@@ -152,8 +165,16 @@ if ( damaged>0 ) {
 }
 
 // Apply physical force to tire locations
-physics_apply_local_force(rearTireOffsetX, rearLeftTireOffsetY, leftWheelPower*15000, 0);
-physics_apply_local_force(rearTireOffsetX, rearRightTireOffsetY, rightWheelPower*15000, 0);
+if ( leftWheelPower == 0 && rightWheelPower == 0 ) {
+	// If no player or environment control is going on, then allow AI to move via scripts
+	physics_apply_local_force(rearTireOffsetX, rearLeftTireOffsetY, aiLeftWheelPower*15000, 0);
+	physics_apply_local_force(rearTireOffsetX, rearRightTireOffsetY, aiRightWheelPower*15000, 0);
+	aiLeftWheelPower = 0;
+	aiLeftWheelPower = 0;
+} else {
+	physics_apply_local_force(rearTireOffsetX, rearLeftTireOffsetY, leftWheelPower*15000, 0);
+	physics_apply_local_force(rearTireOffsetX, rearRightTireOffsetY, rightWheelPower*15000, 0);
+}
 
 // Avoid sideways drifting by applying counter impulse
 nx = lengthdir_x(1, (-phy_rotation)+90);

@@ -3,6 +3,12 @@ enum TeamColor {
 	BLUE
 }
 
+enum PlayerType {
+	PLAYER,
+	AI_CHASER,
+	AI_DEFENDER
+}
+
 enum ResetPhase {
 	GO_TO_MID,
 	ROTATE_AT_MID,
@@ -10,8 +16,8 @@ enum ResetPhase {
 	RESET_COMPLETE
 }
 
-
 teamColor = TeamColor.RED;
+playerType = PlayerType.PLAYER;
 
 world_size=0.025
 
@@ -29,6 +35,8 @@ initialRotation = phy_rotation;
 remote_control=true;
 go_move=0;
 go_turn=0;
+aiLeftWheelPower = 0;
+aiRightWheelPower = 0;
 
 // enable keyboard in table
 keyboard_enabler=-1;

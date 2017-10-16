@@ -47,14 +47,6 @@
             }
         },
         {
-            "Key": "089b14a3-863e-4142-ab62-e360045de089",
-            "Value": {
-                "id": "cbd8ae26-4e10-4da5-928f-d54e0cc0f3a2",
-                "resourcePath": "objects\\obj_car_ai_defender\\obj_car_ai_defender.yy",
-                "resourceType": "GMObject"
-            }
-        },
-        {
             "Key": "093327f8-9bd1-427f-94b4-8da07efa43c0",
             "Value": {
                 "id": "c8efd881-3c21-4c07-9ebc-da86fee39a05",
@@ -252,6 +244,14 @@
                 "id": "c84ea396-4981-4517-bab9-be1a696e2a3f",
                 "resourcePath": "views\\221c5d76-5948-45f6-8e0c-e4a83d8be8a6.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "23f54e43-9bda-45fb-88e8-41096aaacc5c",
+            "Value": {
+                "id": "81aeb0a4-abd5-42c2-8711-bdcd855e29d3",
+                "resourcePath": "scripts\\ai_car_chaser\\ai_car_chaser.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -583,14 +583,6 @@
             }
         },
         {
-            "Key": "8e390016-e267-413a-8e51-42923c36530b",
-            "Value": {
-                "id": "215316e3-217f-4620-befb-5ce081a1f4b1",
-                "resourcePath": "views\\8e390016-e267-413a-8e51-42923c36530b.yy",
-                "resourceType": "GMFolder"
-            }
-        },
-        {
             "Key": "8e66c642-6ecd-41be-bc6e-49b512a8d094",
             "Value": {
                 "id": "8d607451-2a1f-49c3-a08d-8db971aa75d2",
@@ -871,14 +863,6 @@
             }
         },
         {
-            "Key": "c58d8cfd-a74d-4633-9b54-7f5dab6926a9",
-            "Value": {
-                "id": "787a9d33-f37c-4c03-bc8b-3c44283f32fa",
-                "resourcePath": "objects\\obj_car_ai_chaser\\obj_car_ai_chaser.yy",
-                "resourceType": "GMObject"
-            }
-        },
-        {
             "Key": "c5918ede-11df-49cd-ab63-6a84226f94cd",
             "Value": {
                 "id": "1eec3405-5e98-4632-a0ef-88149f6b8df2",
@@ -996,6 +980,14 @@
                 "id": "6fd4b3e3-18e8-44aa-ace9-df1187c39adc",
                 "resourcePath": "rooms\\play\\play.yy",
                 "resourceType": "GMRoom"
+            }
+        },
+        {
+            "Key": "e82b8868-b894-4d80-8b65-cc7154f73c37",
+            "Value": {
+                "id": "9ac40f0a-2282-4acb-830f-b04c1faf7b68",
+                "resourcePath": "scripts\\ai_car_defender\\ai_car_defender.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -1170,6 +1162,8 @@
         "fceccd60-b02a-448d-bfae-0327fe315aa5",
         "76ec494e-a861-4f71-bc8d-25a79b5263e1",
         "3b6fcecb-709a-4825-9e8b-d00ab640a995",
+        "23f54e43-9bda-45fb-88e8-41096aaacc5c",
+        "e82b8868-b894-4d80-8b65-cc7154f73c37",
         "e2ae8c3d-eb68-40a5-b91d-ba337fd5a86e",
         "bfaea1c7-11b8-42e5-8f82-49bbf4ad2a09",
         "eac6f7e1-0182-4935-97d3-cb896d3a38d1"

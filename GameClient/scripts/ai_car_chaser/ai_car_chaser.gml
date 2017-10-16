@@ -1,19 +1,8 @@
-if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS && !atPosition ) {
-	atPosition = ai_reset_position();
-	return;
-}
-
-if ( obj_gameplay.currentCarPhase != CarPhase.PLAY ) {
-	// If gameplay is not ongoing, don't allow movement
-	return;
-}
-
-// Reset position when game starts
-atPosition = false;
-
 var ballDistance = distance_to_object(obj_ball);
 var ballDirection = point_direction(x, y, obj_ball.x, obj_ball.y);
 var ballAngle = angle_difference(-phy_rotation, ballDirection);
+
+var aiLogicResult;
 
 // Ball stright ahead
 if( -10 <= ballAngle && ballAngle <= 10 ) {
@@ -24,13 +13,13 @@ if( -10 <= ballAngle && ballAngle <= 10 ) {
 
 // Ball behind on right
 if( 60 <= ballAngle && ballAngle <= 180 ) {
-	ai_move_car(-1, 0.5);
+	ai_move_car(-1, 0.25);
 	return;
 }
 
 // Ball behind on left
 if( -180 <= ballAngle && ballAngle <= -60 ) {
-	ai_move_car(0.5, -1);
+	ai_move_car(0.25, -1);
 	return;
 }
 

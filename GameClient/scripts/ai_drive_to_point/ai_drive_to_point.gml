@@ -5,7 +5,7 @@ var targetDistance = distance_to_point(parkTargetX, parkTargetY);
 var targetDirection = point_direction(x, y, parkTargetX, parkTargetY);
 var targetAngle = angle_difference(-phy_rotation, targetDirection);
 
-if( targetDistance < 5 ) {
+if( targetDistance < 10 ) {
 	show_debug_message("Car driven to point X=" + string(parkTargetX) + " Y=" + string(parkTargetY) );
 	return true;
 }
