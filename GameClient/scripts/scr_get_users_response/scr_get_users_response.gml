@@ -49,12 +49,14 @@ while (user_iterator++ < user_count) {
 
 // Add hardcoded AI bots, should be done via some other setting in future
 var aiChaser = instance_create(-1, -1, obj_user);
-aiChaser.user_id = -1;
+// TODO: FIX ID
+aiChaser.user_id = 10000;
 aiChaser.user_name = "AI_BOT_CHASER";
 ds_list_insert(obj_server_client.user_name_list, 0, aiChaser);
 // Add hardcoded AI bots, should be done via some other setting in future
 var aiDefender = instance_create(-1, -1, obj_user);
-aiDefender.user_id = -1;
+// TODO: FIX ID
+aiDefender.user_id = 10001;
 aiDefender.user_name = "AI_BOT_DEFENDER";
 ds_list_insert(obj_server_client.user_name_list, 1, aiDefender);
 
