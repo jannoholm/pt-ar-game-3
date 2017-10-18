@@ -170,7 +170,7 @@ if ( leftWheelPower == 0 && rightWheelPower == 0 ) {
 	physics_apply_local_force(rearTireOffsetX, rearLeftTireOffsetY, aiLeftWheelPower*15000, 0);
 	physics_apply_local_force(rearTireOffsetX, rearRightTireOffsetY, aiRightWheelPower*15000, 0);
 	aiLeftWheelPower = 0;
-	aiLeftWheelPower = 0;
+	aiRightWheelPower = 0;
 } else {
 	physics_apply_local_force(rearTireOffsetX, rearLeftTireOffsetY, leftWheelPower*15000, 0);
 	physics_apply_local_force(rearTireOffsetX, rearRightTireOffsetY, rightWheelPower*15000, 0);
