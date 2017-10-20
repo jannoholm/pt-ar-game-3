@@ -263,6 +263,14 @@
             }
         },
         {
+            "Key": "2950928d-0122-454f-9351-dbddbd94332a",
+            "Value": {
+                "id": "767537c0-f40d-4bae-a668-a9e1fec788d0",
+                "resourcePath": "sprites\\spr_boost_fire\\spr_boost_fire.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "29e66cab-9b2c-429c-836b-a5b9263dd6f4",
             "Value": {
                 "id": "db3276c9-7b45-4722-aa0c-dd82528ff0e3",
@@ -404,6 +412,14 @@
                 "id": "bd746cc5-6985-4298-9ecc-6dc21d8ab171",
                 "resourcePath": "fonts\\fnt_textbox\\fnt_textbox.yy",
                 "resourceType": "GMFont"
+            }
+        },
+        {
+            "Key": "5ce987e9-9327-4c9c-b283-278c1da392e7",
+            "Value": {
+                "id": "b1b86016-8f95-4077-ab47-38258a913346",
+                "resourcePath": "objects\\obj_boost_fire\\obj_boost_fire.yy",
+                "resourceType": "GMObject"
             }
         },
         {

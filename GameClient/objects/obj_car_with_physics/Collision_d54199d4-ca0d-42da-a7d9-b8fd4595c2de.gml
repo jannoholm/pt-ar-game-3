@@ -9,3 +9,7 @@ with (other.shooter) {
 with (other) {
 	instance_destroy();	
 }
+
+// Create medium size explosion using built-in particles (and smaller one inside for nicer effect)
+effect_create_above(ef_explosion, other.x, other.y, 1, c_orange);
+effect_create_above(ef_explosion, other.x, other.y, 0, make_color_rgb(176,64,16));

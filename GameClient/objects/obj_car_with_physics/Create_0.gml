@@ -55,6 +55,7 @@ shoot=false;
 shoot_delay=0;
 shoot_interval=10*room_speed; // every 10s
 boost=false;
+boost_flame_animated = false;
 boost_power=6*room_speed;
 boost_max=30*room_speed; // 1.6 sec
 bullets=ds_list_create();
@@ -78,6 +79,9 @@ show_user_select_name_next="";
 show_user_select_scroll_cooldown=5;
 show_user_select_scroll_speedup=0;
 go_move_prev=0;
+
+// Boost flame offset
+boostFlameOffsetX = -50;
 
 // Wheel offsets
 rearTireOffsetX = -50;

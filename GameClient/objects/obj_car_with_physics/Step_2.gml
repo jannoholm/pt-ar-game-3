@@ -24,3 +24,18 @@ with ( rearRightTire ) {
 	x = tireX;
 	y = tireY;
 }
+
+var boostFlameAngle, boostFlameDistance, boostFlameX, boostFlameY;
+
+// Update boost flame 
+if ( boost_flame_animated ) {
+	boostFlameAngle = point_direction(0, 0, boostFlameOffsetX, 0);
+	boostFlameDistance = point_distance(0, 0, boostFlameOffsetX, 0);
+	boostFlameX = x + lengthdir_x(boostFlameDistance, image_angle + boostFlameAngle);
+	boostFlameY = y + lengthdir_y(boostFlameDistance, image_angle + boostFlameAngle);	
+	with ( boostFlame ) {
+		image_angle = other.image_angle;
+		x = boostFlameX;
+		y = boostFlameY;
+	}
+}

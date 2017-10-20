@@ -7,6 +7,11 @@ if (obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && shoot) {
 // do nothing, while car drives
 if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS && !atPosition ) {
 	atPosition = ai_reset_position();
+	
+	// Move faster when moving to position
+	aiLeftWheelPower = aiLeftWheelPower*2;
+	aiRightWheelPower = aiRightWheelPower*2;
+
 } else if ( obj_gameplay.currentCarPhase != CarPhase.MOVE_TO_POSITIONS && atPosition ){
 	// Reset at position step when game starts
 	atPosition = false;
@@ -156,11 +161,24 @@ if ( damaged>0 ) {
 		leftWheelPower=leftWheelPower*go_move;
 	}
 	
-	// apply boost
-	if (boost && boost_power>0) {
+	// apply boost if player is driving
+	if (boost && go_move != 0 && boost_power>0) {
 	    boost_power=boost_power-room_speed;
 	    rightWheelPower=rightWheelPower*2;
 	    leftWheelPower=leftWheelPower*2;
+		
+		// Create boost flame animation, but avoid flickering if low on power
+		if ( !boost_flame_animated && boost_power > room_speed ) {
+			boost_flame_animated = true;
+			boostFlame = instance_create_layer(x, y+boostFlameOffsetX, "car", obj_boost_fire);
+		}
+	} else {
+
+		// Disable boost flame animation
+		if ( boost_flame_animated ) {
+			boost_flame_animated = false;
+			instance_destroy(boostFlame)
+		}
 	}
 }
 
