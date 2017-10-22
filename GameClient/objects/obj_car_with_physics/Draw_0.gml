@@ -1,7 +1,10 @@
 // draw highlight
 if (highlight > 0 
 	|| obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && ready
-	|| obj_gameplay.currentGamePhase == GamePhase.COUNTDOWN_TO_START && ready) {
+	|| obj_gameplay.currentGamePhase == GamePhase.COUNTDOWN_TO_START && ready
+	|| obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION && ready
+	|| obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.WAIT_TO_START && ready
+	|| obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.COUNTDOWN_TO_START && ready) {
 	draw_sprite_ext(spr_car_highlight, 0, x, y, 1, 1, image_angle, c_white, 1);
 }
 
@@ -18,15 +21,18 @@ if (shoot_delay < 0) {
 
 // draw boost availability
 var boost_availability = clamp(boost_power, 0, boost_max)/boost_max*80;
-var pos_x = x;
-var pos_y = y+80;
-draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_green, c_green, c_green, c_green, 0);
-draw_rectangle_colour(pos_x-40, pos_y-7, pos_x-40+boost_availability, pos_y+7, c_lime, c_lime, c_lime, c_lime, 0);
-draw_rectangle_colour(pos_x-40, pos_y-7, pos_x+40, pos_y+7, c_white, c_white, c_white, c_white, 1);
+var pos_x = x-80;
+var pos_y = y;
+if (teamColor == TeamColor.BLUE) {
+	var pos_x = x+80;
+}
+draw_rectangle_colour(pos_x-7, pos_y-40, pos_x+7, pos_y+40, c_green, c_green, c_green, c_green, 0);
+draw_rectangle_colour(pos_x-7, pos_y-40, pos_x+7, pos_y-40+boost_availability, c_lime, c_lime, c_lime, c_lime, 0);
+draw_rectangle_colour(pos_x-7, pos_y-40, pos_x+7, pos_y+40, c_white, c_white, c_white, c_white, 1);
 
 // draw keyboard enabled
 if (keyboard_show) {
-	draw_sprite_ext(spr_show_arrowkeys, 0, pos_x, pos_y, 1, 1, 0, c_white, 1);
+	draw_sprite_ext(spr_show_arrowkeys, 0, x, y+80, 1, 1, 0, c_white, 1);
 }
 
 // draw name on car
@@ -38,48 +44,80 @@ draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
 // draw select name box
 if (show_user_select) {
-	var offset_x=x+50;
-	var offset_y=y+70;
-	if (x > 760) {
-		var offset_x=x-50;
+	var offset_x=x+200;
+	var offset_y=y;
+	var offset_angle=270;
+	var offset_text=-100;
+	var offset_scroll=-20;
+	if (teamColor == TeamColor.BLUE) {
+		offset_x=x-200;
+		offset_angle=90;
+		offset_text=100;
+		offset_scroll=20;
 	}
 
-	draw_sprite_ext(spr_user_select, 0, offset_x, offset_y, 1, 1, 0, c_white, 1);
+	draw_sprite_ext(spr_user_select, 0, offset_x, offset_y, 1, 1, offset_angle, c_white, 1);
 	draw_set_halign(fa_left);	
 	draw_set_font(fnt_textbox);
 
 	draw_set_color(c_gray);
-	draw_text_color(offset_x-100, offset_y-17, show_user_select_name_prev, c_white, c_white, c_gray, c_gray, 1);
-	draw_text_color(offset_x-100, offset_y+17, show_user_select_name_next, c_gray, c_gray, c_white, c_white, 1);
+	draw_text_transformed(offset_x+(-1)*2*offset_scroll, offset_y+offset_text, show_user_select_name_prev2, 1, 1, offset_angle);
+	draw_text_transformed(offset_x+(-1)*1*offset_scroll, offset_y+offset_text, show_user_select_name_prev1, 1, 1, offset_angle);
+	draw_text_transformed(offset_x+1*offset_scroll, offset_y+offset_text, show_user_select_name_next1, 1, 1, offset_angle);
+	draw_text_transformed(offset_x+2*offset_scroll, offset_y+offset_text, show_user_select_name_next2, 1, 1, offset_angle);
 
 	draw_set_color(c_black);
-	draw_set_font(fnt_textbox);
-	draw_text(offset_x-100, offset_y, show_user_select_name);
-}
-
+	draw_text_transformed(offset_x, offset_y+offset_text, show_user_select_name, 1, 1, offset_angle);
+} else
 // temp draw of stats at end of game
 if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
-	var offset_x=x+50;
-	var offset_y=y+100;
-	/*if (x > 760) {
-		var offset_x=x-50;
-	}*/
-	if (y > 600) {
-		var offset_y=y-90;
+	var offset_x=x+200;
+	var offset_y=y;
+	var offset_angle=270;
+	var offset_text=+100;
+	var offset_scroll=-20;
+	if (teamColor == TeamColor.BLUE) {
+		offset_x=x-200;
+		offset_angle=90;
+		offset_text=-100;
+		offset_scroll=20;
 	}
+
 	draw_set_color(c_gray);
 	draw_set_font(fnt_textbox);
 	draw_set_halign(fa_right);
-	draw_text(offset_x, offset_y, "goals: " + string(score_goals));
-	draw_text(offset_x, offset_y+15, "bullet hits: " + string(score_bullet_hits));
-	draw_text(offset_x, offset_y+30, "ball touches: " + string(score_ball_touches));
-	draw_text(offset_x, offset_y+45, "boost touches: " + string(score_boost_touches));
+	draw_text_transformed(offset_x+(-1)*offset_scroll, offset_y+offset_text, "goals: " + string(score_goals), 1, 1, offset_angle);
+	draw_text_transformed(offset_x, offset_y+offset_text, "bullet hits: " + string(score_bullet_hits), 1, 1, offset_angle);
+	draw_text_transformed(offset_x+1*offset_scroll, offset_y+offset_text, "ball touches: " + string(score_ball_touches), 1, 1, offset_angle);
+	draw_text_transformed(offset_x+2*offset_scroll, offset_y+offset_text, "boost touches: " + string(score_boost_touches), 1, 1, offset_angle);
+	draw_text_transformed(offset_x+3*offset_scroll, offset_y+offset_text, "Press SHOOT to CONTINUE", 1, 1, offset_angle);
 	
 	draw_set_color(c_white);
-	draw_text(offset_x-1, offset_y-1, "goals: " + string(score_goals));
-	draw_text(offset_x-1, offset_y+15-1, "bullet hits: " + string(score_bullet_hits));
-	draw_text(offset_x-1, offset_y+30-1, "ball touches: " + string(score_ball_touches));
-	draw_text(offset_x-1, offset_y+45-1, "boost touches: " + string(score_boost_touches));
+	draw_text_transformed(offset_x-1+(-1)*offset_scroll, offset_y+offset_text-1, "goals: " + string(score_goals), 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1, offset_y+offset_text-1, "bullet hits: " + string(score_bullet_hits), 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1+1*offset_scroll, offset_y+offset_text-1, "ball touches: " + string(score_ball_touches), 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1+2*offset_scroll, offset_y+offset_text-1, "boost touches: " + string(score_boost_touches), 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1+3*offset_scroll, offset_y+offset_text-1, "Press SHOOT to CONTINUE", 1, 1, offset_angle);
+} else if (!ready &&
+		(obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START ||
+		obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.WAIT_TO_START) ) {
+	var offset_x=x+200;
+	var offset_y=y;
+	var offset_angle=270;
+	var offset_text=-100;
+	var offset_scroll=-20;
+	if (teamColor == TeamColor.BLUE) {
+		offset_x=x-200;
+		offset_angle=90;
+		offset_text=100;
+		offset_scroll=20;
+	}
+	draw_set_halign(fa_left);	
+	draw_set_font(fnt_textbox);
+	draw_set_color(c_gray);
+	draw_text_transformed(offset_x+offset_scroll, offset_y+offset_text, "Press SHOOT to START", 1, 1, offset_angle);
+	draw_set_color(c_white);
+	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, "Press SHOOT to START", 1, 1, offset_angle);
 }
 
 // draw debug info

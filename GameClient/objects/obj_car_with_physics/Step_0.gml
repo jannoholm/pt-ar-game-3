@@ -1,7 +1,12 @@
 // out of game checks
 keyboard_show=keyboard_check(keyboard_enabler);
-if (obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && shoot) {
-	ready=1;
+ready_delay=ready_delay-1;
+if ((obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START
+		|| obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION
+		|| obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.WAIT_TO_START) 
+		&& shoot && ready_delay < 0) {
+	ready_delay=ready_interval;
+	ready=!ready;
 }
 
 // do nothing, while car drives
@@ -82,18 +87,26 @@ if (show_user_select) {
 			playerType = PlayerType.PLAYER;	
 		}
 		
+		show_user_select_name_prev1="";
+		show_user_select_name_prev2="";
 		if (show_user_select_pos > 0) {
 			var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos-1);
-			show_user_select_name_prev=show_user_selected.user_name;
-		} else {
-			show_user_select_name_prev="";
+			show_user_select_name_prev1=show_user_selected.user_name;
+			if (show_user_select_pos > 1) {
+				var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos-2);
+				show_user_select_name_prev2=show_user_selected.user_name;
+			}
 		}
 		
+		show_user_select_name_next1="";
+		show_user_select_name_next2="";
 		if (show_user_select_pos+1<ds_list_size(obj_server_client.user_name_list)) {
 			var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos+1);
-			show_user_select_name_next=show_user_selected.user_name;
-		} else {
-			show_user_select_name_next="";
+			show_user_select_name_next1=show_user_selected.user_name;
+			if (show_user_select_pos+2<ds_list_size(obj_server_client.user_name_list)) {
+				var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos+2);
+				show_user_select_name_next2=show_user_selected.user_name;
+			}
 		}
 	}
 	go_move_prev=go_move;

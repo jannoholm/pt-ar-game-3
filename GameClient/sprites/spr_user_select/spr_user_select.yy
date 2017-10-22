@@ -6,7 +6,7 @@
     "For3D": false,
     "HTile": false,
     "VTile": false,
-    "bbox_bottom": 79,
+    "bbox_bottom": 119,
     "bbox_left": 0,
     "bbox_right": 239,
     "bbox_top": 0,
@@ -40,7 +40,7 @@
     ],
     "gridX": 0,
     "gridY": 0,
-    "height": 80,
+    "height": 120,
     "layers": [
         {
             "id": "cc1c85f0-2790-4b7e-a34b-6eb50c214fe6",
@@ -66,5 +66,5 @@
     "type": 0,
     "width": 240,
     "xorig": 120,
-    "yorig": 40
+    "yorig": 60
 }

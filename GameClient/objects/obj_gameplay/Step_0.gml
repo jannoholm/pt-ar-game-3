@@ -13,10 +13,18 @@ switch (currentCarPhase) {
 		show_debug_message("All cars at position, proceeding to countdown");
 		
 		// All cars at position, move to next phase
-		currentCarPhase = CarPhase.COUNTDOWN_TO_START;
-		move_to_position_timer=move_to_position_length;
+		currentCarPhase = CarPhase.WAIT_TO_START;
 		
 		break;
+	case (CarPhase.WAIT_TO_START):
+		if (obj_playerinit_physics.red1.ready && obj_playerinit_physics.red2.ready
+			&& obj_playerinit_physics.blue1.ready && obj_playerinit_physics.blue2.ready) {
+				
+			currentCarPhase = CarPhase.COUNTDOWN_TO_START;
+			move_to_position_timer=move_to_position_length;
+			show_debug_message("cars are ready");
+		}
+		return;
 	case (CarPhase.COUNTDOWN_TO_START):
 		
 		move_to_position_timer=move_to_position_timer-1;
@@ -68,6 +76,9 @@ switch (currentGamePhase) {
 			} else {
 				currentGamePhase = GamePhase.GAME_END_ANIMATION;
 				game_timer=win_animation_length;
+				with (obj_car_with_physics) {
+					ready=0;
+				}
 				instance_destroy(obj_ball);
 			}
 		}
@@ -76,12 +87,17 @@ switch (currentGamePhase) {
 		if ( game_timer <= 0 ) {
 			currentGamePhase = GamePhase.GAME_END_ANIMATION;
 			game_timer=win_animation_length;
+			with (obj_car_with_physics) {
+				ready=0;
+			}
 			instance_destroy(obj_ball);
 		}
-	break;
+		break;
 	case (GamePhase.GAME_END_ANIMATION):
 		currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
-		if ( game_timer <= 0 ) {
+		if ( game_timer <= 0 || 
+				obj_playerinit_physics.red1.ready && obj_playerinit_physics.red2.ready
+				&& obj_playerinit_physics.blue1.ready && obj_playerinit_physics.blue2.ready ) {
 			currentGamePhase = GamePhase.PREPARE_TO_START;
 			game_timer=game_length;
 		}

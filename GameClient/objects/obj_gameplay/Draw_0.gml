@@ -24,4 +24,8 @@ if (currentGamePhase == GamePhase.COUNTDOWN_TO_START) {
 		draw_set_halign(fa_center);
 		draw_text(1920/2, 1080/2, string(floor(move_to_position_timer/room_speed)+1));
 	}
+	draw_set_font(fnt_go);
+	draw_set_halign(fa_center);
+	draw_text_transformed(1920/4,1080/3,string(teamRedScore), 1, 1, 0);
+	draw_text_transformed(1920/4+1920/2,1080/3,string(teamBlueScore), 1, 1, 0);
 }

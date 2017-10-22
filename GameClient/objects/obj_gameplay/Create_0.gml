@@ -1,5 +1,6 @@
 enum CarPhase {
 	MOVE_TO_POSITIONS,
+	WAIT_TO_START,
 	COUNTDOWN_TO_START,
 	PLAY
 }
@@ -24,10 +25,10 @@ teamRedScore = 0;
 teamBlueScore = 0;
 
 // timer conf
-game_length=room_speed*60*2; // 2min
-//game_length=room_speed*10; // 10s
+//game_length=room_speed*60*2; // 2min
+game_length=room_speed*10; // 10s
 sudden_death_length=room_speed*20; // 20s
-win_animation_length=room_speed*10;
+win_animation_length=room_speed*30;
 countdown_length=room_speed*5;
 move_to_position_length=room_speed*2;
 

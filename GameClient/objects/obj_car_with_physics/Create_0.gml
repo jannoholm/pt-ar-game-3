@@ -60,6 +60,8 @@ boost_power=6*room_speed;
 boost_max=30*room_speed; // 1.6 sec
 bullets=ds_list_create();
 ready=0;
+ready_delay=0;
+ready_interval=room_speed;
 
 // score elements
 score_last_touch=current_time;
@@ -73,8 +75,10 @@ score_boost_touches=0;
 show_user_select=false;
 show_user_select_id=0;
 show_user_select_name="";
-show_user_select_name_prev="";
-show_user_select_name_next="";
+show_user_select_name_prev1="";
+show_user_select_name_prev2="";
+show_user_select_name_next1="";
+show_user_select_name_next2="";
 
 show_user_select_scroll_cooldown=5;
 show_user_select_scroll_speedup=0;

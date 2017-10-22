@@ -26,7 +26,7 @@ with ( obj_gameplay ) {
 	}
 	
 	show_debug_message( "GOAL! Red:" + string(teamRedScore) + " Blue: " + string(teamBlueScore) );
-	
+
 	currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
 	if (currentGamePhase == GamePhase.SUDDEN_DEATH) {
 		currentGamePhase = GamePhase.GAME_END_ANIMATION;
@@ -35,4 +35,8 @@ with ( obj_gameplay ) {
 }
 if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	show_goal=0;
+}
+
+with (obj_car_with_physics) {
+	ready=0;
 }
