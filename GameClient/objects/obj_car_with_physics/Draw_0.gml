@@ -120,6 +120,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, "Press SHOOT to START", 1, 1, offset_angle);
 }
 
+
 // draw debug info
 if (dodraw) {
 	draw_set_halign(fa_left);
