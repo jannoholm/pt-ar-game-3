@@ -17,13 +17,15 @@ switch (currentCarPhase) {
 		
 		break;
 	case (CarPhase.WAIT_TO_START):
-		if (obj_playerinit_physics.red1.ready && obj_playerinit_physics.red2.ready
+		/*if (obj_playerinit_physics.red1.ready && obj_playerinit_physics.red2.ready
 			&& obj_playerinit_physics.blue1.ready && obj_playerinit_physics.blue2.ready) {
 				
 			currentCarPhase = CarPhase.COUNTDOWN_TO_START;
 			move_to_position_timer=move_to_position_length;
 			show_debug_message("cars are ready");
-		}
+		}*/
+		currentCarPhase = CarPhase.COUNTDOWN_TO_START;
+		move_to_position_timer=move_to_position_length;
 		return;
 	case (CarPhase.COUNTDOWN_TO_START):
 		
