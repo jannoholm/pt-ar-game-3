@@ -127,6 +127,14 @@
             }
         },
         {
+            "Key": "11ed162c-e6fd-4788-855e-39bd20436d0e",
+            "Value": {
+                "id": "a2de13e4-d686-4a0d-a16a-cd359d72e6fb",
+                "resourcePath": "sounds\\snd_countdown\\snd_countdown.yy",
+                "resourceType": "GMSound"
+            }
+        },
+        {
             "Key": "120aa052-ac25-4fda-a4e4-e0e7f319716f",
             "Value": {
                 "id": "2d07f993-3084-4b45-a5c0-b68d76dd765c",
@@ -164,6 +172,14 @@
                 "id": "f4a2249d-74fe-4bcd-9610-600159599649",
                 "resourcePath": "views\\13ad4d73-5556-4f2b-8c6f-d081b6b4deeb.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "13f97596-999a-49ce-b78b-9226bd9084c4",
+            "Value": {
+                "id": "a2acb553-3335-4954-bf24-d94c24fc263c",
+                "resourcePath": "sounds\\snd_gameend\\snd_gameend.yy",
+                "resourceType": "GMSound"
             }
         },
         {
@@ -244,6 +260,14 @@
                 "id": "d5a4f48b-4747-4982-b585-18d88d63e906",
                 "resourcePath": "objects\\obj_textbox_name\\obj_textbox_name.yy",
                 "resourceType": "GMObject"
+            }
+        },
+        {
+            "Key": "20438bd4-4131-4494-85d6-90e18a9e8f7c",
+            "Value": {
+                "id": "04b6afeb-811b-4cf3-86e7-4af1b988a41f",
+                "resourcePath": "sounds\\snd_missile_launch\\snd_missile_launch.yy",
+                "resourceType": "GMSound"
             }
         },
         {
@@ -420,6 +444,14 @@
                 "id": "ff84ddfd-d938-41e1-aa44-ac9106c3c096",
                 "resourcePath": "notes\\compatibility_report_010917_1534273427.yy",
                 "resourceType": "GMNotes"
+            }
+        },
+        {
+            "Key": "538184bb-4bbd-44fd-a141-a022c10a0103",
+            "Value": {
+                "id": "fddd13fc-e257-4908-aee5-5d087bd964e0",
+                "resourcePath": "sounds\\snd_missile_explosion\\snd_missile_explosion.yy",
+                "resourceType": "GMSound"
             }
         },
         {
@@ -999,6 +1031,14 @@
             }
         },
         {
+            "Key": "cf69e971-7757-4c19-a7f5-d2d2536df069",
+            "Value": {
+                "id": "3aafbb8d-0ff8-461c-819b-249250a3f641",
+                "resourcePath": "views\\cf69e971-7757-4c19-a7f5-d2d2536df069.yy",
+                "resourceType": "GMFolder"
+            }
+        },
+        {
             "Key": "d220c4ba-299c-42b8-85d3-c14eb917ab98",
             "Value": {
                 "id": "74a3dcd1-d8fd-4f47-9566-0437ad67718b",
@@ -1111,6 +1151,14 @@
             }
         },
         {
+            "Key": "ed14c087-fcd3-49c0-b980-4bf4490e6145",
+            "Value": {
+                "id": "cb6ae11f-fde5-4e5c-b80d-2b5bc58c03bb",
+                "resourcePath": "sounds\\snd_booster_flame\\snd_booster_flame.yy",
+                "resourceType": "GMSound"
+            }
+        },
+        {
             "Key": "ef656504-df33-4e20-aedb-517d89037d67",
             "Value": {
                 "id": "c80c215d-3057-4577-993c-c489986b528a",
@@ -1167,11 +1215,27 @@
             }
         },
         {
+            "Key": "f989d359-7569-4357-b721-dfe08b30e266",
+            "Value": {
+                "id": "99e6367e-ecde-4522-ac10-d9636bb61e19",
+                "resourcePath": "sounds\\snd_goal_applause\\snd_goal_applause.yy",
+                "resourceType": "GMSound"
+            }
+        },
+        {
             "Key": "f9e7f643-4394-4f19-b0bf-e9f489469098",
             "Value": {
                 "id": "1910b100-8b06-4f3b-b316-a122f3f957c6",
                 "resourcePath": "scripts\\scr_send_packet\\scr_send_packet.yy",
                 "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "fa72487c-4a7f-4319-8ed6-bd5f4c54a6f7",
+            "Value": {
+                "id": "a29fa8cc-b1f5-4aff-8020-2cd657aa2061",
+                "resourcePath": "sounds\\snd_suddendeath\\snd_suddendeath.yy",
+                "resourceType": "GMSound"
             }
         },
         {

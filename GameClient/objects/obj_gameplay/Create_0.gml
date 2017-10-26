@@ -34,3 +34,9 @@ move_to_position_length=room_speed*2;
 
 game_timer=game_length;
 move_to_position_timer=0;
+
+// Sound related
+countdown_carphase_sound = noone;
+countdown_sound = noone;
+suddendeath_sound = noone;
+gameend_sound = noone;

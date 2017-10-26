@@ -29,6 +29,10 @@ var boostFlameAngle, boostFlameDistance, boostFlameX, boostFlameY;
 
 // Update boost flame 
 if ( boost_flame_animated ) {
+	if ( boost_flame_sound == noone ) {
+		// Audio has not started yet, trigger a loop
+		boost_flame_sound = audio_play_sound(snd_booster_flame, 1, true);
+	}
 	boostFlameAngle = point_direction(0, 0, boostFlameOffsetX, 0);
 	boostFlameDistance = point_distance(0, 0, boostFlameOffsetX, 0);
 	boostFlameX = x + lengthdir_x(boostFlameDistance, image_angle + boostFlameAngle);
@@ -37,5 +41,11 @@ if ( boost_flame_animated ) {
 		image_angle = other.image_angle;
 		x = boostFlameX;
 		y = boostFlameY;
+	}
+} else {
+	if ( boost_flame_sound != noone ) {
+		// If audio was started, then stop it
+		audio_stop_sound(boost_flame_sound);
+		boost_flame_sound = noone;
 	}
 }

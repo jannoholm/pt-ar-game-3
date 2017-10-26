@@ -40,3 +40,5 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 with (obj_car_with_physics) {
 	ready=0;
 }
+
+audio_play_sound(snd_goal_applause, 5, false);
