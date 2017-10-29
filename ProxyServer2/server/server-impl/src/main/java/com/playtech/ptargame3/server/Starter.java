@@ -13,13 +13,18 @@ import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.server.registry.ProxyLogicRegistry;
 
-import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Starter {
+
+    private static final Starter starter = new Starter();
+
+    private NioServerListener proxyListener;
+    private WebListener webListener;
+    private TaskExecutorImpl taskExecutor;
 
     private void run() throws Exception {
         ProxyMessageFactory messageFactory = new ProxyMessageFactory();
@@ -30,12 +35,14 @@ public class Starter {
             private final AtomicInteger count = new AtomicInteger(0);
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "back-" + count.addAndGet(1));
+                Thread thread = new Thread(r, "back-" + count.addAndGet(1));
+                thread.setDaemon(true);
+                return thread;
             }
         });
         CallbackHandlerImpl callbackHandler = new CallbackHandlerImpl(clientRegistry, scheduledExecutorService);
         callbackHandler.start();
-        TaskExecutorImpl taskExecutor = new TaskExecutorImpl("te", 2);
+        taskExecutor = new TaskExecutorImpl("te", 2);
         ProxyLogicRegistry logicRegistry = new ProxyLogicRegistry();
         TaskFactory taskFactory = new TaskFactoryImpl(taskExecutor, logicRegistry);
         GameRegistry gameRegistry = new GameRegistry(scheduledExecutorService);
@@ -45,14 +52,34 @@ public class Starter {
         logicRegistry.initialize(logicResources);
         ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, callbackHandler, clientRegistry, gameRegistry, taskFactory);
 
-        NioServerListener proxy = new NioServerListener(connectionFactory, 8000);
-        new Thread(proxy.start(), "proxy").start();
+        proxyListener = new NioServerListener(connectionFactory, 8000);
+        new Thread(proxyListener.start(), "proxyListener").start();
 
-        WebListener web = new WebListener(8001, databaseAccess);
-        web.start();
+        webListener = new WebListener(8001, databaseAccess);
+        webListener.start();
+    }
+
+    private void stop() {
+        if (proxyListener != null) {
+            proxyListener.stop();
+        }
+        if (webListener != null) {
+            webListener.stop();
+        }
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException ignore) {}
+        taskExecutor.stop();
     }
 
     public static void main(String[] args) throws Exception {
-        new Starter().run();
+        start(args);
+    }
+
+    public static void start(String[] args) throws Exception {
+        starter.run();
+    }
+    public static void stop(String[] args) throws Exception {
+        starter.stop();
     }
 }
