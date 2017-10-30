@@ -3,7 +3,9 @@ var car = argument0;
 var spillAnimation = argument1;
 
 if (car.remote_control == false) {
-	if ( collision_ellipse( x-45, y-15, x+45, y+20, car, false, true ) ) {
+	//if ( collision_ellipse( x-45, y-15, x+45, y+20, car, false, true ) ) {
+	if ( collision_ellipse( x-45, y-20, x+45, y+20, car, false, true ) || 
+	     collision_ellipse( x, y-45, x+55, y, car, false, true ) ) {
 		car.colliding = true;
 
 		if ( !spillAnimation ) {

@@ -2,7 +2,7 @@
     "id": "fea84384-81e2-469d-8a97-1ae6b725144e",
     "modelName": "GMObject",
     "mvc": "1.0",
-    "name": "obj_goal_area",
+    "name": "obj_goal_area_red",
     "eventList": [
         
     ],
@@ -22,6 +22,6 @@
     "physicsShapePoints": null,
     "physicsStartAwake": true,
     "solid": false,
-    "spriteId": "c5716bae-cb59-404a-993a-5e4389ad2e96",
+    "spriteId": "75b10ec3-dd6d-4362-a4bf-72988b22b914",
     "visible": true
 }
