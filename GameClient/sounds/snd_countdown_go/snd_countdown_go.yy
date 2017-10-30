@@ -1,8 +1,8 @@
 {
-    "id": "11ed162c-e6fd-4788-855e-39bd20436d0e",
+    "id": "e43f3abc-1fc3-4b4a-a045-22648445be17",
     "modelName": "GMSound",
     "mvc": "1.0",
-    "name": "snd_countdown",
+    "name": "snd_countdown_go",
     "audioGroupGuid": "7b2c4976-1e09-44e5-8256-c527145e03bb",
     "bitDepth": 1,
     "bitRate": 128,

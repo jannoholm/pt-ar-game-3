@@ -127,14 +127,6 @@
             }
         },
         {
-            "Key": "11ed162c-e6fd-4788-855e-39bd20436d0e",
-            "Value": {
-                "id": "a2de13e4-d686-4a0d-a16a-cd359d72e6fb",
-                "resourcePath": "sounds\\snd_countdown\\snd_countdown.yy",
-                "resourceType": "GMSound"
-            }
-        },
-        {
             "Key": "120aa052-ac25-4fda-a4e4-e0e7f319716f",
             "Value": {
                 "id": "2d07f993-3084-4b45-a5c0-b68d76dd765c",
@@ -367,6 +359,14 @@
             }
         },
         {
+            "Key": "34a6da58-72eb-4c0a-9309-a87f9bc200a3",
+            "Value": {
+                "id": "d62ae83b-b7e3-420c-a10a-9b487c2d4525",
+                "resourcePath": "sounds\\snd_countdown_beep\\snd_countdown_beep.yy",
+                "resourceType": "GMSound"
+            }
+        },
+        {
             "Key": "36edf9bd-a56c-4728-9815-94a79b912657",
             "Value": {
                 "id": "beb2c982-7b40-45cc-a224-5ca69b7bf782",
@@ -524,6 +524,14 @@
                 "id": "bcfa7ce5-897d-4dce-bed3-7d466572d4cd",
                 "resourcePath": "objects\\obj_gamepad_control\\obj_gamepad_control.yy",
                 "resourceType": "GMObject"
+            }
+        },
+        {
+            "Key": "62ede71d-afa6-4095-9da4-47edb202dd39",
+            "Value": {
+                "id": "fda2fe0f-14c7-4044-9baf-60f953de1ee0",
+                "resourcePath": "views\\62ede71d-afa6-4095-9da4-47edb202dd39.yy",
+                "resourceType": "GMFolder"
             }
         },
         {
@@ -1124,6 +1132,14 @@
                 "id": "7f4eb741-f439-4f9f-ae8a-15d51d620004",
                 "resourcePath": "scripts\\scr_get_users_request\\scr_get_users_request.yy",
                 "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "e43f3abc-1fc3-4b4a-a045-22648445be17",
+            "Value": {
+                "id": "f2c0e22c-cffd-4279-bb74-27a5fb3424f5",
+                "resourcePath": "sounds\\snd_countdown_go\\snd_countdown_go.yy",
+                "resourceType": "GMSound"
             }
         },
         {

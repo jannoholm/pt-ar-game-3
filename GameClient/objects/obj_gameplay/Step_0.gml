@@ -29,6 +29,11 @@ switch (currentCarPhase) {
 		move_to_position_timer=move_to_position_length;
 		return;
 	case (CarPhase.COUNTDOWN_TO_START):
+	
+		if ( currentGamePhase == GamePhase.PLAY && move_to_position_timer mod room_speed == 0 ) {
+			show_debug_message("Move to position timer mod room_speed == 0, playing countdown tone");
+			countdown_sound = audio_play_sound(snd_countdown_beep, 7, false);
+		}
 		
 		move_to_position_timer=move_to_position_timer-1;
 		if ( move_to_position_timer <= 0 ) {
@@ -36,12 +41,11 @@ switch (currentCarPhase) {
 			if (currentGamePhase == GamePhase.PLAY) {
 				instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
 				instance_create_layer(room_width/2, room_height/2, "car", obj_go);
+				
+				countdown_sound = audio_play_sound(snd_countdown_go, 7, false);
 			}
 			currentCarPhase = CarPhase.PLAY;
 		} else {
-			if ( currentGamePhase == GamePhase.PLAY && countdown_carphase_sound == noone ) {
-				countdown_carphase_sound = audio_play_sound(snd_countdown, 7, false);
-			}
 			return;
 		}
 	
@@ -62,6 +66,7 @@ switch (currentGamePhase) {
 				
 			currentGamePhase = GamePhase.COUNTDOWN_TO_START;
 			show_debug_message("Switching currentGamePhase = GamePhase.COUNTDOWN_TO_START");
+			countdown_sound = audio_play_sound(snd_countdown_beep, 7, false);
 			game_timer = countdown_length;
 		}
 		break;
@@ -72,9 +77,11 @@ switch (currentGamePhase) {
 			instance_destroy(obj_ball);
 			instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
 			instance_create_layer(room_width/2, room_height/2, "car", obj_go);
-		}
-		if ( countdown_sound == noone ) {
-			countdown_sound = audio_play_sound(snd_countdown, 7, false);
+			
+			countdown_sound = audio_play_sound(snd_countdown_go, 7, false);
+		} else if ( game_timer mod room_speed == 0 ) {
+			show_debug_message("Game timer mod room_speed == 0, playing countdown tone");
+			countdown_sound = audio_play_sound(snd_countdown_beep, 7, false);
 		}
 		break;
 	case (GamePhase.PLAY):
