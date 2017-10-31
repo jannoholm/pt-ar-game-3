@@ -100,7 +100,7 @@
       $(document).ready(function() {
         
           var table = $('#competitors_table').DataTable( {
-              "ajax": '/users/list',
+              "ajax": '/user/list',
               "rowId": 'id',
               "pageLength": 100,
               "paging":   false,
@@ -133,7 +133,7 @@
                       $email_cell.empty().append($("<input id='edit_email_field' type='text' value='"+email_old_value+"'/>"));
                       $action_cell.empty().append($("<button id='save_row_button'>Save</button><button id='cancel_row_button'>Cancel</button>"));
                       $('#save_row_button').on('click', function (e) {
-                        $.post( "/users/list", {name: $('#edit_name_field').val(), email: $('#edit_email_field').val()})
+                        $.post( "/user/list", {name: $('#edit_name_field').val(), email: $('#edit_email_field').val()})
                           .done(function( data ) {
                             console.log( "Player data saved");
                             $name_cell.text($('#edit_name_field').val());
