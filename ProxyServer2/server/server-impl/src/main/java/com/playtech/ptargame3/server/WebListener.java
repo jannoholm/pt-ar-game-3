@@ -1,6 +1,8 @@
 package com.playtech.ptargame3.server;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,6 +12,7 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -41,10 +44,13 @@ public final class WebListener {
     private static final Logger logger = Logger.getLogger(WebListener.class.getName());
     private static final String CTX_LEADERBOARD = "/leaderboard";
     private static final String CTX_USER = "/user";
+    private static final String CTX_HTML = "/html";
     private static final String CTX_SERVER = "/server";
     private static final String METHOD_GET = "GET";
     private static final String METHOD_POST = "POST";
     private static final String ENCODING = "UTF-8";
+
+    private static final String HTML_DIR = "html";
 
     private final int port;
     private final HttpServer s;
@@ -70,6 +76,9 @@ public final class WebListener {
         HttpContext ctxCompetitor = s.createContext(CTX_USER);
         ctxCompetitor.setHandler(this::handleExchange);
 
+        HttpContext ctxHtml = s.createContext(CTX_HTML);
+        ctxHtml.setHandler(this::plainHtmlExchange);
+
         if (s.getExecutor()!=null)
             throw new IllegalStateException();
 
@@ -77,6 +86,41 @@ public final class WebListener {
         s.start();
 
         logger.info("Started HttpUtilityServer on port " + s.getAddress().getPort());
+    }
+
+    private void plainHtmlExchange(HttpExchange httpExchange) throws IOException {
+        try {
+            URI uri = relative(httpExchange);
+            String path = uri.getPath();
+
+            if (logger.isLoggable(Level.INFO)) {
+                logger.info(String.format("HttpUtilityServer Serving uri: %s, from %s", httpExchange.getRequestURI(), httpExchange.getRemoteAddress()));
+            }
+
+            File file = new File(HTML_DIR + File.separator + path);
+            if (file.exists()) {
+                byte[] b;
+                try (FileInputStream in = new FileInputStream(file)) {
+                    b = new byte[in.available()];
+                    in.read(b);
+                }
+                httpExchange.getResponseHeaders().set("Content-Type", Files.probeContentType(file.toPath()) + "; charset=utf-8");
+                httpExchange.sendResponseHeaders( HttpURLConnection.HTTP_OK, b.length);
+                httpExchange.getResponseBody().write(b);
+            } else {
+                writeResponse(httpExchange, HttpURLConnection.HTTP_NOT_FOUND);
+            }
+        }catch (RuntimeException e) {
+            logger.log(Level.SEVERE, "Unable to handle request: "+httpExchange, e);
+
+            byte[] b = e.getMessage().getBytes();
+            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, b.length);
+            try(OutputStream out= httpExchange.getResponseBody()){
+                out.write(b);
+            }
+        } finally {
+            httpExchange.close();
+        }
     }
 
     private void handleExchange(HttpExchange httpExchange) throws IOException {
@@ -176,7 +220,7 @@ public final class WebListener {
     private void writeResponse( HttpExchange httpExchange, int errorCode, String response ) {
         try {
             byte[] b = response.getBytes(ENCODING);
-            httpExchange.getResponseHeaders().set("Content-Type", "application/json");
+            httpExchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
             httpExchange.sendResponseHeaders( errorCode, b.length);
             httpExchange.getResponseBody().write( b);
         } catch (Exception e) {
@@ -187,7 +231,7 @@ public final class WebListener {
     private void writeResponse( HttpExchange httpExchange, int errorCode ) {
         try {
             byte[] b = "Bad request".getBytes(ENCODING);
-            httpExchange.getResponseHeaders().set("Content-Type", "application/json");
+            httpExchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
             httpExchange.sendResponseHeaders( errorCode, b.length);
             httpExchange.getResponseBody().write( b);
         } catch (Exception e) {
