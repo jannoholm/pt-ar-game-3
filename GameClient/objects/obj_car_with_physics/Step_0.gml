@@ -115,6 +115,13 @@ if (show_user_select) {
 	show_user_select_scroll_speedup=0;
 }
 
+
+if ( !colliding && oilspill_tire_sound != noone ) {
+	// If car is not colliding with the oil spill anymore, but the sound is still playing, then stop the sound
+	audio_stop_sound(oilspill_tire_sound);
+	oilspill_tire_sound = noone;
+}
+
 var leftWheelPower = 0;
 var rightWheelPower = 0;
 
@@ -144,7 +151,15 @@ if ( damaged>0 ) {
 		rightWheelPower=-1*rightWheelPower;
 		leftWheelPower=-1*leftWheelPower;
 	}
+	
+	if ( oilspill_tire_sound == noone ) {
+		// Car just entered the oil spill, start tire screech sound
+		oilspill_tire_sound = audio_play_sound(snd_oil_tire_squal, 1, false);
+		audio_sound_set_track_position(oilspill_tire_sound, random_range(3, 12));	
+	}
+	
 	colliding=0;
+
 } else if ( playerType == PlayerType.AI_CHASER && go_move == 0 && go_turn == 0 && obj_gameplay.currentCarPhase == CarPhase.PLAY && instance_exists(obj_ball) ) {
 	// Allow AI to control only if player is not overriding, using aiLeftWheelPower and aiRightWheelPower params via scripts
 	ai_car_chaser();

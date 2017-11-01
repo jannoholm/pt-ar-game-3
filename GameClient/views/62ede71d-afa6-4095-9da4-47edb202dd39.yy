@@ -8,7 +8,8 @@
         "13f97596-999a-49ce-b78b-9226bd9084c4",
         "fa72487c-4a7f-4319-8ed6-bd5f4c54a6f7",
         "34a6da58-72eb-4c0a-9309-a87f9bc200a3",
-        "e43f3abc-1fc3-4b4a-a045-22648445be17"
+        "e43f3abc-1fc3-4b4a-a045-22648445be17",
+        "9e6a40df-2686-4e21-9a13-70b66a7e5ccf"
     ],
     "filterType": "GMSound",
     "folderName": "game",

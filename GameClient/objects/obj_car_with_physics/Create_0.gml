@@ -95,6 +95,7 @@ rearRightTireOffsetY = -35;
 
 // Sound related
 boost_flame_sound = noone;
+oilspill_tire_sound = noone;
 
 // Since trailing script does not support multiple trails for the same object, fake ones need to be created
 rearLeftTire = instance_create_layer(x + rearTireOffsetX, y + rearLeftTireOffsetY, "car", obj_car_tire);

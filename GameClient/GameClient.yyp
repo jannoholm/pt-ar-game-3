@@ -191,6 +191,14 @@
             }
         },
         {
+            "Key": "1652f720-8856-4440-bde7-4c37a915b3e7",
+            "Value": {
+                "id": "fee9b197-91ce-4b92-8e64-6af5a23a7912",
+                "resourcePath": "sounds\\snd_oil_tire_squal\\snd_oil_tire_squal.yy",
+                "resourceType": "GMSound"
+            }
+        },
+        {
             "Key": "178b3627-dbc6-49b5-8b25-2929b9066401",
             "Value": {
                 "id": "90baf9e0-cbf3-4af2-82ef-c3abfcb316ab",
@@ -772,6 +780,14 @@
                 "id": "640f287b-5576-4126-bc42-e8e57dddcb71",
                 "resourcePath": "scripts\\scr_draw_trail\\scr_draw_trail.yy",
                 "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "9e6a40df-2686-4e21-9a13-70b66a7e5ccf",
+            "Value": {
+                "id": "70907a23-c29b-4171-bea4-8e854b96ce10",
+                "resourcePath": "sounds\\snd_gameend_warning\\snd_gameend_warning.yy",
+                "resourceType": "GMSound"
             }
         },
         {
