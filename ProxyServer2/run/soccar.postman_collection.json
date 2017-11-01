@@ -8,9 +8,9 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8001/user/create",
+			"name": "create player",
 			"request": {
-				"url": "http://localhost:8001/user/create",
+				"url": "http://localhost:8001/user",
 				"method": "POST",
 				"header": [
 					{
@@ -24,7 +24,7 @@
 					"urlencoded": [
 						{
 							"key": "name",
-							"value": "name1",
+							"value": "name-djdsfsfd",
 							"description": "",
 							"type": "text"
 						},
@@ -41,9 +41,9 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8001/user/list",
+			"name": "list",
 			"request": {
-				"url": "http://localhost:8001/user/list",
+				"url": "http://localhost:8001/player",
 				"method": "GET",
 				"header": [
 					{
@@ -70,6 +70,100 @@
 					]
 				},
 				"description": "List users"
+			},
+			"response": []
+		},
+		{
+			"name": "get file",
+			"request": {
+				"url": "http://localhost:8001/html/build.sh",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "name1",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "email1@somewhere.com",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": "get files"
+			},
+			"response": []
+		},
+		{
+			"name": "update player",
+			"request": {
+				"url": "http://localhost:8001/player/125",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "email1@someelse.com",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": "Create user in soccar"
+			},
+			"response": []
+		},
+		{
+			"name": "delete player",
+			"request": {
+				"url": "http://localhost:8001/player/125",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Create user in soccar"
+			},
+			"response": []
+		},
+		{
+			"name": "get player",
+			"request": {
+				"url": "http://localhost:8001/player/125",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Create user in soccar"
 			},
 			"response": []
 		}
