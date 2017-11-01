@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.playtech.ptargame3.server.database.DatabaseAccess;
 import com.playtech.ptargame3.server.database.model.User;
 import com.playtech.ptargame3.server.exception.SystemException;
@@ -209,17 +210,17 @@ public final class WebListener {
     private void listUsersRequest( HttpExchange httpExchange ) {
         try {
             Collection<User> users = databaseAccess.getUserDatabase().getUsers();
-            ObjectMapper objectMapper = new ObjectMapper();
-            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, objectMapper.writeValueAsString(users));
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, users);
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
             writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
         }
     }
 
-    private void writeResponse( HttpExchange httpExchange, int errorCode, String response ) {
+    private void writeResponse( HttpExchange httpExchange, int errorCode, Object response ) {
         try {
-            byte[] b = response.getBytes(ENCODING);
+            ResponseWrapper rw = new ResponseWrapper(response);
+            byte[] b = rw.getBytes();
             httpExchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
             httpExchange.sendResponseHeaders( errorCode, b.length);
             httpExchange.getResponseBody().write( b);
@@ -230,7 +231,8 @@ public final class WebListener {
 
     private void writeResponse( HttpExchange httpExchange, int errorCode ) {
         try {
-            byte[] b = "Bad request".getBytes(ENCODING);
+            ResponseWrapper rw = new ResponseWrapper("Bad request");
+            byte[] b = rw.getBytes();
             httpExchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
             httpExchange.sendResponseHeaders( errorCode, b.length);
             httpExchange.getResponseBody().write( b);
@@ -320,6 +322,27 @@ public final class WebListener {
             logger.info(String.format("HttpUtilityServer uri parameters: %s", queryParameters));
         }
         return queryParameters;
+    }
+
+    private static class ResponseWrapper {
+        private static ObjectWriter writer = new ObjectMapper().writer();
+        private Object data;
+
+        private ResponseWrapper( Object data ) {
+            this.data = data;
+        }
+
+        public Object getData() {
+            return data;
+        }
+
+        private byte[] getBytes() {
+            try {
+                return writer.writeValueAsBytes(this);
+            } catch (IOException e) {
+                throw new SystemException("Unable to serialize object: " + data, e);
+            }
+        }
     }
 
 }
