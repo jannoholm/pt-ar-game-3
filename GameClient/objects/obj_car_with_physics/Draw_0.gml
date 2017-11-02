@@ -5,7 +5,11 @@ if (highlight > 0
 	|| obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION && ready
 	|| obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.WAIT_TO_START && ready
 	|| obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.COUNTDOWN_TO_START && ready) {
-	draw_sprite_ext(spr_car_highlight, 0, x, y, 1, 1, image_angle, c_white, 1);
+	if (teamColor == TeamColor.RED) {
+		draw_sprite_ext(spr_car_highlight_red, 0, x, y, 1, 1, image_angle, c_white, 1);
+	} else if (teamColor == TeamColor.BLUE) {
+		draw_sprite_ext(spr_car_highlight_blue, 0, x, y, 1, 1, image_angle, c_white, 1);
+	}
 }
 
 // draw car 
