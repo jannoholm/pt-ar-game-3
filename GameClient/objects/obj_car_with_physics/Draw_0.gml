@@ -103,8 +103,8 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x-1+2*offset_scroll, offset_y+offset_text-1, "boost touches: " + string(score_boost_touches), 1, 1, offset_angle);
 	draw_text_transformed(offset_x-1+3*offset_scroll, offset_y+offset_text-1, "Press SHOOT to CONTINUE", 1, 1, offset_angle);
 } else if (!ready &&
-		(obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START ||
-		obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.WAIT_TO_START) ) {
+		(obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START /*||
+		obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.WAIT_TO_START*/) ) {
 	var offset_x=x+200;
 	var offset_y=y;
 	var offset_angle=270;
