@@ -13,6 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,12 +29,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.playtech.ptargame3.server.database.DatabaseAccess;
 import com.playtech.ptargame3.server.database.model.User;
 import com.playtech.ptargame3.server.exception.SystemException;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+
+import javax.xml.ws.http.HTTPException;
 
 /**
  * Simple http server from core java.
@@ -43,11 +47,12 @@ import com.sun.net.httpserver.HttpServer;
 public final class WebListener {
     private static final Logger logger = Logger.getLogger(WebListener.class.getName());
     private static final String CTX_LEADERBOARD = "/leaderboard";
-    private static final String CTX_USER = "/user";
+    private static final String CTX_USER = "/player";
     private static final String CTX_HTML = "/html";
     private static final String CTX_SERVER = "/server";
     private static final String METHOD_GET = "GET";
     private static final String METHOD_POST = "POST";
+    private static final String METHOD_DELETE = "DELETE";
     private static final String ENCODING = "UTF-8";
 
     private static final String HTML_DIR = "html";
@@ -77,7 +82,7 @@ public final class WebListener {
         ctxCompetitor.setHandler(this::handleExchange);
 
         HttpContext ctxHtml = s.createContext(CTX_HTML);
-        ctxHtml.setHandler(this::plainHtmlExchange);
+        ctxHtml.setHandler(this::handleExchange);
 
         if (s.getExecutor()!=null)
             throw new IllegalStateException();
@@ -86,41 +91,6 @@ public final class WebListener {
         s.start();
 
         logger.info("Started HttpUtilityServer on port " + s.getAddress().getPort());
-    }
-
-    private void plainHtmlExchange(HttpExchange httpExchange) throws IOException {
-        try {
-            URI uri = relative(httpExchange);
-            String path = uri.getPath();
-
-            if (logger.isLoggable(Level.INFO)) {
-                logger.info(String.format("HttpUtilityServer Serving uri: %s, from %s", httpExchange.getRequestURI(), httpExchange.getRemoteAddress()));
-            }
-
-            File file = new File(HTML_DIR + File.separator + path);
-            if (file.exists()) {
-                byte[] b;
-                try (FileInputStream in = new FileInputStream(file)) {
-                    b = new byte[in.available()];
-                    in.read(b);
-                }
-                httpExchange.getResponseHeaders().set("Content-Type", Files.probeContentType(file.toPath()) + "; charset=utf-8");
-                httpExchange.sendResponseHeaders( HttpURLConnection.HTTP_OK, b.length);
-                httpExchange.getResponseBody().write(b);
-            } else {
-                writeResponse(httpExchange, HttpURLConnection.HTTP_NOT_FOUND);
-            }
-        }catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Unable to handle request: "+httpExchange, e);
-
-            byte[] b = e.getMessage().getBytes();
-            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, b.length);
-            try(OutputStream out= httpExchange.getResponseBody()){
-                out.write(b);
-            }
-        } finally {
-            httpExchange.close();
-        }
     }
 
     private void handleExchange(HttpExchange httpExchange) throws IOException {
@@ -132,7 +102,21 @@ public final class WebListener {
                 logger.info(String.format("HttpUtilityServer Serving uri: %s, from %s", httpExchange.getRequestURI(), httpExchange.getRemoteAddress()));
             }
 
-            processMapping(httpExchange, path);
+            switch(httpExchange.getHttpContext().getPath()){
+                case CTX_SERVER:
+                    processServer(httpExchange, path);
+                    break;
+                case CTX_LEADERBOARD:
+                    processLeaderboard(httpExchange, path);
+                    break;
+                case CTX_USER:
+                    processUser(httpExchange, path);
+                    break;
+                case CTX_HTML:
+                    processHtml(httpExchange, path);
+                    break;
+            }
+
         }catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Unable to handle request: "+httpExchange, e);
 
@@ -146,22 +130,11 @@ public final class WebListener {
         }
     }
 
-    private void processMapping(HttpExchange httpExchange, String path) throws IOException {
+    private void processServer(HttpExchange httpExchange, String path) throws IOException {
         switch(path){
             case "status":
-                checkContext(httpExchange, CTX_SERVER);
                 checkRequestMethod(httpExchange, METHOD_GET);
                 getStatusRequest(httpExchange);
-                break;
-            case "create":
-                checkContext(httpExchange, CTX_USER);
-                checkRequestMethod(httpExchange, METHOD_POST);
-                createUserRequest(httpExchange);
-                break;
-            case "list":
-                checkContext(httpExchange, CTX_USER);
-                checkRequestMethod(httpExchange, METHOD_GET);
-                listUsersRequest(httpExchange);
                 break;
             default:
                 if (logger.isLoggable(Level.INFO)) {
@@ -172,10 +145,52 @@ public final class WebListener {
         }
     }
 
-    private void checkContext(HttpExchange httpExchange, String expectedPath) {
-        if ( !expectedPath.equals( httpExchange.getHttpContext().getPath() ) ) {
-            throw new RuntimeException( "Invalid path to context. Expected: " + expectedPath + ", actual: " + httpExchange.getHttpContext().getPath() );
+    private void processLeaderboard(HttpExchange httpExchange, String path) throws IOException {
+        switch(path){
+            // TODO
+            default:
+                if (logger.isLoggable(Level.INFO)) {
+                    logger.info(String.format("HttpUtilityServer Cannot serve uri: %s, invalid path %s", httpExchange.getRequestURI(), path));
+                }
+                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0L);
+                break;
         }
+    }
+
+    private void processUser(HttpExchange httpExchange, String path) throws IOException {
+        if (METHOD_POST.equals(httpExchange.getRequestMethod()) && path.trim().length() == 0) {
+            // create player
+            createUserRequest(httpExchange);
+        } else if (METHOD_POST.equals(httpExchange.getRequestMethod())) {
+            // update player
+            updateUserRequest(httpExchange, path);
+        } else if (METHOD_DELETE.equals(httpExchange.getRequestMethod())) {
+            // delete player
+            deleteUserRequest(httpExchange, path);
+        } else if (METHOD_GET.equals(httpExchange.getRequestMethod()) && path.trim().length() == 0) {
+            // get players
+            listUsersRequest(httpExchange);
+        } else if (METHOD_GET.equals(httpExchange.getRequestMethod())) {
+            // get player
+            getUserRequest(httpExchange, path);
+        }
+    }
+
+    private void processHtml(HttpExchange httpExchange, String path) throws IOException {
+        File file = new File(HTML_DIR + File.separator + path);
+        if (file.exists()) {
+            byte[] b;
+            try (FileInputStream in = new FileInputStream(file)) {
+                b = new byte[in.available()];
+                in.read(b);
+            }
+            httpExchange.getResponseHeaders().set("Content-Type", Files.probeContentType(file.toPath()) + "; charset=utf-8");
+            httpExchange.sendResponseHeaders( HttpURLConnection.HTTP_OK, b.length);
+            httpExchange.getResponseBody().write(b);
+        } else {
+            writeResponse(httpExchange, HttpURLConnection.HTTP_NOT_FOUND);
+        }
+
     }
 
     private void checkRequestMethod(HttpExchange httpExchange, String expectedMethod) {
@@ -193,13 +208,89 @@ public final class WebListener {
         }
     }
 
+    private void getUserRequest( HttpExchange httpExchange, String idString ) {
+        try {
+            // get user
+            int id = Integer.valueOf(idString);
+            User user = databaseAccess.getUserDatabase().getUser(id);
+            if (user == null || user.isHidden()) throw new HTTPException(HttpURLConnection.HTTP_NOT_FOUND);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, new UserWrapper(user));
+        } catch (HTTPException e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, e.getStatusCode());
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
     private void createUserRequest( HttpExchange httpExchange ) {
         try {
             Map<String, String> params = parsePostParameters(httpExchange);
             String name = params.get("name");
             String email = params.get("email");
-            databaseAccess.getUserDatabase().addUser(name, email);
+            User user = databaseAccess.getUserDatabase().addUser(name, email);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, new UserWrapper(user));
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
+    private void updateUserRequest( HttpExchange httpExchange, String idString ) {
+        try {
+            Map<String, String> params = parsePostParameters(httpExchange);
+
+            // get user
+            int id = Integer.valueOf(idString);
+            User user = databaseAccess.getUserDatabase().getUser(id);
+
+            // validate
+            if (user == null || user.isHidden()) throw new HTTPException(HttpURLConnection.HTTP_NOT_FOUND);
+
+            // create updated user
+            String name = params.get("name");
+            String email = params.get("email");
+            user = new User(
+                    id,
+                    name == null ? user.getName() : name,
+                    email == null ? user.getEmail() : email,
+                    user.isHidden()
+            );
+
+            // update
+            databaseAccess.getUserDatabase().updateUser(user);
+
+            // send response
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, new UserWrapper(user));
+        } catch (HTTPException e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, e.getStatusCode());
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
+    private void deleteUserRequest( HttpExchange httpExchange, String idString ) {
+        try {
+            int id = Integer.valueOf(idString);
+            User user = databaseAccess.getUserDatabase().getUser(id);
+
+            // validate
+            if (user == null || user.isHidden()) throw new HTTPException(HttpURLConnection.HTTP_NOT_FOUND);
+
+            // update hidden
+            user = new User(user.getId(), user.getName(), user.getEmail(), true);
+
+            // update
+            databaseAccess.getUserDatabase().updateUser(user);
+
+            // response
             writeResponse(httpExchange, HttpURLConnection.HTTP_OK, "OK");
+        } catch (HTTPException e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, e.getStatusCode());
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
             writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
@@ -209,17 +300,17 @@ public final class WebListener {
     private void listUsersRequest( HttpExchange httpExchange ) {
         try {
             Collection<User> users = databaseAccess.getUserDatabase().getUsers();
-            ObjectMapper objectMapper = new ObjectMapper();
-            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, objectMapper.writeValueAsString(users));
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, convertUsers(users));
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
             writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
         }
     }
 
-    private void writeResponse( HttpExchange httpExchange, int errorCode, String response ) {
+    private void writeResponse( HttpExchange httpExchange, int errorCode, Object response ) {
         try {
-            byte[] b = response.getBytes(ENCODING);
+            ResponseWrapper rw = new ResponseWrapper(response);
+            byte[] b = rw.getBytes();
             httpExchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
             httpExchange.sendResponseHeaders( errorCode, b.length);
             httpExchange.getResponseBody().write( b);
@@ -230,7 +321,8 @@ public final class WebListener {
 
     private void writeResponse( HttpExchange httpExchange, int errorCode ) {
         try {
-            byte[] b = "Bad request".getBytes(ENCODING);
+            ResponseWrapper rw = new ResponseWrapper("Bad request");
+            byte[] b = rw.getBytes();
             httpExchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
             httpExchange.sendResponseHeaders( errorCode, b.length);
             httpExchange.getResponseBody().write( b);
@@ -320,6 +412,60 @@ public final class WebListener {
             logger.info(String.format("HttpUtilityServer uri parameters: %s", queryParameters));
         }
         return queryParameters;
+    }
+
+    private Collection<UserWrapper> convertUsers(Collection<User> users) {
+        ArrayList<UserWrapper> wrapped = new ArrayList<>();
+        for (User user : users) {
+            if (!user.isHidden()) {
+                wrapped.add(new UserWrapper(user));
+            }
+        }
+        return wrapped;
+    }
+
+    private static class ResponseWrapper {
+        private static ObjectWriter writer = new ObjectMapper().writer();
+        private Object data;
+
+        private ResponseWrapper( Object data ) {
+            this.data = data;
+        }
+
+        public Object getData() {
+            return data;
+        }
+
+        private byte[] getBytes() {
+            try {
+                return writer.writeValueAsBytes(this);
+            } catch (IOException e) {
+                throw new SystemException("Unable to serialize object: " + data, e);
+            }
+        }
+    }
+
+    private static class UserWrapper {
+        int id;
+        String name;
+        String email;
+        UserWrapper(User user) {
+            this.id = user.getId();
+            this.name = user.getName();
+            this.email = user.getEmail();
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getEmail() {
+            return email;
+        }
     }
 
 }

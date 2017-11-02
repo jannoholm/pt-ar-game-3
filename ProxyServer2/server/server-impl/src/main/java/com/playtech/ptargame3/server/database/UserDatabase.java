@@ -7,7 +7,11 @@ import java.util.Collection;
 
 public interface UserDatabase {
 
-    void addUser(String name, String email);
+    User addUser(String name, String email);
+
+    User getUser(int id);
+
+    void updateUser(User user);
 
     Collection<User> getUsers();
 

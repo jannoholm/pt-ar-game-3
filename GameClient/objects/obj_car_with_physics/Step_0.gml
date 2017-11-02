@@ -115,6 +115,13 @@ if (show_user_select) {
 	show_user_select_scroll_speedup=0;
 }
 
+
+if ( !colliding && oilspill_tire_sound != noone ) {
+	// If car is not colliding with the oil spill anymore, but the sound is still playing, then stop the sound
+	audio_stop_sound(oilspill_tire_sound);
+	oilspill_tire_sound = noone;
+}
+
 var leftWheelPower = 0;
 var rightWheelPower = 0;
 
@@ -134,17 +141,25 @@ if ( damaged>0 ) {
 } else if (colliding) {
 	// drive uncontrollably, when on oil spill
 	if (go_turn < 0) {
-		rightWheelPower=2;
+		rightWheelPower=1;
 		leftWheelPower=0;
 	} else {
 		rightWheelPower=0;
-		leftWheelPower=2;
+		leftWheelPower=1;
 	}
 	if (go_move < 0) {
 		rightWheelPower=-1*rightWheelPower;
 		leftWheelPower=-1*leftWheelPower;
 	}
+	
+	if ( oilspill_tire_sound == noone ) {
+		// Car just entered the oil spill, start tire screech sound
+		oilspill_tire_sound = audio_play_sound(snd_oil_tire_squal, 1, false);
+		audio_sound_set_track_position(oilspill_tire_sound, random_range(3, 12));	
+	}
+	
 	colliding=0;
+
 } else if ( playerType == PlayerType.AI_CHASER && go_move == 0 && go_turn == 0 && obj_gameplay.currentCarPhase == CarPhase.PLAY && instance_exists(obj_ball) ) {
 	// Allow AI to control only if player is not overriding, using aiLeftWheelPower and aiRightWheelPower params via scripts
 	ai_car_chaser();
@@ -213,7 +228,7 @@ ny = lengthdir_y(1, (-phy_rotation)+90);
 dot = dot_product(nx, ny, phy_linear_velocity_x * world_size, phy_linear_velocity_y * world_size);
 lvx = dot*nx;
 lvy = dot*ny;
-physics_apply_impulse(x, y, -lvx*phy_mass, -lvy*phy_mass);
+//physics_apply_impulse(x, y, -lvx*phy_mass, -lvy*phy_mass);
 
 
 // Avoid sideways drifting by applying counter impulse

@@ -32,7 +32,7 @@ switch (currentCarPhase) {
 	
 		if ( currentGamePhase == GamePhase.PLAY && move_to_position_timer mod room_speed == 0 ) {
 			show_debug_message("Move to position timer mod room_speed == 0, playing countdown tone");
-			countdown_sound = audio_play_sound(snd_countdown_beep, 7, false);
+			audio_play_sound(snd_countdown_beep, 7, false);
 		}
 		
 		move_to_position_timer=move_to_position_timer-1;
@@ -42,7 +42,7 @@ switch (currentCarPhase) {
 				instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
 				instance_create_layer(room_width/2, room_height/2, "car", obj_go);
 				
-				countdown_sound = audio_play_sound(snd_countdown_go, 7, false);
+				audio_play_sound(snd_countdown_go, 7, false);
 			}
 			currentCarPhase = CarPhase.PLAY;
 		} else {
@@ -66,7 +66,7 @@ switch (currentGamePhase) {
 				
 			currentGamePhase = GamePhase.COUNTDOWN_TO_START;
 			show_debug_message("Switching currentGamePhase = GamePhase.COUNTDOWN_TO_START");
-			countdown_sound = audio_play_sound(snd_countdown_beep, 7, false);
+			audio_play_sound(snd_countdown_beep, 7, false);
 			game_timer = countdown_length;
 		}
 		break;
@@ -78,10 +78,10 @@ switch (currentGamePhase) {
 			instance_create_layer(room_width/2, room_height/2, "car", obj_ball);
 			instance_create_layer(room_width/2, room_height/2, "car", obj_go);
 			
-			countdown_sound = audio_play_sound(snd_countdown_go, 7, false);
+			audio_play_sound(snd_countdown_go, 7, false);
 		} else if ( game_timer mod room_speed == 0 ) {
 			show_debug_message("Game timer mod room_speed == 0, playing countdown tone");
-			countdown_sound = audio_play_sound(snd_countdown_beep, 7, false);
+			audio_play_sound(snd_countdown_beep, 7, false);
 		}
 		break;
 	case (GamePhase.PLAY):
@@ -128,16 +128,15 @@ switch (currentGamePhase) {
 		}
 		break;
 }
+
+if ( ( currentGamePhase == GamePhase.PLAY || currentGamePhase == GamePhase.SUDDEN_DEATH ) &&  game_timer < room_speed * 10 && game_timer > 0 && game_timer mod room_speed == 0 ) {
+		// Play warning sound if game phase end is abaout to approach each second
+		audio_play_sound(snd_gameend_warning, 7, false);
+}
+
 game_timer=game_timer-1;
 
-if ( countdown_carphase_sound != noone && currentCarPhase != CarPhase.COUNTDOWN_TO_START ) {
-	show_debug_message("Reseting goal countdown sound")
-	countdown_carphase_sound = noone;
-}
-if ( countdown_sound != noone && currentGamePhase != GamePhase.COUNTDOWN_TO_START  ) {
-	show_debug_message("Reseting countdown sound")
-	countdown_sound = noone;
-}
+
 if ( suddendeath_sound != noone && currentGamePhase != GamePhase.SUDDEN_DEATH ) {
 	show_debug_message("Reseting sudden death sound")
 	suddendeath_sound = noone;
