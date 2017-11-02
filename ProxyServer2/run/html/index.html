@@ -100,6 +100,7 @@
       $(document).ready(function() {
         
           var table = $('#competitors_table').DataTable( {
+//              "ajax": '/competitors.json',
               "ajax": '/player',
               "rowId": 'id',
               "pageLength": 100,
@@ -154,8 +155,17 @@
                   });
                   $('.delete_row_button').on('click', function (e) {
                     console.log("Delete button clicked");
-                    table.row($(e.target.parentElement.parentElement)).remove();
+                    var row = this.parentElement.parentElement;
+                    var id = $(row).find("td:nth-child(1)").text();
+                    $.ajax({ 
+                      type: 'DELETE', 
+                      url: '/player/' + id,
+                      dataType: 'script' 
+                    }).done(function( data ) {
+                      console.log( "Player "+ id + " deletd");
+                      table.row($(row)).remove();
                     table.draw(false);
+                    });
                   });
                }
           } );
