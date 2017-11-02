@@ -1,34 +1,35 @@
 package com.playtech.ptargame3.server.task.table;
 
+import com.playtech.ptargame3.api.table.GameResultStoreRequest;
+import com.playtech.ptargame3.api.table.GameResultStoreResponse;
 import com.playtech.ptargame3.api.table.SetUserInCarRequest;
 import com.playtech.ptargame3.api.table.SetUserInCarResponse;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
-import com.playtech.ptargame3.server.registry.GameRegistryGame;
 import com.playtech.ptargame3.server.task.AbstractLogic;
 
-public class SetUserInCarLogic extends AbstractLogic {
-    public SetUserInCarLogic(LogicResources logicResources) {
+public class GameResultStoreLogic extends AbstractLogic {
+    public GameResultStoreLogic(LogicResources logicResources) {
         super(logicResources);
     }
 
     @Override
     public void execute(Task task) {
-        SetUserInCarRequest request = getInputRequest(task, SetUserInCarRequest.class);
+        GameResultStoreRequest request = getInputRequest(task, GameResultStoreRequest.class);
         // TODO
     }
 
     @Override
     public void finishSuccess(Task task) {
         super.finishSuccess(task);
-        SetUserInCarResponse response = getResponse(task, SetUserInCarResponse.class);
+        GameResultStoreResponse response = getResponse(task, GameResultStoreResponse.class);
         getLogicResources().getCallbackHandler().sendMessage(response);
     }
 
     @Override
     public void finishError(Task task, Exception e) {
         super.finishError(task, e);
-        SetUserInCarResponse response = getResponse(task, SetUserInCarResponse.class, e);
+        GameResultStoreResponse response = getResponse(task, GameResultStoreResponse.class, e);
         getLogicResources().getCallbackHandler().sendMessage(response);
     }
 }

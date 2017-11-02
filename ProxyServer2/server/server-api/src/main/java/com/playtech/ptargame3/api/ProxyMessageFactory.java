@@ -1,6 +1,8 @@
 package com.playtech.ptargame3.api;
 
 import com.playtech.ptargame3.api.table.CarControlMessage;
+import com.playtech.ptargame3.api.table.GameResultStoreRequest;
+import com.playtech.ptargame3.api.table.GameResultStoreResponse;
 import com.playtech.ptargame3.api.table.GetUsersRequest;
 import com.playtech.ptargame3.api.table.GetUsersResponse;
 import com.playtech.ptargame3.api.table.LocationNotificationMessage;
@@ -62,6 +64,8 @@ public class ProxyMessageFactory implements MessageFactory {
         addMessage(3011, GetUsersResponse.class);
         addMessage(3012, SetUserInCarRequest.class);
         addMessage(3013, SetUserInCarResponse.class);
+        addMessage(3014, GameResultStoreRequest.class);
+        addMessage(3015, GameResultStoreResponse.class);
     }
 
     private void addMessage(int messageType, Class<? extends Message> messageClass) {

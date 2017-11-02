@@ -182,9 +182,11 @@ public class UserDatabaseImpl implements UserDatabase {
 
     @Override
     public void updateUser(User user) {
+        if (StringUtil.isNull(user.getName())) throw new NullPointerException("Name cannot be null.");
         synchronized (this) {
             User existing = userMap.get(user.getId());
             if (existing != null) {
+                user = new User(user.getId(), user.getName().toUpperCase(), user.getEmail(), user.isHidden());
                 userMap.put(user.getId(), user);
                 pendingWrites.add(user);
                 logger.info("Adding to pending writes");
