@@ -3,8 +3,11 @@ var pos = 0;
 
 if (g.currentGamePhase == GamePhase.PLAY || g.currentGamePhase == GamePhase.SUDDEN_DEATH) {
 	show = true;
-	pos = floor((g.game_length-g.game_timer)/(room_speed*(g.game_length/(room_speed*16))));
+	pos = floor((g.game_timer)/(room_speed*(g.game_length/(room_speed*16))));
 	if (g.currentCarPhase == CarPhase.COUNTDOWN_TO_START && (g.move_to_position_timer % room_speed < room_speed/2)) {
+		show = false;
+	} else if (g.currentGamePhase == GamePhase.PLAY && g.currentCarPhase == CarPhase.PLAY && 
+		g.game_timer < room_speed * 10 && g.game_timer%room_speed < room_speed/2) {
 		show = false;
 	}
 } else if (g.currentGamePhase == GamePhase.COUNTDOWN_TO_START) {

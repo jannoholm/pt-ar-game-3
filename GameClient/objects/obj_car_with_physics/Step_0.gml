@@ -140,7 +140,7 @@ if ( damaged>0 && obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gamepla
 	}
 } else if (colliding && obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.PLAY) {
 	// drive uncontrollably, when on oil spill
-	if (go_turn < 0) {
+	if (go_turn >= 0) {
 		rightWheelPower=1;
 		leftWheelPower=0;
 	} else {
