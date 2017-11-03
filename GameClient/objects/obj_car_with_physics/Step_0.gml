@@ -33,7 +33,7 @@ else if ( (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.current
 
 // user select
 show_user_select_scroll_cooldown=show_user_select_scroll_cooldown-1;
-if (show_user_select) {
+if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START) {
 	var show_user_select_pos=0;
 	var set_values=false;
 	if (show_user_select_id == 0) {

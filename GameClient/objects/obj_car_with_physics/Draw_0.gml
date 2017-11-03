@@ -47,7 +47,7 @@ draw_set_color(c_white);
 draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
 // draw select name box
-if (show_user_select) {
+if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START) {
 	var offset_x=x+200;
 	var offset_y=y;
 	var offset_angle=270;
