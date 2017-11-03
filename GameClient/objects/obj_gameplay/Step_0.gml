@@ -91,25 +91,13 @@ switch (currentGamePhase) {
 				instance_create_layer(room_width/2, room_height/2, "car", obj_sudden_death);
 				game_timer=sudden_death_length;
 			} else {
-				currentGamePhase = GamePhase.GAME_END_ANIMATION;
-				show_debug_message("Switching currentGamePhase = GamePhase.GAME_END_ANIMATION");
-				game_timer=win_animation_length;
-				with (obj_car_with_physics) {
-					ready=0;
-				}
-				instance_destroy(obj_ball);
+				scr_change_gamestate(GamePhase.GAME_END_ANIMATION);
 			}
 		}
 		break;
 	case (GamePhase.SUDDEN_DEATH):
 		if ( game_timer <= 0 ) {
-			currentGamePhase = GamePhase.GAME_END_ANIMATION;
-			show_debug_message("Switching currentGamePhase = GamePhase.GAME_END_ANIMATION");
-			game_timer=win_animation_length;
-			with (obj_car_with_physics) {
-				ready=0;
-			}
-			instance_destroy(obj_ball);
+			scr_change_gamestate(GamePhase.GAME_END_ANIMATION);
 		}
 		if ( suddendeath_sound == noone ) {
 			suddendeath_sound = audio_play_sound(snd_suddendeath, 1, false);

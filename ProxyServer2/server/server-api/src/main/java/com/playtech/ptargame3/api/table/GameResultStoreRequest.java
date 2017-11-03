@@ -2,7 +2,6 @@ package com.playtech.ptargame3.api.table;
 
 
 import com.playtech.ptargame3.api.AbstractRequest;
-import com.playtech.ptargame3.api.lobby.Team;
 import com.playtech.ptargame3.common.message.MessageHeader;
 
 import java.nio.ByteBuffer;
@@ -11,7 +10,13 @@ import java.util.Collection;
 
 public class GameResultStoreRequest extends AbstractRequest {
 
-    private Team winnerTeam;
+    public enum WinnerTeam {
+        DRAW,
+        RED,
+        BLUE
+    }
+
+    private WinnerTeam winnerTeam;
     private Collection<GameResultPlayerActivity> playerResults = new ArrayList<>();
 
     public GameResultStoreRequest(MessageHeader header) {
@@ -20,7 +25,7 @@ public class GameResultStoreRequest extends AbstractRequest {
     @Override
     public void parse(ByteBuffer messageData) {
         super.parse(messageData);
-        winnerTeam = Team.values()[messageData.get()];
+        winnerTeam = WinnerTeam.values()[messageData.get()];
         int size = messageData.getInt();
         for (int i = 0; i < size; ++i) {
             GameResultPlayerActivity playerInfo = new GameResultPlayerActivity();
@@ -50,11 +55,11 @@ public class GameResultStoreRequest extends AbstractRequest {
         s.append("}");
     }
 
-    public Team getWinnerTeam() {
+    public WinnerTeam getWinnerTeam() {
         return winnerTeam;
     }
 
-    public void setWinnerTeam(Team winnerTeam) {
+    public void setWinnerTeam(WinnerTeam winnerTeam) {
         this.winnerTeam = winnerTeam;
     }
 

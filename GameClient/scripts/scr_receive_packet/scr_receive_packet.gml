@@ -96,4 +96,7 @@ switch (message_type) {
 	case 3011: // location notification
 		scr_get_users_response(buffer);
 		break;
+	case 3015: // game result response
+		scr_receive_gameresult(buffer);
+		break;
 }

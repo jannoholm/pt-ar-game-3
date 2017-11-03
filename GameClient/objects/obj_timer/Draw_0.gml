@@ -18,5 +18,5 @@ if (g.currentGamePhase == GamePhase.PLAY || g.currentGamePhase == GamePhase.SUDD
 if (show) {
 	draw_sprite_ext(spr_timer, pos, 1920/2, 1080/2,1,1,0,c_white,0.5);
 }
-draw_text(1770, 70, string(g.game_timer % room_speed > room_speed/2));
-draw_text(1770, 140, string(g.currentCarPhase));
+//draw_text(1770, 70, string(g.game_timer % room_speed > room_speed/2));
+//draw_text(1770, 140, string(g.currentCarPhase));

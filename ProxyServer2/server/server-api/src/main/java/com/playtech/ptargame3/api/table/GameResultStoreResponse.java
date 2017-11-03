@@ -1,9 +1,7 @@
 package com.playtech.ptargame3.api.table;
 
 
-import com.playtech.ptargame3.api.AbstractRequest;
 import com.playtech.ptargame3.api.AbstractResponse;
-import com.playtech.ptargame3.api.lobby.Team;
 import com.playtech.ptargame3.common.message.MessageHeader;
 
 import java.nio.ByteBuffer;
