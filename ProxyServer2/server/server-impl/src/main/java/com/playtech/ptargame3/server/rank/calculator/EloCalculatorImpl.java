@@ -25,6 +25,9 @@ public class EloCalculatorImpl implements ScoreCalculator {
 		K = k;
 	}
 
+	/** Using this implementation:
+	 * https://metinmediamath.wordpress.com/2013/11/27/how-to-calculate-the-elo-rating-including-example/
+	 */
 	@Override
 	public void calculatePlayerPoints(List<PlayerScore> team1, List<PlayerScore> team2, double gameResult) {
 		
