@@ -250,11 +250,13 @@ public final class WebListener {
             // create updated user
             String name = params.get("name");
             String email = params.get("email");
+            boolean internal = "1".equals(params.get("internal"));
             user = new User(
                     id,
                     name == null ? user.getName() : name,
                     email == null ? user.getEmail() : email,
-                    user.isHidden()
+                    user.isHidden(),
+                    internal
             );
 
             // update
@@ -280,7 +282,7 @@ public final class WebListener {
             if (user == null || user.isHidden()) throw new HTTPException(HttpURLConnection.HTTP_NOT_FOUND);
 
             // update hidden
-            user = new User(user.getId(), user.getName(), user.getEmail(), true);
+            user = new User(user.getId(), user.getName(), user.getEmail(), true, user.isInternal());
 
             // update
             databaseAccess.getUserDatabase().updateUser(user);
@@ -456,9 +458,10 @@ public final class WebListener {
         for (EloRating rating : leaderboard) {
             pos++;
             for (User user : users) {
-                if (user.getId() == rating.getUserId()) {
+                if (user.getId() == rating.getUserId() && !user.isInternal() && !user.isHidden()) {
                     LeaderboardWrapper wrapper = new LeaderboardWrapper(user.getName(), rating, pos);
                     wrapped.add(wrapper);
+                    break;
                 }
             }
         }

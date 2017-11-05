@@ -123,7 +123,11 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x+( 0)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_gamescore), 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_eloRating), 1, 1, offset_angle);
-		draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
+		if (score_leaderboardPosition > 0) {
+			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
+		} else {
+			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, "-", 1, 1, offset_angle);	
+		}
 	}
 	
 	draw_set_color(c_orange);
@@ -134,7 +138,11 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x-1+( 0)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_gamescore), 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_eloRating), 1, 1, offset_angle);
-		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
+		if (score_leaderboardPosition > 0) {
+			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
+		} else {
+			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, "-", 1, 1, offset_angle);	
+		}
 	}
 
 } else if (!ready &&

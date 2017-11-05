@@ -76,6 +76,24 @@ public class UserDatabaseImpl implements UserDatabase {
                 stmt.executeUpdate(sql);
             }
 
+            // check if hidden field already exists
+            alterNeeded = true;
+            sql = "PRAGMA table_info( " + TABLE_USERS + " )";
+            try (ResultSet result = stmt.executeQuery(sql)) {
+                while (result.next()) {
+                    if (result.getString("NAME").equals("INTERNAL")) {
+                        alterNeeded = false;
+                        break;
+                    }
+                }
+            }
+
+            // add hidden field. needed for backward compatibility
+            if (alterNeeded) {
+                sql = "ALTER TABLE " + TABLE_USERS + " ADD COLUMN INTERNAL INT NOT NULL DEFAULT 0";
+                stmt.executeUpdate(sql);
+            }
+
             logger.info("Users database created!");
         } catch (Exception e) {
             throw new SystemException("Unable to initialize users database", e);
@@ -87,14 +105,15 @@ public class UserDatabaseImpl implements UserDatabase {
     private void readTables() {
         Connection connection = dbInit.allocateConnection();
         try (Statement stmt = connection.createStatement()) {
-            String sql = "select ID, NAME, EMAIL, HIDDEN from " + TABLE_USERS + " order by id";
+            String sql = "select ID, NAME, EMAIL, HIDDEN, INTERNAL from " + TABLE_USERS + " order by id";
             ResultSet result = stmt.executeQuery(sql);
             while (result.next()) {
                 int id = result.getInt("ID");
                 String name = result.getString("NAME");
                 String email = result.getString("EMAIL");
                 int hidden = result.getInt("HIDDEN");
-                User user = new User(id, name.toUpperCase(), email, hidden > 0);
+                int internal = result.getInt("INTERNAL");
+                User user = new User(id, name.toUpperCase(), email, hidden > 0, internal > 0);
                 userMap.put(user.getId(), user);
                 logger.info("User read from database: " + user);
                 if (idGenerator.get() < id) {
@@ -118,8 +137,8 @@ public class UserDatabaseImpl implements UserDatabase {
                 }
                 if (todo.size() > 0) {
                     String selectSql = "select count(1) from " + TABLE_USERS + " where ID=?";
-                    String insertSql = "insert into " + TABLE_USERS + " (ID, NAME, EMAIL, HIDDEN) values (?, ?, ?, ?)";
-                    String updateSql = "update " + TABLE_USERS + " set NAME=?, EMAIL=?, HIDDEN=? where ID=?";
+                    String insertSql = "insert into " + TABLE_USERS + " (ID, NAME, EMAIL, HIDDEN, INTERNAL) values (?, ?, ?, ?, ?)";
+                    String updateSql = "update " + TABLE_USERS + " set NAME=?, EMAIL=?, HIDDEN=?, INTERNAL=? where ID=?";
                     Connection connection = dbInit.allocateConnection();
                     try (
                             PreparedStatement selectStmt = connection.prepareStatement(selectSql);
@@ -135,7 +154,8 @@ public class UserDatabaseImpl implements UserDatabase {
                                 updateStmt.setString(1, user.getName());
                                 updateStmt.setString(2, user.getEmail());
                                 updateStmt.setInt(3, user.isHidden() ? 1 : 0);
-                                updateStmt.setInt(4, user.getId());
+                                updateStmt.setInt(4, user.isInternal() ? 1 : 0);
+                                updateStmt.setInt(5, user.getId());
                                 updateStmt.executeUpdate();
                             } else {
                                 // insert
@@ -143,6 +163,7 @@ public class UserDatabaseImpl implements UserDatabase {
                                 insertStmt.setString(2, user.getName());
                                 insertStmt.setString(3, user.getEmail());
                                 insertStmt.setInt(4, user.isHidden() ? 1 : 0);
+                                insertStmt.setInt(5, user.isInternal() ? 1 : 0);
                                 insertStmt.executeUpdate();
                             }
                             logger.info("User written to database: " + user);
@@ -165,7 +186,7 @@ public class UserDatabaseImpl implements UserDatabase {
 
     public User addUser(String name, String email) {
         if (StringUtil.isNull(name)) throw new NullPointerException("Name cannot be null.");
-        User user = new User(idGenerator.incrementAndGet(), name.toUpperCase(), email, false);
+        User user = new User(idGenerator.incrementAndGet(), name.toUpperCase(), email, false, false);
         synchronized (this) {
             pendingWrites.add(user);
             userMap.put(user.getId(), user);
@@ -186,7 +207,7 @@ public class UserDatabaseImpl implements UserDatabase {
         synchronized (this) {
             User existing = userMap.get(user.getId());
             if (existing != null) {
-                user = new User(user.getId(), user.getName().toUpperCase(), user.getEmail(), user.isHidden());
+                user = new User(user.getId(), user.getName().toUpperCase(), user.getEmail(), user.isHidden(), user.isInternal());
                 userMap.put(user.getId(), user);
                 pendingWrites.add(user);
                 logger.info("Adding to pending writes");
