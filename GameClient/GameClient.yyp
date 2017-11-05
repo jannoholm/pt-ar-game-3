@@ -31,6 +31,14 @@
     },
     "resources": [
         {
+            "Key": "008f6f8c-020f-4fcd-9b22-40160fe000d1",
+            "Value": {
+                "id": "9da0e3da-1914-42a8-b003-b106e00158b3",
+                "resourcePath": "scripts\\scr_blast_car_away\\scr_blast_car_away.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "024a8d9b-a9a6-4d0f-9054-bf3a564d4108",
             "Value": {
                 "id": "c542c2f1-e5c5-43e8-8377-1fd24944f618",
@@ -1432,6 +1440,7 @@
         "6dfca21c-daf2-481c-b8e9-0e2bcdf085a3",
         "a9c8d4e9-219f-4eb6-879a-332843cd236f",
         "33feda58-7b30-4ce9-a1bc-d64d4ce41a37",
+        "008f6f8c-020f-4fcd-9b22-40160fe000d1",
         "9aa00b3d-0a46-4f51-8cc3-e199f4c00ded",
         "f50331ed-e5c2-42b8-aee7-a77ae55d1d23",
         "d5c86e80-94ba-43a4-95c4-1bdd55710f54",
