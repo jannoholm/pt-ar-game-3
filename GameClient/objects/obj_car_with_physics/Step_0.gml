@@ -125,7 +125,7 @@ if ( !colliding && oilspill_tire_sound != noone ) {
 var leftWheelPower = 0;
 var rightWheelPower = 0;
 
-if ( damaged>0 && obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.PLAY ) {
+if ( damaged>0 && ( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH ) && obj_gameplay.currentCarPhase == CarPhase.PLAY ) {
 	// drive uncontrollably, when shot
 	if (damage_direction < 0) {
 		rightWheelPower=2;
@@ -138,7 +138,7 @@ if ( damaged>0 && obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gamepla
 		rightWheelPower=-1*rightWheelPower;
 		leftWheelPower=-1*leftWheelPower;
 	}
-} else if (colliding && obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.PLAY) {
+} else if (colliding && ( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH ) && obj_gameplay.currentCarPhase == CarPhase.PLAY) {
 	// drive uncontrollably, when on oil spill
 	if (go_turn >= 0) {
 		rightWheelPower=1;
