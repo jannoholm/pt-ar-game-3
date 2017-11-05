@@ -452,10 +452,12 @@ public final class WebListener {
 
     private Collection<LeaderboardWrapper> convertLeaderboard(Collection<EloRating> leaderboard, Collection<User> users) {
         ArrayList<LeaderboardWrapper> wrapped = new ArrayList<>();
+        int pos = 0;
         for (EloRating rating : leaderboard) {
+            pos++;
             for (User user : users) {
                 if (user.getId() == rating.getUserId()) {
-                    LeaderboardWrapper wrapper = new LeaderboardWrapper(user.getName(), rating);
+                    LeaderboardWrapper wrapper = new LeaderboardWrapper(user.getName(), rating, pos);
                     wrapped.add(wrapper);
                 }
             }
@@ -517,8 +519,9 @@ public final class WebListener {
         private final int totalScore;
         private final int ballTouches;
         private final int boostTouches;
+        private final int position;
 
-        public LeaderboardWrapper(String name, EloRating rating) {
+        public LeaderboardWrapper(String name, EloRating rating, int position) {
             this.name = name;
             this.userId = rating.getUserId();
             this.eloRating = rating.getEloRating();
@@ -528,6 +531,7 @@ public final class WebListener {
             this.totalScore = rating.getTotalScore();
             this.ballTouches = rating.getBallTouches();
             this.boostTouches = rating.getBoostTouches();
+            this.position = position;
         }
 
         public String getName() {
@@ -564,6 +568,10 @@ public final class WebListener {
 
         public int getBoostTouches() {
             return boostTouches;
+        }
+
+        public int getPosition() {
+            return position;
         }
     }
 
