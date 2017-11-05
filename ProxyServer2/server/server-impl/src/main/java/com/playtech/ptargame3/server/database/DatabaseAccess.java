@@ -7,4 +7,6 @@ public interface DatabaseAccess {
 
     GameDatabase getGameDatabase();
 
+    RatingDatabase getRatingDatabase();
+
 }

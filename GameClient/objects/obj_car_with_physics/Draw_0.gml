@@ -94,7 +94,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x+(-3)*offset_scroll, offset_y+offset_text, "bullet hits: ", 1, 1, offset_angle);
 	draw_text_transformed(offset_x+(-2)*offset_scroll, offset_y+offset_text, "ball touches: ", 1, 1, offset_angle);
 	draw_text_transformed(offset_x+(-1)*offset_scroll, offset_y+offset_text, "boost touches: ", 1, 1, offset_angle);
-	if (score_gamescore>0) {
+	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x+( 0)*offset_scroll, offset_y+offset_text, "game score: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text, "raiting: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
@@ -106,7 +106,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x-1+(-3)*offset_scroll, offset_y-1+offset_text, "bullet hits: ", 1, 1, offset_angle);
 	draw_text_transformed(offset_x-1+(-2)*offset_scroll, offset_y-1+offset_text, "ball touches: ", 1, 1, offset_angle);
 	draw_text_transformed(offset_x-1+(-1)*offset_scroll, offset_y-1+offset_text, "boost touches: ", 1, 1, offset_angle);
-	if (score_gamescore>0) {
+	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x-1+( 0)*offset_scroll, offset_y-1+offset_text, "game score: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "raiting: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
@@ -120,7 +120,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x+(-3)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_bullet_hits), 1, 1, offset_angle);
 	draw_text_transformed(offset_x+(-2)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_ball_touches), 1, 1, offset_angle);
 	draw_text_transformed(offset_x+(-1)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_boost_touches), 1, 1, offset_angle);
-	if (score_gamescore>0) {
+	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x+( 0)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_gamescore), 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_eloRating), 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
@@ -131,7 +131,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x-1+(-3)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_bullet_hits), 1, 1, offset_angle);
 	draw_text_transformed(offset_x-1+(-2)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_ball_touches), 1, 1, offset_angle);
 	draw_text_transformed(offset_x-1+(-1)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_boost_touches), 1, 1, offset_angle);
-	if (score_gamescore>0) {
+	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x-1+( 0)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_gamescore), 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_eloRating), 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	

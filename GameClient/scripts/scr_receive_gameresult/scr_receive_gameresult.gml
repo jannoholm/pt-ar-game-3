@@ -4,6 +4,10 @@ var error_code = buffer_read(buffer, buffer_s32);
 var error_message = buffer_read(buffer, buffer_string);
 show_debug_message("got game result response: " + string(error_code) + ":" + error_message);
 
+if (error_code != 0) {
+	return;
+}
+
 buffer_read(buffer, buffer_s32); // it is always 4 for now
 
 for (var i=0; i < 4; ++i) {

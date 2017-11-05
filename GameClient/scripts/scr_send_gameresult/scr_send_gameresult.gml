@@ -15,56 +15,62 @@ if (obj_gameplay.teamRedScore > obj_gameplay.teamBlueScore) {
 } else {
 	buffer_write(buffer, buffer_s8, 0);
 }
+buffer_write(buffer, buffer_s8, 0); // is sudden death
+buffer_write(buffer, buffer_s32, 0); // game time
 // number of players
 buffer_write(buffer, buffer_s32, 4);
-var player_length=1+1+4*4;
+var player_length=4+1+1+4*4;
 
 // red1
 with (obj_playerinit_physics.red1) {
 	buffer_write(buffer, buffer_s32, player_length);
+	buffer_write(buffer, buffer_s32, show_user_select_id);
 	buffer_write(buffer, buffer_s8, 0);
 	buffer_write(buffer, buffer_s8, 1);
 	buffer_write(buffer, buffer_s32, score_goals);
 	buffer_write(buffer, buffer_s32, score_bullet_hits);
 	buffer_write(buffer, buffer_s32, score_ball_touches);
 	buffer_write(buffer, buffer_s32, score_boost_touches);
-	score_gamescore = 0;
+	score_gamescore = -1000000;
 }
 
 // red2
 with (obj_playerinit_physics.red2) {
 	buffer_write(buffer, buffer_s32, player_length);
+	buffer_write(buffer, buffer_s32, show_user_select_id);
 	buffer_write(buffer, buffer_s8, 0);
-	buffer_write(buffer, buffer_s8, 1);
+	buffer_write(buffer, buffer_s8, 2);
 	buffer_write(buffer, buffer_s32, score_goals);
 	buffer_write(buffer, buffer_s32, score_bullet_hits);
 	buffer_write(buffer, buffer_s32, score_ball_touches);
 	buffer_write(buffer, buffer_s32, score_boost_touches);
-	score_gamescore = 0;
+	score_gamescore = -1000000;
 }
 
 // blue1
 with (obj_playerinit_physics.blue1) {
 	buffer_write(buffer, buffer_s32, player_length);
-	buffer_write(buffer, buffer_s8, 0);
+	buffer_write(buffer, buffer_s32, show_user_select_id);
+	buffer_write(buffer, buffer_s8, 1);
 	buffer_write(buffer, buffer_s8, 1);
 	buffer_write(buffer, buffer_s32, score_goals);
 	buffer_write(buffer, buffer_s32, score_bullet_hits);
 	buffer_write(buffer, buffer_s32, score_ball_touches);
 	buffer_write(buffer, buffer_s32, score_boost_touches);
-	score_gamescore = 0;
+	score_gamescore = -1000000;
 }
 
 // blue2
 with (obj_playerinit_physics.blue2) {
 	buffer_write(buffer, buffer_s32, player_length);
-	buffer_write(buffer, buffer_s8, 0);
+	buffer_write(buffer, buffer_s32, show_user_select_id);
 	buffer_write(buffer, buffer_s8, 1);
+	buffer_write(buffer, buffer_s8, 2);
 	buffer_write(buffer, buffer_s32, score_goals);
 	buffer_write(buffer, buffer_s32, score_bullet_hits);
 	buffer_write(buffer, buffer_s32, score_ball_touches);
 	buffer_write(buffer, buffer_s32, score_boost_touches);
-	score_gamescore = 0;
+	score_gamescore = -1000000;
 }
 
 // send message

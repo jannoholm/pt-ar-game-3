@@ -2,12 +2,12 @@ package com.playtech.ptargame3.server.rank.calculator;
 
 public class GameScore {
 
-	private long goalsSum;
-	private long touchesSum;
-	private long bulletHitsSum;
-	private long boostTouchesSum;
+	private int goalsSum;
+	private int touchesSum;
+	private int bulletHitsSum;
+	private int boostTouchesSum;
 
-	public GameScore(long goalsSum, long touchesSum, long bulletHitsSum, long boostTouchesSum) {
+	public GameScore(int goalsSum, int touchesSum, int bulletHitsSum, int boostTouchesSum) {
 		super();
 		this.goalsSum = goalsSum;
 		this.touchesSum = touchesSum;
@@ -15,35 +15,35 @@ public class GameScore {
 		this.boostTouchesSum = boostTouchesSum;
 	}
 
-	public long getGoalsSum() {
+	public int getGoalsSum() {
 		return goalsSum;
 	}
 
-	public void setGoalsSum(long goalsSum) {
+	public void setGoalsSum(int goalsSum) {
 		this.goalsSum = goalsSum;
 	}
 
-	public long getTouchesSum() {
+	public int getTouchesSum() {
 		return touchesSum;
 	}
 
-	public void setTouchesSum(long touchesSum) {
+	public void setTouchesSum(int touchesSum) {
 		this.touchesSum = touchesSum;
 	}
 
-	public long getBulletHitsSum() {
+	public int getBulletHitsSum() {
 		return bulletHitsSum;
 	}
 
-	public void setBulletHitsSum(long bulletHitsSum) {
+	public void setBulletHitsSum(int bulletHitsSum) {
 		this.bulletHitsSum = bulletHitsSum;
 	}
 
-	public long getBoostTouchesSum() {
+	public int getBoostTouchesSum() {
 		return boostTouchesSum;
 	}
 
-	public void setBoostTouchesSum(long boostTouchesSum) {
+	public void setBoostTouchesSum(int boostTouchesSum) {
 		this.boostTouchesSum = boostTouchesSum;
 	}
 

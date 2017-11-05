@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 
 public class GameResultPlayerActivity {
 
+    private int userId;
     private Team team;
     private byte positionInTeam;
     private int goals;
@@ -22,6 +23,7 @@ public class GameResultPlayerActivity {
         messageData = ByteBuffer.wrap(bytes).order(messageData.order());
 
         // message data
+        userId = messageData.getInt();
         team = Team.values()[messageData.get()];
         positionInTeam = messageData.get();
         goals = messageData.getInt();
@@ -37,6 +39,7 @@ public class GameResultPlayerActivity {
         messageData.putInt(0);
 
         // data
+        messageData.putInt(userId);
         messageData.put((byte)team.ordinal());
         messageData.put(positionInTeam);
         messageData.putInt(goals);
@@ -49,13 +52,22 @@ public class GameResultPlayerActivity {
     }
 
     protected void toStringImpl(StringBuilder s) {
-        s.append("team=").append(getTeam());
+        s.append("userId=").append(getUserId());
+        s.append(", team=").append(getTeam());
         s.append(", pos=").append(getPositionInTeam());
         s.append(", results=(").append(getGoals());
         s.append(", ").append(getBulletHits());
         s.append(", ").append(getBallTouches());
         s.append(", ").append(getBoostTouches());
         s.append(")");
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Team getTeam() {

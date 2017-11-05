@@ -1,68 +1,74 @@
 package com.playtech.ptargame3.server.rank.calculator;
 
+import com.playtech.ptargame3.server.database.model.EloRating;
+
 public class PlayerScore {
 
-	private String playerId;
+	private int userId;
+	private int goals;
+	private int touches;
+	private int bulletHits;
+	private int boostTouches;
+    private int score;
+	private int elo;
 
-	private long goals;
-
-	private long touches;
-
-	private long bulletHits;
-
-	private long boostTouches;
-
-	private long elo;
-
-	public String getPlayerId() {
-		return playerId;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setPlayerId(String playerId) {
-		this.playerId = playerId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public long getGoals() {
+	public int getGoals() {
 		return goals;
 	}
 
-	public void setGoals(long goals) {
+	public void setGoals(int goals) {
 		this.goals = goals;
 	}
 
-	public long getTouches() {
+	public int getTouches() {
 		return touches;
 	}
 
-	public void setTouches(long touches) {
+	public void setTouches(int touches) {
 		this.touches = touches;
 	}
 
-	public long getBulletHits() {
+	public int getBulletHits() {
 		return bulletHits;
 	}
 
-	public void setBulletHits(long bulletHits) {
+	public void setBulletHits(int bulletHits) {
 		this.bulletHits = bulletHits;
 	}
 
-	public long getBoostTouches() {
+	public int getBoostTouches() {
 		return boostTouches;
 	}
 
-	public void setBoostTouches(long boostTouches) {
+	public void setBoostTouches(int boostTouches) {
 		this.boostTouches = boostTouches;
 	}
 
-	public long getElo() {
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setElo(int elo) {
+        this.elo = elo;
+    }
+
+    public int getElo() {
 		return elo;
 	}
 
-	public void setElo(long elo) {
-		this.elo = elo;
-	}
-	
-	public void updateElo(long diff) {
+	public void updateElo(int diff) {
 		this.elo += diff;
 	}
 

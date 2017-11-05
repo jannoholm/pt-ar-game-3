@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.playtech.ptargame3.server.database.DatabaseAccess;
+import com.playtech.ptargame3.server.database.model.EloRating;
 import com.playtech.ptargame3.server.database.model.User;
 import com.playtech.ptargame3.server.exception.SystemException;
 import com.sun.net.httpserver.HttpContext;
@@ -146,14 +147,12 @@ public final class WebListener {
     }
 
     private void processLeaderboard(HttpExchange httpExchange, String path) throws IOException {
-        switch(path){
-            // TODO
-            default:
-                if (logger.isLoggable(Level.INFO)) {
-                    logger.info(String.format("HttpUtilityServer Cannot serve uri: %s, invalid path %s", httpExchange.getRequestURI(), path));
-                }
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0L);
-                break;
+        if (METHOD_GET.equals(httpExchange.getRequestMethod()) && path.trim().length() == 0) {
+            // get players
+            listLeaderboard(httpExchange);
+        } else if (METHOD_GET.equals(httpExchange.getRequestMethod())) {
+            // get player
+            getUserRating(httpExchange, path);
         }
     }
 
@@ -301,6 +300,32 @@ public final class WebListener {
         try {
             Collection<User> users = databaseAccess.getUserDatabase().getUsers();
             writeResponse(httpExchange, HttpURLConnection.HTTP_OK, convertUsers(users));
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
+    private void listLeaderboard( HttpExchange httpExchange ) {
+        try {
+            Collection<EloRating> leaderboard = databaseAccess.getRatingDatabase().getLeaderboard();
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, leaderboard);
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
+    private void getUserRating( HttpExchange httpExchange, String idString ) {
+        try {
+            // get user
+            int id = Integer.valueOf(idString);
+            EloRating rating = databaseAccess.getRatingDatabase().getRating(id);
+            if (rating.getMatches() == 0) throw new HTTPException(HttpURLConnection.HTTP_NOT_FOUND);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, rating);
+        } catch (HTTPException e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, e.getStatusCode());
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
             writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
