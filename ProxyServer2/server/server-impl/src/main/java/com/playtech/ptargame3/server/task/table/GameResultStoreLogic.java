@@ -114,8 +114,9 @@ public class GameResultStoreLogic extends AbstractLogic {
             );
             playerResults.add(playerScore);
         }
+        int round = getLogicResources().getGameRegistry().getGame(request.getGameId()).updateRound();
         Game game = new Game(
-                UUID.randomUUID().toString(),
+                request.getGameId() + "+" + round,
                 goalsRed,
                 goalsBlue,
                 request.isSuddenDeath(),

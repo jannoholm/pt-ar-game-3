@@ -543,6 +543,14 @@
             }
         },
         {
+            "Key": "5fb5f257-5710-4b6d-b760-78fe375d1f8a",
+            "Value": {
+                "id": "2997a94a-6658-4af2-9985-a8d35b1362d5",
+                "resourcePath": "objects\\obj_gamestate_push\\obj_gamestate_push.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "608880f8-0682-4143-8676-adaea9fbbfb1",
             "Value": {
                 "id": "a30438a1-d8cf-4922-b66e-055dfd3b51b4",
