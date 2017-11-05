@@ -309,7 +309,8 @@ public final class WebListener {
     private void listLeaderboard( HttpExchange httpExchange ) {
         try {
             Collection<EloRating> leaderboard = databaseAccess.getRatingDatabase().getLeaderboard();
-            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, leaderboard);
+            Collection<User> users = databaseAccess.getUserDatabase().getUsers();
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, convertLeaderboard(leaderboard, users));
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
             writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
@@ -449,6 +450,19 @@ public final class WebListener {
         return wrapped;
     }
 
+    private Collection<LeaderboardWrapper> convertLeaderboard(Collection<EloRating> leaderboard, Collection<User> users) {
+        ArrayList<LeaderboardWrapper> wrapped = new ArrayList<>();
+        for (EloRating rating : leaderboard) {
+            for (User user : users) {
+                if (user.getId() == rating.getUserId()) {
+                    LeaderboardWrapper wrapper = new LeaderboardWrapper(user.getName(), rating);
+                    wrapped.add(wrapper);
+                }
+            }
+        }
+        return wrapped;
+    }
+
     private static class ResponseWrapper {
         private static ObjectWriter writer = new ObjectMapper().writer();
         private Object data;
@@ -471,9 +485,9 @@ public final class WebListener {
     }
 
     private static class UserWrapper {
-        int id;
-        String name;
-        String email;
+        private final int id;
+        private final String name;
+        private final String email;
         UserWrapper(User user) {
             this.id = user.getId();
             this.name = user.getName();
@@ -490,6 +504,66 @@ public final class WebListener {
 
         public String getEmail() {
             return email;
+        }
+    }
+
+    private static class LeaderboardWrapper {
+        private final String name;
+        private final int userId;
+        private final int eloRating;
+        private final int matches;
+        private final int goals;
+        private final int bulletHits;
+        private final int totalScore;
+        private final int ballTouches;
+        private final int boostTouches;
+
+        public LeaderboardWrapper(String name, EloRating rating) {
+            this.name = name;
+            this.userId = rating.getUserId();
+            this.eloRating = rating.getEloRating();
+            this.matches = rating.getMatches();
+            this.goals = rating.getGoals();
+            this.bulletHits = rating.getBulletHits();
+            this.totalScore = rating.getTotalScore();
+            this.ballTouches = rating.getBallTouches();
+            this.boostTouches = rating.getBoostTouches();
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public int getEloRating() {
+            return eloRating;
+        }
+
+        public int getMatches() {
+            return matches;
+        }
+
+        public int getGoals() {
+            return goals;
+        }
+
+        public int getBulletHits() {
+            return bulletHits;
+        }
+
+        public int getTotalScore() {
+            return totalScore;
+        }
+
+        public int getBallTouches() {
+            return ballTouches;
+        }
+
+        public int getBoostTouches() {
+            return boostTouches;
         }
     }
 
