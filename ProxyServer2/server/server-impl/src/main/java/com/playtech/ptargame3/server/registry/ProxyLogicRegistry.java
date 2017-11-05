@@ -7,7 +7,7 @@ import com.playtech.ptargame3.api.table.GameResultStoreRequest;
 import com.playtech.ptargame3.api.table.GetUsersRequest;
 import com.playtech.ptargame3.api.table.LocationNotificationMessage;
 import com.playtech.ptargame3.api.game.GameControlMessage;
-import com.playtech.ptargame3.api.game.GameUpdateBroadcardMessage;
+import com.playtech.ptargame3.api.game.GameUpdateBroadcastMessage;
 import com.playtech.ptargame3.api.lobby.HostGameRequest;
 import com.playtech.ptargame3.api.lobby.JoinGameRequest;
 import com.playtech.ptargame3.api.lobby.GetDetailedGameInfoRequest;
@@ -51,7 +51,7 @@ public class ProxyLogicRegistry implements LogicRegistry {
         addMapping(GetDetailedGameInfoRequest.class.getName(), GetDetailedGameInfoLogic.class);
         addMapping(PushGameLobbyUpdateLogic.TASK_TYPE, PushGameLobbyUpdateLogic.class);
         addMapping(GameControlMessage.class.getName(), GameControlLogic.class);
-        addMapping(GameUpdateBroadcardMessage.class.getName(), GameUpdateBroadcastLogic.class);
+        addMapping(GameUpdateBroadcastMessage.class.getName(), GameUpdateBroadcastLogic.class);
         addMapping(LocationNotificationMessage.class.getName(), LocationNotificationLogic.class);
         addMapping(CarControlMessage.class.getName(), CarControlLogic.class);
         addMapping(GetUsersRequest.class.getName(), GetUsersLogic.class);

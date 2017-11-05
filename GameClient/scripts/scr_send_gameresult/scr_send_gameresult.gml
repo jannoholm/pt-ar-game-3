@@ -8,6 +8,7 @@ obj_server_client.messageid_counter+=10000;
 scr_write_messageheader(buffer, 3014, obj_server_client.messageid_counter, obj_server_client.client_id);
 
 // write content
+buffer_write(buffer, buffer_string, obj_server_client.gameid);
 if (obj_gameplay.teamRedScore > obj_gameplay.teamBlueScore) {
 	buffer_write(buffer, buffer_s8, 1);
 } else if (obj_gameplay.teamRedScore < obj_gameplay.teamBlueScore) {

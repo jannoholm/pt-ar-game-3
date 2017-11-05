@@ -34,6 +34,7 @@ public class GameRegistryGame {
     private Team winner;
     private boolean hostConnected = true;
     private long hostDisconnectTime = 0;
+    private int round = 0;
 
     public GameRegistryGame(String hostClientId, String gameId, String gameName, int positions, String aiType, boolean tableGame) {
         if (positions%2 != 0) throw new SystemException("Invalid player count. Has to be even. Was: " + positions);
@@ -167,6 +168,10 @@ public class GameRegistryGame {
     public void setHostConnected(boolean hostConnected) {
         this.hostConnected = hostConnected;
         this.hostDisconnectTime = System.currentTimeMillis();
+    }
+
+    public int updateRound() {
+        return ++round;
     }
 
     @Override

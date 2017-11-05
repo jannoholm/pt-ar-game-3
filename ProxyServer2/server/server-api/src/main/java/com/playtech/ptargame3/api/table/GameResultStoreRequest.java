@@ -17,6 +17,7 @@ public class GameResultStoreRequest extends AbstractRequest {
         BLUE
     }
 
+    private String gameId;
     private WinnerTeam winnerTeam;
     private boolean suddenDeath;
     private int gameTime;
@@ -28,6 +29,7 @@ public class GameResultStoreRequest extends AbstractRequest {
     @Override
     public void parse(ByteBuffer messageData) {
         super.parse(messageData);
+        gameId = StringUtil.readUTF8String(messageData);
         winnerTeam = WinnerTeam.values()[messageData.get()];
         suddenDeath = messageData.get() > 0;
         gameTime = messageData.getInt();
@@ -42,6 +44,7 @@ public class GameResultStoreRequest extends AbstractRequest {
     @Override
     public void format(ByteBuffer messageData) {
         super.format(messageData);
+        StringUtil.writeUTF8String(gameId, messageData);
         messageData.put((byte)winnerTeam.ordinal());
         messageData.put((byte)(suddenDeath ? 1 : 0));
         messageData.putInt(gameTime);
@@ -54,6 +57,7 @@ public class GameResultStoreRequest extends AbstractRequest {
     @Override
     protected void toStringImpl(StringBuilder s) {
         super.toStringImpl(s);
+        s.append(", gameId=").append(gameId);
         s.append(", winnerTeam=").append(winnerTeam);
         s.append(", suddenDeath=").append(suddenDeath);
         s.append(", gameTime=").append(gameTime);
@@ -64,6 +68,14 @@ public class GameResultStoreRequest extends AbstractRequest {
             s.append(")");
         }
         s.append("}");
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public WinnerTeam getWinnerTeam() {
