@@ -61,6 +61,8 @@ if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START
 	}
 
 	//draw_sprite_ext(spr_user_select, 0, offset_x, offset_y, 1, 1, offset_angle, c_white, 1);
+	//draw_sprite(spr_playerselect, 1, offset_x+offset_scroll, offset_y+offset_text);
+	
 	draw_set_halign(fa_left);	
 	draw_set_font(fnt_usertext);
 
