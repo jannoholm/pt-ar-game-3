@@ -69,7 +69,8 @@ public class TestEloCalculator {
 	
 	@Test
 	public void TestArbritartyScoreCalculator( ) {
-		
+		assertTrue(calculator.calculatePlayerScore(generateMap(0, 0, 0, 0)) == 0);
+		assertTrue(calculator.calculatePlayerScore(generateMap(2, 2, 2, 2)) == 1260);
 	}
 
 }
