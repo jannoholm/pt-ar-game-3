@@ -1,50 +1,22 @@
 package com.playtech.ptargame3.server.rank.calculator;
 
+import java.util.Map;
+
 public class GameScore {
 
-	private int goalsSum;
-	private int touchesSum;
-	private int bulletHitsSum;
-	private int boostTouchesSum;
+	private Map<ScoreCriteria, Integer> scoreMap;
 
-	public GameScore(int goalsSum, int touchesSum, int bulletHitsSum, int boostTouchesSum) {
+	public GameScore(Map<ScoreCriteria, Integer> scoreMap) {
 		super();
-		this.goalsSum = goalsSum;
-		this.touchesSum = touchesSum;
-		this.bulletHitsSum = bulletHitsSum;
-		this.boostTouchesSum = boostTouchesSum;
+		this.scoreMap = scoreMap;
 	}
 
-	public int getGoalsSum() {
-		return goalsSum;
+	public Map<ScoreCriteria, Integer> getScoreMap() {
+		return scoreMap;
 	}
 
-	public void setGoalsSum(int goalsSum) {
-		this.goalsSum = goalsSum;
-	}
-
-	public int getTouchesSum() {
-		return touchesSum;
-	}
-
-	public void setTouchesSum(int touchesSum) {
-		this.touchesSum = touchesSum;
-	}
-
-	public int getBulletHitsSum() {
-		return bulletHitsSum;
-	}
-
-	public void setBulletHitsSum(int bulletHitsSum) {
-		this.bulletHitsSum = bulletHitsSum;
-	}
-
-	public int getBoostTouchesSum() {
-		return boostTouchesSum;
-	}
-
-	public void setBoostTouchesSum(int boostTouchesSum) {
-		this.boostTouchesSum = boostTouchesSum;
+	public void setScoreMap(Map<ScoreCriteria, Integer> scoreMap) {
+		this.scoreMap = scoreMap;
 	}
 
 }

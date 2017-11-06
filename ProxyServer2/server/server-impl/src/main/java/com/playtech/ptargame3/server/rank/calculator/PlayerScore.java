@@ -1,16 +1,21 @@
 package com.playtech.ptargame3.server.rank.calculator;
 
-import com.playtech.ptargame3.server.database.model.EloRating;
+import java.util.Map;
 
 public class PlayerScore {
 
 	private int userId;
-	private int goals;
-	private int touches;
-	private int bulletHits;
-	private int boostTouches;
-    private int score;
 	private int elo;
+	private int userScore;
+
+	private Map<ScoreCriteria, Integer> scoreMap;
+
+	public PlayerScore(int userId, int elo, Map<ScoreCriteria, Integer> scoreMap) {
+		super();
+		this.userId = userId;
+		this.elo = elo;
+		this.scoreMap = scoreMap;
+	}
 
 	public int getUserId() {
 		return userId;
@@ -20,56 +25,38 @@ public class PlayerScore {
 		this.userId = userId;
 	}
 
-	public int getGoals() {
-		return goals;
+	public void setElo(int elo) {
+		this.elo = elo;
 	}
 
-	public void setGoals(int goals) {
-		this.goals = goals;
-	}
-
-	public int getTouches() {
-		return touches;
-	}
-
-	public void setTouches(int touches) {
-		this.touches = touches;
-	}
-
-	public int getBulletHits() {
-		return bulletHits;
-	}
-
-	public void setBulletHits(int bulletHits) {
-		this.bulletHits = bulletHits;
-	}
-
-	public int getBoostTouches() {
-		return boostTouches;
-	}
-
-	public void setBoostTouches(int boostTouches) {
-		this.boostTouches = boostTouches;
-	}
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public void setElo(int elo) {
-        this.elo = elo;
-    }
-
-    public int getElo() {
+	public int getElo() {
 		return elo;
 	}
 
 	public void updateElo(int diff) {
 		this.elo += diff;
+	}
+
+	public Map<ScoreCriteria, Integer> getScoreMap() {
+		return scoreMap;
+	}
+
+	public void setScoreMap(Map<ScoreCriteria, Integer> scoreMap) {
+		this.scoreMap = scoreMap;
+	}
+
+	public int getUserScore() {
+		return userScore;
+	}
+
+	public void setUserScore(int userScore) {
+		this.userScore = userScore;
+	}
+
+	@Override
+	public String toString() {
+		return "PlayerScore [userId=" + userId + ", elo=" + elo + ", userScore=" + userScore + ", scoreMap=" + scoreMap
+				+ "]";
 	}
 
 }
