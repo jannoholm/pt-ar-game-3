@@ -6,12 +6,17 @@ var reverseAccelValue = (gamepad_axis_value(global.gamepadDeviceId, global.gp_ax
 var goMoveGamepadValue = forwardAccelValue - reverseAccelValue;
 
 var goTurnGamepadValue = gamepad_axis_value(global.gamepadDeviceId, global.gp_axis_turn);
+var goTurnGamepadAltValue = gamepad_axis_value(global.gamepadDeviceId, global.gp_axis_turn_alt);
 
 var go_move, go_turn, boost, shoot, highlight;
 
 // Ignore small deadzone
 if ( global.gamepadDeviceId != -1 && abs(goMoveGamepadValue) > 0.05 ) {
 	go_move = goMoveGamepadValue;
+} else if ( global.gamepadDeviceId != -1 && gamepad_button_check(global.gamepadDeviceId, global.gp_pad_forward)) {
+	go_move = 1;
+} else if (global.gamepadDeviceId != -1 && gamepad_button_check(global.gamepadDeviceId, global.gp_pad_reverse)) {
+	go_move = -1;
 } else {
 	go_move = keyboard_check(vk_up)-keyboard_check(vk_down);;
 }
@@ -19,6 +24,8 @@ if ( global.gamepadDeviceId != -1 && abs(goMoveGamepadValue) > 0.05 ) {
 // Ignore small deadzone
 if ( global.gamepadDeviceId != -1 && abs(goTurnGamepadValue) > 0.05 ) {
 	go_turn = goTurnGamepadValue;
+} else if ( global.gamepadDeviceId != -1  && abs(goTurnGamepadAltValue) > 0.05 ) {
+	go_turn = goTurnGamepadAltValue;
 } else {
 	go_turn = keyboard_check(vk_right)-keyboard_check(vk_left);
 }

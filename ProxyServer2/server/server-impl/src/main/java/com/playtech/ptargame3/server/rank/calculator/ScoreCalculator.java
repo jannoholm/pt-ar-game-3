@@ -8,6 +8,6 @@ public interface ScoreCalculator {
 	//0 = team 1 won
 	//0.5 = tie
 	//1 = team 2 won
-	public void calculatePlayerPoints(List<PlayerScore> team1, List<PlayerScore> team2, double gameResult);
+	public void calculatePlayerPoints(List<PlayerScore> team1, List<PlayerScore> team2);
 
 }

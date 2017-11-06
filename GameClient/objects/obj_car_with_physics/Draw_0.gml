@@ -61,6 +61,8 @@ if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START
 	}
 
 	//draw_sprite_ext(spr_user_select, 0, offset_x, offset_y, 1, 1, offset_angle, c_white, 1);
+	//draw_sprite(spr_playerselect, 1, offset_x+offset_scroll, offset_y+offset_text);
+	
 	draw_set_halign(fa_left);	
 	draw_set_font(fnt_usertext);
 
@@ -102,7 +104,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x+(-1)*offset_scroll, offset_y+offset_text, "boost touches: ", 1, 1, offset_angle);
 	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x+( 0)*offset_scroll, offset_y+offset_text, "game score: ", 1, 1, offset_angle);
-		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text, "raiting: ", 1, 1, offset_angle);
+		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text, "raiting points: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
 	}
 	draw_text_transformed(offset_x+( 4)*offset_scroll, offset_y+offset_text, "press shoot to continue", 1, 1, offset_angle);
@@ -114,7 +116,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x-1+(-1)*offset_scroll, offset_y-1+offset_text, "boost touches: ", 1, 1, offset_angle);
 	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x-1+( 0)*offset_scroll, offset_y-1+offset_text, "game score: ", 1, 1, offset_angle);
-		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "raiting: ", 1, 1, offset_angle);
+		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "raiting points: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
 	}
 	draw_text_transformed(offset_x-1+( 4)*offset_scroll, offset_y-1+offset_text, "press shoot to continue", 1, 1, offset_angle);

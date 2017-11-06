@@ -185,7 +185,7 @@ public class RatingDatabaseImpl implements RatingDatabase {
         synchronized (this) {
             EloRating rating = ratingMap.get(userId);
             if (userId == 0 || rating == null) {
-                rating = new EloRating(userId, 0, 0, 0, 0, 0, 0, 0, 0);
+                rating = new EloRating(userId, 1000, 0, 0, 0, 0, 0, 0, 0);
             }
             return rating;
         }

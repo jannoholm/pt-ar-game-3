@@ -29,7 +29,12 @@ if (currentGamePhase == GamePhase.COUNTDOWN_TO_START) {
 	}*/
 	draw_set_font(fnt_score);
 	draw_set_halign(fa_center);
-	draw_text_ext_color(1920/4,1080/3,string(teamRedScore),0,500,c_orange,c_orange,c_orange,c_orange,0.2);
-	draw_text_ext_color(1920/4+1920/2,1080/3,string(teamBlueScore),0,500,c_orange,c_orange,c_orange,c_orange,0.2);
+
+	//draw_text_ext_color(1920/4,1080/3,string(teamRedScore),0,500,c_orange,c_orange,c_orange,c_orange,0.2);
+	//draw_text_ext_color(1920/4+1920/2,1080/3,string(teamBlueScore),0,500,c_orange,c_orange,c_orange,c_orange,0.2);
+	
+	draw_text_ext_transformed_color(1920/4,1080/3,string(teamRedScore), 0, 500, 1.8, 1.8, 0, c_orange, c_orange, c_orange, c_orange, 0.2)
+	draw_text_ext_transformed_color(1920/4+1920/2,1080/3,string(teamBlueScore), 0, 500, 1.8, 1.8, 0, c_orange, c_orange, c_orange, c_orange, 0.2)
 }
+
 
