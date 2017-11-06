@@ -4,7 +4,10 @@ if ( os_type == os_linux ) {
 } else {
 	global.gp_axis_forward = 4; //gp_shoulderrb;
 	global.gp_axis_reverse = 3; //gp_shoulderlb;
+	global.gp_pad_forward = gp_padu;
+	global.gp_pad_reverse = gp_padd;
 	global.gp_axis_turn = gp_axislh;
+	global.gp_axis_turn_alt = gp_axisrh;
 	global.gp_button_boost1 = gp_shoulderr;
 	global.gp_button_boost2 = gp_face2;
 	global.gp_button_shoot = gp_face3;
