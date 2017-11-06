@@ -19,6 +19,7 @@ public class DatabaseAccessImpl implements DatabaseAccess {
 
     private UserDatabaseImpl userDatabase;
     private GameDatabaseImpl gameDatabase;
+    private RatingDatabaseImpl ratingDatabase;
 
     public DatabaseAccessImpl(ScheduledExecutorService executor) {
         this.executor = executor;
@@ -28,10 +29,12 @@ public class DatabaseAccessImpl implements DatabaseAccess {
         new File(DB_FILE).getParentFile().mkdirs();
         Class.forName("org.sqlite.JDBC");
         userDatabase = new UserDatabaseImpl(this, executor);
-        gameDatabase = new GameDatabaseImpl(this);
+        gameDatabase = new GameDatabaseImpl(this, executor);
+        ratingDatabase = new RatingDatabaseImpl(this, executor);
         initialized = true;
         userDatabase.init();
         gameDatabase.init();
+        ratingDatabase.init();
     }
 
     protected synchronized Connection allocateConnection() {
@@ -78,5 +81,10 @@ public class DatabaseAccessImpl implements DatabaseAccess {
 
     public GameDatabase getGameDatabase() {
         return gameDatabase;
+    }
+
+    @Override
+    public RatingDatabase getRatingDatabase() {
+        return ratingDatabase;
     }
 }

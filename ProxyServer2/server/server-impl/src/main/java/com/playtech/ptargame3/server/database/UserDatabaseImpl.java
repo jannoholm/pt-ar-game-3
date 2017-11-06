@@ -19,6 +19,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserDatabaseImpl implements UserDatabase {
@@ -32,7 +33,6 @@ public class UserDatabaseImpl implements UserDatabase {
     private final ScheduledExecutorService executor;
     private ScheduledFuture maintenanceFuture;
 
-    private ArrayList<User> users = new ArrayList<>();
     private ArrayList<User> pendingWrites = new ArrayList<>();
     private Map<Integer, User> userMap = new HashMap<>();
 
@@ -76,6 +76,24 @@ public class UserDatabaseImpl implements UserDatabase {
                 stmt.executeUpdate(sql);
             }
 
+            // check if hidden field already exists
+            alterNeeded = true;
+            sql = "PRAGMA table_info( " + TABLE_USERS + " )";
+            try (ResultSet result = stmt.executeQuery(sql)) {
+                while (result.next()) {
+                    if (result.getString("NAME").equals("INTERNAL")) {
+                        alterNeeded = false;
+                        break;
+                    }
+                }
+            }
+
+            // add hidden field. needed for backward compatibility
+            if (alterNeeded) {
+                sql = "ALTER TABLE " + TABLE_USERS + " ADD COLUMN INTERNAL INT NOT NULL DEFAULT 0";
+                stmt.executeUpdate(sql);
+            }
+
             logger.info("Users database created!");
         } catch (Exception e) {
             throw new SystemException("Unable to initialize users database", e);
@@ -87,15 +105,15 @@ public class UserDatabaseImpl implements UserDatabase {
     private void readTables() {
         Connection connection = dbInit.allocateConnection();
         try (Statement stmt = connection.createStatement()) {
-            String sql = "select ID, NAME, EMAIL, HIDDEN from " + TABLE_USERS + " order by id";
+            String sql = "select ID, NAME, EMAIL, HIDDEN, INTERNAL from " + TABLE_USERS + " order by id";
             ResultSet result = stmt.executeQuery(sql);
             while (result.next()) {
                 int id = result.getInt("ID");
                 String name = result.getString("NAME");
                 String email = result.getString("EMAIL");
                 int hidden = result.getInt("HIDDEN");
-                User user = new User(id, name.toUpperCase(), email, hidden > 0);
-                users.add(user);
+                int internal = result.getInt("INTERNAL");
+                User user = new User(id, name.toUpperCase(), email, hidden > 0, internal > 0);
                 userMap.put(user.getId(), user);
                 logger.info("User read from database: " + user);
                 if (idGenerator.get() < id) {
@@ -118,21 +136,43 @@ public class UserDatabaseImpl implements UserDatabase {
                     todo.addAll(pendingWrites);
                 }
                 if (todo.size() > 0) {
-                    String insertSql = "insert into " + TABLE_USERS + " (ID, NAME, EMAIL, HIDDEN) VALUES (?, ?, ?, ?)";
+                    String selectSql = "select count(1) from " + TABLE_USERS + " where ID=?";
+                    String insertSql = "insert into " + TABLE_USERS + " (ID, NAME, EMAIL, HIDDEN, INTERNAL) values (?, ?, ?, ?, ?)";
+                    String updateSql = "update " + TABLE_USERS + " set NAME=?, EMAIL=?, HIDDEN=?, INTERNAL=? where ID=?";
                     Connection connection = dbInit.allocateConnection();
-                    try (PreparedStatement stmt = connection.prepareStatement(insertSql)) {
+                    try (
+                            PreparedStatement selectStmt = connection.prepareStatement(selectSql);
+                            PreparedStatement insertStmt = connection.prepareStatement(insertSql);
+                            PreparedStatement updateStmt = connection.prepareStatement(updateSql);
+                    ) {
                         for (User user : todo) {
-                            stmt.setInt(1, user.getId());
-                            stmt.setString(2, user.getName());
-                            stmt.setString(3, user.getEmail());
-                            stmt.setInt(4, user.isHidden() ? 1 : 0);
-                            stmt.executeUpdate();
+                            selectStmt.setInt(1, user.getId());
+                            ResultSet result = selectStmt.executeQuery();
+                            result.next();
+                            if (result.getInt(1) > 0) {
+                                // update
+                                updateStmt.setString(1, user.getName());
+                                updateStmt.setString(2, user.getEmail());
+                                updateStmt.setInt(3, user.isHidden() ? 1 : 0);
+                                updateStmt.setInt(4, user.isInternal() ? 1 : 0);
+                                updateStmt.setInt(5, user.getId());
+                                updateStmt.executeUpdate();
+                            } else {
+                                // insert
+                                insertStmt.setInt(1, user.getId());
+                                insertStmt.setString(2, user.getName());
+                                insertStmt.setString(3, user.getEmail());
+                                insertStmt.setInt(4, user.isHidden() ? 1 : 0);
+                                insertStmt.setInt(5, user.isInternal() ? 1 : 0);
+                                insertStmt.executeUpdate();
+                            }
                             logger.info("User written to database: " + user);
                             synchronized (this) {
                                 pendingWrites.remove(user);
                             }
                         }
                     } catch (Exception e) {
+                        logger.log(Level.WARNING, "Unable to initialize users database", e);
                         throw new SystemException("Unable to initialize users database", e);
                     } finally {
                         dbInit.releaseConnection(connection);
@@ -146,10 +186,9 @@ public class UserDatabaseImpl implements UserDatabase {
 
     public User addUser(String name, String email) {
         if (StringUtil.isNull(name)) throw new NullPointerException("Name cannot be null.");
-        User user = new User(idGenerator.incrementAndGet(), name.toUpperCase(), email, false);
+        User user = new User(idGenerator.incrementAndGet(), name.toUpperCase(), email, false, false);
         synchronized (this) {
             pendingWrites.add(user);
-            users.add(user);
             userMap.put(user.getId(), user);
         }
         return user;
@@ -164,17 +203,23 @@ public class UserDatabaseImpl implements UserDatabase {
 
     @Override
     public void updateUser(User user) {
+        if (StringUtil.isNull(user.getName())) throw new NullPointerException("Name cannot be null.");
         synchronized (this) {
             User existing = userMap.get(user.getId());
             if (existing != null) {
+                user = new User(user.getId(), user.getName().toUpperCase(), user.getEmail(), user.isHidden(), user.isInternal());
                 userMap.put(user.getId(), user);
+                pendingWrites.add(user);
+                logger.info("Adding to pending writes");
+            } else {
+                logger.info("player not found: " + user);
             }
         }
     }
 
     public Collection<User> getUsers() {
         synchronized (this) {
-            return Collections.unmodifiableCollection(new ArrayList<>(users));
+            return Collections.unmodifiableCollection(new ArrayList<>(userMap.values()));
         }
     }
 

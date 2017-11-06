@@ -1,6 +1,6 @@
 package com.playtech.ptargame3.server.task.game;
 
-import com.playtech.ptargame3.api.game.GameUpdateBroadcardMessage;
+import com.playtech.ptargame3.api.game.GameUpdateBroadcastMessage;
 import com.playtech.ptargame3.api.game.GameUpdateMessage;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
@@ -16,7 +16,7 @@ public class GameUpdateBroadcastLogic extends AbstractLogic {
     @Override
     public void execute(Task task) {
         // input
-        GameUpdateBroadcardMessage inMessage = getInputMessage(task, GameUpdateBroadcardMessage.class);
+        GameUpdateBroadcastMessage inMessage = getInputMessage(task, GameUpdateBroadcastMessage.class);
 
         // get and validate game
         GameRegistryGame game = getLogicResources().getGameRegistry().getGame(inMessage.getGameId());

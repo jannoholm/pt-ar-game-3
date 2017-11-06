@@ -4,6 +4,7 @@ import com.playtech.ptargame3.api.table.SetUserInCarRequest;
 import com.playtech.ptargame3.api.table.SetUserInCarResponse;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
+import com.playtech.ptargame3.server.registry.GameRegistryGame;
 import com.playtech.ptargame3.server.task.AbstractLogic;
 
 public class SetUserInCarLogic extends AbstractLogic {

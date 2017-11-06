@@ -70,6 +70,9 @@ score_goals=0;
 score_bullet_hits=0;
 score_ball_touches=0;
 score_boost_touches=0;
+score_gamescore=0;
+score_eloRating=0;
+score_leaderboardPosition=0;
 
 // user select in table
 show_user_select=false;

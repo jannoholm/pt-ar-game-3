@@ -1,7 +1,7 @@
 package com.playtech.ptargame3.server.session;
 
 import com.playtech.ptargame3.api.ApiConstants;
-import com.playtech.ptargame3.api.game.GameUpdateBroadcardMessage;
+import com.playtech.ptargame3.api.game.GameUpdateBroadcastMessage;
 import com.playtech.ptargame3.api.game.GameUpdateMessage;
 import com.playtech.ptargame3.api.general.JoinServerRequest;
 import com.playtech.ptargame3.api.general.JoinServerResponse;
@@ -189,6 +189,6 @@ public class ClientSession implements Session {
     }
 
     private boolean isNoisyRequest( Message message ) {
-        return message instanceof GameUpdateMessage || message instanceof GameUpdateBroadcardMessage;
+        return message instanceof GameUpdateMessage || message instanceof GameUpdateBroadcastMessage;
     }
 }

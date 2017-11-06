@@ -1,5 +1,7 @@
 // Game state tracking object
 instance_create_layer(room_width/2, room_height/2, "goal", obj_gameplay);
+instance_create_layer(room_width/2, room_height/2, "gameplay", obj_timer);
+obj_timer.g=obj_gameplay;
 
 // Game pad controls for table mode
 instance_create_layer(0, 0, "car", obj_gamepad_control);
@@ -31,6 +33,7 @@ with (red2) {
 	playerType = PlayerType.PLAYER;
 	keyboard_enabler=ord("3");
 }
+
 
 object_set_sprite( obj_car_with_physics, spr_mycar3 );
 blue1 = instance_create_layer(1720, 350, "car", obj_car_with_physics);

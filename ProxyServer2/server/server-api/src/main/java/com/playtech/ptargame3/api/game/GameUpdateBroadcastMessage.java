@@ -8,12 +8,12 @@ import com.playtech.ptargame3.common.util.StringUtil;
 import java.nio.ByteBuffer;
 import java.util.logging.Logger;
 
-public class GameUpdateBroadcardMessage extends AbstractMessage {
+public class GameUpdateBroadcastMessage extends AbstractMessage {
 
     private String gameId;
     private byte[] broadcardContent;
 
-    public GameUpdateBroadcardMessage(MessageHeader header) {
+    public GameUpdateBroadcastMessage(MessageHeader header) {
         super(header);
     }
 

@@ -31,6 +31,14 @@
     },
     "resources": [
         {
+            "Key": "008f6f8c-020f-4fcd-9b22-40160fe000d1",
+            "Value": {
+                "id": "9da0e3da-1914-42a8-b003-b106e00158b3",
+                "resourcePath": "scripts\\scr_blast_car_away\\scr_blast_car_away.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "024a8d9b-a9a6-4d0f-9054-bf3a564d4108",
             "Value": {
                 "id": "c542c2f1-e5c5-43e8-8377-1fd24944f618",
@@ -180,6 +188,14 @@
                 "id": "a2acb553-3335-4954-bf24-d94c24fc263c",
                 "resourcePath": "sounds\\snd_gameend\\snd_gameend.yy",
                 "resourceType": "GMSound"
+            }
+        },
+        {
+            "Key": "1422cbae-be29-4b6b-8672-026a3baf02dd",
+            "Value": {
+                "id": "ff7f058f-c904-4e7b-a136-518ddb665cc5",
+                "resourcePath": "sprites\\spr_timer\\spr_timer.yy",
+                "resourceType": "GMSprite"
             }
         },
         {
@@ -527,6 +543,14 @@
             }
         },
         {
+            "Key": "5fb5f257-5710-4b6d-b760-78fe375d1f8a",
+            "Value": {
+                "id": "2997a94a-6658-4af2-9985-a8d35b1362d5",
+                "resourcePath": "objects\\obj_gamestate_push\\obj_gamestate_push.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "608880f8-0682-4143-8676-adaea9fbbfb1",
             "Value": {
                 "id": "a30438a1-d8cf-4922-b66e-055dfd3b51b4",
@@ -559,6 +583,14 @@
             }
         },
         {
+            "Key": "633ce7d8-450f-471a-a6b8-328ff2182199",
+            "Value": {
+                "id": "47c14a64-682d-45a7-9951-381e419a02fa",
+                "resourcePath": "fonts\\fnt_score\\fnt_score.yy",
+                "resourceType": "GMFont"
+            }
+        },
+        {
             "Key": "64827233-694b-4092-b37e-cc9b91d746b7",
             "Value": {
                 "id": "ad812715-f56b-4844-b4c1-4296f7edaaef",
@@ -588,6 +620,14 @@
                 "id": "e0f58e4c-d44a-42ac-90ae-af2f7bdc6bfd",
                 "resourcePath": "views\\6de1ceb2-001d-4fb2-86cc-2704a7ff3260.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "6dfca21c-daf2-481c-b8e9-0e2bcdf085a3",
+            "Value": {
+                "id": "6391f787-4689-4ef4-95db-b06cd6beb730",
+                "resourcePath": "scripts\\scr_receive_gameresult\\scr_receive_gameresult.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -791,6 +831,14 @@
             }
         },
         {
+            "Key": "9ba40942-b116-438f-b345-d532763b5f31",
+            "Value": {
+                "id": "42210cae-8b1e-45c3-88a1-f0bf22d551d3",
+                "resourcePath": "objects\\obj_timer\\obj_timer.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "9dd5ffb1-bbae-440e-abba-52c6d1aa2293",
             "Value": {
                 "id": "640f287b-5576-4126-bc42-e8e57dddcb71",
@@ -884,6 +932,14 @@
                 "id": "e0843d0b-8a92-43d0-a172-6ba627b3521f",
                 "resourcePath": "options\\linux\\options_linux.yy",
                 "resourceType": "GMLinuxOptions"
+            }
+        },
+        {
+            "Key": "a9c8d4e9-219f-4eb6-879a-332843cd236f",
+            "Value": {
+                "id": "57891113-6c41-4a05-8de2-91ed688204bb",
+                "resourcePath": "scripts\\scr_change_gamestate\\scr_change_gamestate.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -1279,6 +1335,14 @@
             }
         },
         {
+            "Key": "f55416bf-95fe-4b67-ace3-e76e84fadf97",
+            "Value": {
+                "id": "708f1416-2358-41cb-bfbf-d437daed6678",
+                "resourcePath": "scripts\\scr_send_gameresult\\scr_send_gameresult.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "f5813fd7-e20f-4427-a83a-1188ff7dbd2b",
             "Value": {
                 "id": "0efd3534-0cbb-40c1-8eca-cc7c3e66fdb9",
@@ -1380,7 +1444,11 @@
         "19b71feb-935e-4587-803e-c49d4bc973b1",
         "e93644d1-c3e1-468b-bebd-4a5f13abfb8a",
         "a104b58c-6bcf-45b0-be05-35628ea39a18",
+        "f55416bf-95fe-4b67-ace3-e76e84fadf97",
+        "6dfca21c-daf2-481c-b8e9-0e2bcdf085a3",
+        "a9c8d4e9-219f-4eb6-879a-332843cd236f",
         "33feda58-7b30-4ce9-a1bc-d64d4ce41a37",
+        "008f6f8c-020f-4fcd-9b22-40160fe000d1",
         "9aa00b3d-0a46-4f51-8cc3-e199f4c00ded",
         "f50331ed-e5c2-42b8-aee7-a77ae55d1d23",
         "d5c86e80-94ba-43a4-95c4-1bdd55710f54",

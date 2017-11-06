@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.playtech.ptargame3.server.database.DatabaseAccess;
+import com.playtech.ptargame3.server.database.model.EloRating;
 import com.playtech.ptargame3.server.database.model.User;
 import com.playtech.ptargame3.server.exception.SystemException;
 import com.sun.net.httpserver.HttpContext;
@@ -146,14 +147,12 @@ public final class WebListener {
     }
 
     private void processLeaderboard(HttpExchange httpExchange, String path) throws IOException {
-        switch(path){
-            // TODO
-            default:
-                if (logger.isLoggable(Level.INFO)) {
-                    logger.info(String.format("HttpUtilityServer Cannot serve uri: %s, invalid path %s", httpExchange.getRequestURI(), path));
-                }
-                httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0L);
-                break;
+        if (METHOD_GET.equals(httpExchange.getRequestMethod()) && path.trim().length() == 0) {
+            // get players
+            listLeaderboard(httpExchange);
+        } else if (METHOD_GET.equals(httpExchange.getRequestMethod())) {
+            // get player
+            getUserRating(httpExchange, path);
         }
     }
 
@@ -251,11 +250,13 @@ public final class WebListener {
             // create updated user
             String name = params.get("name");
             String email = params.get("email");
+            boolean internal = "1".equals(params.get("internal"));
             user = new User(
                     id,
                     name == null ? user.getName() : name,
                     email == null ? user.getEmail() : email,
-                    user.isHidden()
+                    user.isHidden(),
+                    internal
             );
 
             // update
@@ -281,7 +282,7 @@ public final class WebListener {
             if (user == null || user.isHidden()) throw new HTTPException(HttpURLConnection.HTTP_NOT_FOUND);
 
             // update hidden
-            user = new User(user.getId(), user.getName(), user.getEmail(), true);
+            user = new User(user.getId(), user.getName(), user.getEmail(), true, user.isInternal());
 
             // update
             databaseAccess.getUserDatabase().updateUser(user);
@@ -301,6 +302,33 @@ public final class WebListener {
         try {
             Collection<User> users = databaseAccess.getUserDatabase().getUsers();
             writeResponse(httpExchange, HttpURLConnection.HTTP_OK, convertUsers(users));
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
+    private void listLeaderboard( HttpExchange httpExchange ) {
+        try {
+            Collection<EloRating> leaderboard = databaseAccess.getRatingDatabase().getLeaderboard();
+            Collection<User> users = databaseAccess.getUserDatabase().getUsers();
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, convertLeaderboard(leaderboard, users));
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
+        }
+    }
+
+    private void getUserRating( HttpExchange httpExchange, String idString ) {
+        try {
+            // get user
+            int id = Integer.valueOf(idString);
+            EloRating rating = databaseAccess.getRatingDatabase().getRating(id);
+            if (rating.getMatches() == 0) throw new HTTPException(HttpURLConnection.HTTP_NOT_FOUND);
+            writeResponse(httpExchange, HttpURLConnection.HTTP_OK, rating);
+        } catch (HTTPException e) {
+            logger.log(Level.INFO, "Invalid request", e);
+            writeResponse(httpExchange, e.getStatusCode());
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
             writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
@@ -424,6 +452,22 @@ public final class WebListener {
         return wrapped;
     }
 
+    private Collection<LeaderboardWrapper> convertLeaderboard(Collection<EloRating> leaderboard, Collection<User> users) {
+        ArrayList<LeaderboardWrapper> wrapped = new ArrayList<>();
+        int pos = 0;
+        for (EloRating rating : leaderboard) {
+            pos++;
+            for (User user : users) {
+                if (user.getId() == rating.getUserId() && !user.isInternal() && !user.isHidden()) {
+                    LeaderboardWrapper wrapper = new LeaderboardWrapper(user.getName(), rating, pos);
+                    wrapped.add(wrapper);
+                    break;
+                }
+            }
+        }
+        return wrapped;
+    }
+
     private static class ResponseWrapper {
         private static ObjectWriter writer = new ObjectMapper().writer();
         private Object data;
@@ -446,9 +490,9 @@ public final class WebListener {
     }
 
     private static class UserWrapper {
-        int id;
-        String name;
-        String email;
+        private final int id;
+        private final String name;
+        private final String email;
         UserWrapper(User user) {
             this.id = user.getId();
             this.name = user.getName();
@@ -465,6 +509,72 @@ public final class WebListener {
 
         public String getEmail() {
             return email;
+        }
+    }
+
+    private static class LeaderboardWrapper {
+        private final String name;
+        private final int userId;
+        private final int eloRating;
+        private final int matches;
+        private final int goals;
+        private final int bulletHits;
+        private final int totalScore;
+        private final int ballTouches;
+        private final int boostTouches;
+        private final int position;
+
+        public LeaderboardWrapper(String name, EloRating rating, int position) {
+            this.name = name;
+            this.userId = rating.getUserId();
+            this.eloRating = rating.getEloRating();
+            this.matches = rating.getMatches();
+            this.goals = rating.getGoals();
+            this.bulletHits = rating.getBulletHits();
+            this.totalScore = rating.getTotalScore();
+            this.ballTouches = rating.getBallTouches();
+            this.boostTouches = rating.getBoostTouches();
+            this.position = position;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public int getEloRating() {
+            return eloRating;
+        }
+
+        public int getMatches() {
+            return matches;
+        }
+
+        public int getGoals() {
+            return goals;
+        }
+
+        public int getBulletHits() {
+            return bulletHits;
+        }
+
+        public int getTotalScore() {
+            return totalScore;
+        }
+
+        public int getBallTouches() {
+            return ballTouches;
+        }
+
+        public int getBoostTouches() {
+            return boostTouches;
+        }
+
+        public int getPosition() {
+            return position;
         }
     }
 

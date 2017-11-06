@@ -29,7 +29,7 @@ with ( obj_gameplay ) {
 
 	currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
 	if (currentGamePhase == GamePhase.SUDDEN_DEATH) {
-		currentGamePhase = GamePhase.GAME_END_ANIMATION;
+		scr_change_gamestate(GamePhase.GAME_END_ANIMATION);
 		show_goal=0;
 	}
 }
