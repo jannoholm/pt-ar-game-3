@@ -55,14 +55,27 @@ public class TestEloCalculator {
 	@Test
 	public void TestCalculatorWinLose() {
 		calculator.calculatePlayerPoints(team1, team2);
-		assertTrue(calculator.getTeamRating(team1) + calculator.getTeamRating(team2) == 2000);
-		assertTrue(calculator.getTeamRating(team1) > calculator.getTeamRating(team2));
+		assertTrue(calculator.getTeamRating(team1) == 1008);
+		assertTrue(calculator.getTeamRating(team2) == 992);
+		
+		calculator.calculatePlayerPoints(team2, team1);
+		assertTrue(calculator.getTeamRating(team1) == 1015);
+		assertTrue(calculator.getTeamRating(team2) == 984);
+
 	}
 
 	@Test
 	public void TestCalculatorDraw() {
 		team1.get(1).setScoreMap(generateMap(4, 4, 4, 4));
 		team2.get(1).setScoreMap(generateMap(5, 5, 5, 5));
+		
+		calculator.calculatePlayerPoints(team1, team2);
+		
+		assertTrue(calculator.getTeamRating(team1) + calculator.getTeamRating(team2) == 2000);
+		assertTrue(calculator.getTeamRating(team1) == calculator.getTeamRating(team2));
+		
+		calculator.calculatePlayerPoints(team2, team1);
+		
 		assertTrue(calculator.getTeamRating(team1) + calculator.getTeamRating(team2) == 2000);
 		assertTrue(calculator.getTeamRating(team1) == calculator.getTeamRating(team2));
 	}

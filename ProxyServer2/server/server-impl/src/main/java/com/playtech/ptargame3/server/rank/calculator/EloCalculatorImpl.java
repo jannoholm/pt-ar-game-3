@@ -65,7 +65,7 @@ public class EloCalculatorImpl implements ScoreCalculator {
 
 		if (redGoals > blueGoals)
 			return 1;
-		if (redGoals > blueGoals)
+		if (blueGoals > redGoals)
 			return 0;
 		return 0.5;
 	}
@@ -73,7 +73,7 @@ public class EloCalculatorImpl implements ScoreCalculator {
 	private List<Double> calculateS(double gameResult) {
 		if (gameResult == 1)
 			return Arrays.asList(1.0, 0.0);
-		if (gameResult == 1)
+		if (gameResult == 0)
 			return Arrays.asList(0.0, 1.0);
 		return Arrays.asList(0.5, 0.5);
 	}
@@ -127,9 +127,9 @@ public class EloCalculatorImpl implements ScoreCalculator {
 		Map<ScoreCriteria, Integer> playerMap = player.getScoreMap();
 
 		for (ScoreCriteria entry : totalMap.keySet())
-		    if (totalMap.get(entry) != 0 && entry.getValue() != 0) {
-                ret += playerMap.get(entry) / totalMap.get(entry) * entry.getValue();
-            }
+			if (totalMap.get(entry) != 0 && entry.getValue() != 0) {
+				ret += playerMap.get(entry) / totalMap.get(entry) * entry.getValue();
+			}
 
 		return ret * (1.0 - minimumWeight * playerNumber) + minimumWeight;
 	}
