@@ -107,8 +107,14 @@
                   return Math.round(row.wins / row.matches * 10000) / 100 + " %" ;
                 }
               },
-              { "data": "goals" },
-              { "data": "bulletHits" },
+              { mRender: function(data, type, row){
+                  return Math.round(row.goals / row.matches * 100) / 100;
+                }
+              },
+              { mRender: function(data, type, row){
+                  return Math.round(row.bulletHits / row.matches * 100) / 100;
+                }
+              },
               { "data": "matches" },
             ],
            });
