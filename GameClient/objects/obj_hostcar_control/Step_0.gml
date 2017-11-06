@@ -1,17 +1,22 @@
 /// @description control host car
 
-
 // Acceleration control - rest position value is -1 and fully pressed value is 1; the end value has to be between 0..1
 var forwardAccelValue = (gamepad_axis_value(global.gamepadDeviceId, global.gp_axis_forward) + 1) / 2;
 var reverseAccelValue = (gamepad_axis_value(global.gamepadDeviceId, global.gp_axis_reverse) + 1) / 2;
 var goMoveGamepadValue = forwardAccelValue - reverseAccelValue;
 
 var goTurnGamepadValue = gamepad_axis_value(global.gamepadDeviceId, global.gp_axis_turn);
+var goTurnGamepadAltValue = gamepad_axis_value(global.gamepadDeviceId, global.gp_axis_turn_alt);
+
 
 
 // Ignore small deadzone
 if ( global.gamepadDeviceId != -1 && abs(goMoveGamepadValue) > 0.05 ) {
 	car.go_move = goMoveGamepadValue;
+} else if ( global.gamepadDeviceId != -1 && gamepad_button_check(global.gamepadDeviceId, global.gp_pad_forward)) {
+	car.go_move = 1;
+} else if (global.gamepadDeviceId != -1 && gamepad_button_check(global.gamepadDeviceId, global.gp_pad_reverse)) {
+	car.go_move = -1;
 } else {
 	car.go_move = keyboard_check(vk_up)-keyboard_check(vk_down);
 }
@@ -19,6 +24,8 @@ if ( global.gamepadDeviceId != -1 && abs(goMoveGamepadValue) > 0.05 ) {
 // Ignore small deadzone
 if ( global.gamepadDeviceId != -1 && abs(goTurnGamepadValue) > 0.05 ) {
 	go_turn = goTurnGamepadValue;
+} else if ( global.gamepadDeviceId != -1  && abs(goTurnGamepadAltValue) > 0.05 ) {
+	go_turn = goTurnGamepadAltValue;
 } else {
 	car.go_turn = keyboard_check(vk_right)-keyboard_check(vk_left);
 }

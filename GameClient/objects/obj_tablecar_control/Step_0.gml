@@ -11,6 +11,10 @@ if ( abs(goMoveGamepadValue) > 0.05 ) {
 	car.go_move = goMoveGamepadValue;
 } else if (keyboard_check(car.keyboard_enabler)) {
 	car.go_move = keyboard_check(vk_up)-keyboard_check(vk_down);
+} else if (gamepad_button_check(currentGamePad, global.gp_pad_forward)) {
+	car.go_move = 1;
+} else if (gamepad_button_check(currentGamePad, global.gp_pad_reverse)) {
+	car.go_move = -1;
 } else {
 	car.go_move = 0;
 }
@@ -19,6 +23,8 @@ if ( abs(goMoveGamepadValue) > 0.05 ) {
 // Ignore small deadzone
 if ( abs(gamepad_axis_value(currentGamePad, global.gp_axis_turn)) > 0.05 ) {
 	car.go_turn = gamepad_axis_value(currentGamePad, global.gp_axis_turn);
+} else if ( abs(gamepad_axis_value(currentGamePad, global.gp_axis_turn_alt)) > 0.05 ) {
+	car.go_turn = gamepad_axis_value(currentGamePad, global.gp_axis_turn_alt);
 } else if (keyboard_check(car.keyboard_enabler)) {
 	car.go_turn = keyboard_check(vk_right)-keyboard_check(vk_left);
 } else {

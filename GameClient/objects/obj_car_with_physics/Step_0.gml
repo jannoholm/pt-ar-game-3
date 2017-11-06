@@ -79,9 +79,9 @@ if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START
 		show_user_select_name=show_user_selected.user_name;
 		
 		// Hardcoded user names to AI
-		if ( show_user_select_name == "AI_BOT_CHASER" ) {
+		if ( show_user_select_name == "ai_bot_chaser" ) {
 			playerType = PlayerType.AI_CHASER;	
-		} else if ( show_user_select_name == "AI_BOT_DEFENDER" ) {
+		} else if ( show_user_select_name == "ai_bot_defender" ) {
 			playerType = PlayerType.AI_DEFENDER;
 		} else {
 			playerType = PlayerType.PLAYER;	
