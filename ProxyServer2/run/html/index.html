@@ -16,10 +16,10 @@
 
     <style type="text/css">
       body {
-        padding-top: 5rem;
+        padding-top: 4rem;
       }
       .starter-template {
-        padding: 3rem 1.5rem;
+        padding: 1.5rem 1.5rem;
         text-align: center;
       }
     </style>
@@ -45,7 +45,12 @@
           <li class="nav-item"><a class="nav-link" href="#">Payments</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Business Intelligence</a></li>
         </ul>
-        <form class="form-inline" id="add_player_form">
+      </div>
+    </nav>
+
+    <main role="main" class="container">
+      <div class="starter-template">
+        <form class="form-inline pull-left" style="padding-left: 1rem" id="add_player_form">
           <label class="sr-only" for="add_name_field">Name</label>
           <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="add_name_field" placeholder="Enter name">
         
@@ -56,11 +61,6 @@
           </div>
           <button type="submit" class="btn btn-primary">Add player</button>
         </form>
-      </div>
-    </nav>
-
-    <main role="main" class="container">
-      <div class="starter-template">
         <table id="competitors_table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
             <tr>
@@ -78,7 +78,7 @@
                 <th>Actions</th>
             </tr>
         </tfoot>
-    </table>
+      </table>
       </div>
 
     </main><!-- /.container -->
