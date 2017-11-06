@@ -695,14 +695,6 @@
             }
         },
         {
-            "Key": "7e8bc048-936d-4755-bc98-1ff9bfb31ca7",
-            "Value": {
-                "id": "5e3b7b4a-8c1a-4643-b013-e6f7739a8413",
-                "resourcePath": "sprites\\spr_gameboard\\spr_gameboard.yy",
-                "resourceType": "GMSprite"
-            }
-        },
-        {
             "Key": "7ffa8c1b-4cbd-4f1d-aaa6-8ce5c905d0bb",
             "Value": {
                 "id": "a5c0b935-0e70-483b-8338-ace005ac956b",
@@ -1103,14 +1095,6 @@
             }
         },
         {
-            "Key": "c5716bae-cb59-404a-993a-5e4389ad2e96",
-            "Value": {
-                "id": "a624da35-453f-4f66-a37e-e61b3ab1b560",
-                "resourcePath": "sprites\\spr_goal_area\\spr_goal_area.yy",
-                "resourceType": "GMSprite"
-            }
-        },
-        {
             "Key": "c5918ede-11df-49cd-ab63-6a84226f94cd",
             "Value": {
                 "id": "1eec3405-5e98-4632-a0ef-88149f6b8df2",
@@ -1191,6 +1175,14 @@
             }
         },
         {
+            "Key": "d391a20a-4e03-4693-9d7d-7486b66e0661",
+            "Value": {
+                "id": "343a307e-491e-41b1-9a90-4490b8b6d315",
+                "resourcePath": "sprites\\spr_playerselect\\spr_playerselect.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "d5c86e80-94ba-43a4-95c4-1bdd55710f54",
             "Value": {
                 "id": "6814c360-4d21-47c4-ac0c-71044309f316",
@@ -1260,14 +1252,6 @@
                 "id": "9ac40f0a-2282-4acb-830f-b04c1faf7b68",
                 "resourcePath": "scripts\\ai_car_defender\\ai_car_defender.yy",
                 "resourceType": "GMScript"
-            }
-        },
-        {
-            "Key": "e90809c6-153e-40bc-9a3e-633a83a66ec2",
-            "Value": {
-                "id": "49fdf993-3790-4413-b934-761b821bf9b1",
-                "resourcePath": "sprites\\spr_grass\\spr_grass.yy",
-                "resourceType": "GMSprite"
             }
         },
         {
