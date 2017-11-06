@@ -11,9 +11,10 @@ public class EloRating {
     private final int totalScore;
     private final int ballTouches;
     private final int boostTouches;
+    private final int wins;
 
     public EloRating(int userId, int eloRating, int matches, int goals, int bulletHits,
-                     int totalScore, int ballTouches, int boostTouches) {
+                     int totalScore, int ballTouches, int boostTouches, int wins) {
         this.userId = userId;
         this.eloRating = eloRating;
         this.matches = matches;
@@ -22,6 +23,7 @@ public class EloRating {
         this.totalScore = totalScore;
         this.ballTouches = ballTouches;
         this.boostTouches = boostTouches;
+        this.wins = wins;
     }
 
     public int getUserId() {
@@ -56,6 +58,10 @@ public class EloRating {
         return boostTouches;
     }
 
+    public int getWins() {
+        return wins;
+    }
+
     @Override
     public String toString() {
         return "EloRating{" +
@@ -67,6 +73,7 @@ public class EloRating {
                 ", totalScore=" + totalScore +
                 ", ballTouches=" + ballTouches +
                 ", boostTouches=" + boostTouches +
+                ", wins=" + wins +
                 '}';
     }
 }

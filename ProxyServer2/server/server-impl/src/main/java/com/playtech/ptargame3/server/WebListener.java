@@ -523,6 +523,7 @@ public final class WebListener {
         private final int ballTouches;
         private final int boostTouches;
         private final int position;
+        private final int wins;
 
         public LeaderboardWrapper(String name, EloRating rating, int position) {
             this.name = name;
@@ -534,6 +535,7 @@ public final class WebListener {
             this.totalScore = rating.getTotalScore();
             this.ballTouches = rating.getBallTouches();
             this.boostTouches = rating.getBoostTouches();
+            this.wins = rating.getWins();
             this.position = position;
         }
 
@@ -575,6 +577,10 @@ public final class WebListener {
 
         public int getPosition() {
             return position;
+        }
+
+        public int getWins() {
+            return wins;
         }
     }
 

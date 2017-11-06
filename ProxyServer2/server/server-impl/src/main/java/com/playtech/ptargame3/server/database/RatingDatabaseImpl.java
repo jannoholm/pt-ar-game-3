@@ -62,6 +62,24 @@ public class RatingDatabaseImpl implements RatingDatabase {
                             " BOOST_TOUCHES  INT     NOT NULL)";
             stmt.executeUpdate(sql);
 
+            // check if hidden field already exists
+            boolean alterNeeded = true;
+            sql = "PRAGMA table_info( " + TABLE_RATING + " )";
+            try (ResultSet result = stmt.executeQuery(sql)) {
+                while (result.next()) {
+                    if (result.getString("NAME").equals("WINS")) {
+                        alterNeeded = false;
+                        break;
+                    }
+                }
+            }
+
+            // add hidden field. needed for backward compatibility
+            if (alterNeeded) {
+                sql = "ALTER TABLE " + TABLE_RATING + " ADD COLUMN WINS INT NOT NULL DEFAULT 0";
+                stmt.executeUpdate(sql);
+            }
+
             logger.info("Rating database created!");
         } catch (Exception e) {
             throw new SystemException("Unable to initialize users database", e);
@@ -73,7 +91,7 @@ public class RatingDatabaseImpl implements RatingDatabase {
     private void readTables() {
         Connection connection = dbInit.allocateConnection();
         try (Statement stmt = connection.createStatement()) {
-            String sql = "select USERID, ELO_RATING, MATCHES, GOALS, BULLET_HITS, TOTAL_SCORE, BALL_TOUCHES, BOOST_TOUCHES from " + TABLE_RATING;
+            String sql = "select USERID, ELO_RATING, MATCHES, GOALS, BULLET_HITS, TOTAL_SCORE, BALL_TOUCHES, BOOST_TOUCHES, WINS from " + TABLE_RATING;
             ResultSet result = stmt.executeQuery(sql);
             while (result.next()) {
                 int userId = result.getInt("USERID");
@@ -84,8 +102,9 @@ public class RatingDatabaseImpl implements RatingDatabase {
                 int totalScore = result.getInt("TOTAL_SCORE");
                 int ballTouches = result.getInt("BALL_TOUCHES");
                 int boostTouches = result.getInt("BOOST_TOUCHES");
+                int wins = result.getInt("WINS");
 
-                EloRating rating = new EloRating(userId, eloRating, matches, goals, bulletHits, totalScore, ballTouches, boostTouches);
+                EloRating rating = new EloRating(userId, eloRating, matches, goals, bulletHits, totalScore, ballTouches, boostTouches, wins);
                 ratingMap.put(rating.getUserId(), rating);
                 logger.info("Rating read from database: " + rating);
             }
@@ -106,8 +125,8 @@ public class RatingDatabaseImpl implements RatingDatabase {
                 }
                 if (todo.size() > 0) {
                     String selectSql = "select count(1) from " + TABLE_RATING + " where USERID=?";
-                    String insertSql = "insert into " + TABLE_RATING + " (USERID, ELO_RATING, MATCHES, GOALS, BULLET_HITS, TOTAL_SCORE, BALL_TOUCHES, BOOST_TOUCHES) values (?, ?, ?, ?, ?, ?, ?, ?)";
-                    String updateSql = "update " + TABLE_RATING + " set ELO_RATING=?, MATCHES=?, GOALS=?, BULLET_HITS=?, TOTAL_SCORE=?, BALL_TOUCHES=?, BOOST_TOUCHES=? where USERID=?";
+                    String insertSql = "insert into " + TABLE_RATING + " (USERID, ELO_RATING, MATCHES, GOALS, BULLET_HITS, TOTAL_SCORE, BALL_TOUCHES, BOOST_TOUCHES, WINS) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String updateSql = "update " + TABLE_RATING + " set ELO_RATING=?, MATCHES=?, GOALS=?, BULLET_HITS=?, TOTAL_SCORE=?, BALL_TOUCHES=?, BOOST_TOUCHES=?, WINS=? where USERID=?";
                     Connection connection = dbInit.allocateConnection();
                     try (
                             PreparedStatement selectStmt = connection.prepareStatement(selectSql);
@@ -127,7 +146,8 @@ public class RatingDatabaseImpl implements RatingDatabase {
                                 updateStmt.setInt(5, rating.getTotalScore());
                                 updateStmt.setInt(6, rating.getBallTouches());
                                 updateStmt.setInt(7, rating.getBoostTouches());
-                                updateStmt.setInt(8, rating.getUserId());
+                                updateStmt.setInt(8, rating.getWins());
+                                updateStmt.setInt(9, rating.getUserId());
                                 updateStmt.executeUpdate();
                             } else {
                                 // insert
@@ -139,6 +159,7 @@ public class RatingDatabaseImpl implements RatingDatabase {
                                 insertStmt.setInt(6, rating.getTotalScore());
                                 insertStmt.setInt(7, rating.getBallTouches());
                                 insertStmt.setInt(8, rating.getBoostTouches());
+                                insertStmt.setInt(9, rating.getWins());
                                 insertStmt.executeUpdate();
                             }
                             logger.info("Rating written to database: " + rating);
@@ -164,7 +185,7 @@ public class RatingDatabaseImpl implements RatingDatabase {
         synchronized (this) {
             EloRating rating = ratingMap.get(userId);
             if (userId == 0 || rating == null) {
-                rating = new EloRating(userId, 0, 0, 0, 0, 0, 0, 0);
+                rating = new EloRating(userId, 0, 0, 0, 0, 0, 0, 0, 0);
             }
             return rating;
         }

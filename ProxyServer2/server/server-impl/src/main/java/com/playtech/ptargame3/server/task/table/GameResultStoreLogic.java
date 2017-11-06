@@ -18,7 +18,6 @@ import com.playtech.ptargame3.server.util.TeamConverter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
 
 public class GameResultStoreLogic extends AbstractLogic {
     public GameResultStoreLogic(LogicResources logicResources) {
@@ -55,7 +54,7 @@ public class GameResultStoreLogic extends AbstractLogic {
         calculator.calculatePlayerPoints(teamRed, teamBlue, getEloWinner(request));
 
         // update elo rating
-        updateEloRating(allScores);
+        updateEloRating(request, allScores);
 
         // calculate leaderboard position
         calculateLeaderboardPosition(allScores);
@@ -139,7 +138,7 @@ public class GameResultStoreLogic extends AbstractLogic {
         }
     }
 
-    private void updateEloRating(ArrayList<Holder> allScores) {
+    private void updateEloRating(GameResultStoreRequest request, ArrayList<Holder> allScores) {
         for (Holder holder : allScores) {
             holder.rating = new EloRating(
                     holder.getRequestData().getUserId(),
@@ -149,10 +148,19 @@ public class GameResultStoreLogic extends AbstractLogic {
                     holder.getRating().getBulletHits()+holder.getRequestData().getBulletHits(),
                     holder.getRating().getTotalScore()+holder.getScore().getScore(),
                     holder.getRating().getBallTouches()+holder.getRequestData().getBallTouches(),
-                    holder.getRating().getBoostTouches()+holder.getRequestData().getBoostTouches()
-            );
+                    holder.getRating().getBoostTouches()+holder.getRequestData().getBoostTouches(),
+                    holder.getRating().getBoostTouches()+(isWinner(request.getWinnerTeam(), holder.getRequestData().getTeam()) ? 1 : 0));
             getLogicResources().getDatabaseAccess().getRatingDatabase().updateRating(holder.getRating());
         }
+    }
+
+    private boolean isWinner(GameResultStoreRequest.WinnerTeam winnerTeam, Team playerTeam) {
+        if (winnerTeam == GameResultStoreRequest.WinnerTeam.RED && playerTeam == Team.RED) {
+            return true;
+        } else if (winnerTeam == GameResultStoreRequest.WinnerTeam.BLUE && playerTeam == Team.BLUE) {
+            return true;
+        }
+        return false;
     }
 
     private double getEloWinner(GameResultStoreRequest request) {
