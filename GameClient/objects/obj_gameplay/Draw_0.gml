@@ -8,20 +8,20 @@ if (currentGamePhase == GamePhase.COUNTDOWN_TO_START) {
 } else if (currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	var wintext="";
 	if (teamRedScore < teamBlueScore) {
-		wintext="BLUE WINS";
+		wintext="blue wins";
 	} else if (teamRedScore > teamBlueScore) {
-		wintext="RED WINS";
+		wintext="red wins";
 	} else {
-		wintext="Game is a draw";
+		wintext="game is a draw";
 	}
 	
-	draw_text_color(1920/2, 1080/2-150, "GAME OVER", c_gray, c_gray, c_gray, c_gray, 0.5);
+	draw_text_color(1920/2, 1080/2-150, "game over", c_gray, c_gray, c_gray, c_gray, 0.5);
 	draw_text_color(1920/2, 1080/2, wintext, c_gray, c_gray, c_gray, c_gray, 0.5);
-	draw_text_color(1920/2, 1080/2+150, "Score: " + string(teamRedScore) + " vs. " + string(teamBlueScore), c_gray, c_gray, c_gray, c_gray, 0.5);
+	draw_text_color(1920/2, 1080/2+150, "score: " + string(teamRedScore) + " vs. " + string(teamBlueScore), c_gray, c_gray, c_gray, c_gray, 0.5);
 
-	draw_text_color(1920/2-1, 1080/2-150-1, "GAME OVER", c_orange, c_orange, c_orange, c_orange, 0.5);
+	draw_text_color(1920/2-1, 1080/2-150-1, "game over", c_orange, c_orange, c_orange, c_orange, 0.5);
 	draw_text_color(1920/2-1, 1080/2-1, wintext, c_orange, c_orange, c_orange, c_orange, 0.5);
-	draw_text_color(1920/2-1, 1080/2+150-1, "Score: " + string(teamRedScore) + " vs. " + string(teamBlueScore), c_orange, c_orange, c_orange, c_orange, 0.5);
+	draw_text_color(1920/2-1, 1080/2+150-1, "score: " + string(teamRedScore) + " vs. " + string(teamBlueScore), c_orange, c_orange, c_orange, c_orange, 0.5);
 } else if (currentGamePhase == GamePhase.PLAY || currentGamePhase == GamePhase.SUDDEN_DEATH) {
 	/*if (currentCarPhase == CarPhase.COUNTDOWN_TO_START) {
 		draw_set_halign(fa_center);

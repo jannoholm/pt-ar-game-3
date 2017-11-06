@@ -24,7 +24,7 @@ while (user_iterator++ < user_count) {
 	// read user data
 	var user_bytes=buffer_read(buffer, buffer_s32); 
 	var user_id=buffer_read(buffer, buffer_s32); 
-	var user_name=buffer_read(buffer, buffer_string); 
+	var user_name=string_lower(buffer_read(buffer, buffer_string)); 
 	
 	// create internal object
 	var user_obj=instance_create(-1, -1, obj_user);
@@ -51,13 +51,13 @@ while (user_iterator++ < user_count) {
 var aiChaser = instance_create(-1, -1, obj_user);
 // TODO: FIX ID
 aiChaser.user_id = 10000;
-aiChaser.user_name = "AI_BOT_CHASER";
+aiChaser.user_name = string_lower("AI_BOT_CHASER");
 ds_list_insert(obj_server_client.user_name_list, 0, aiChaser);
 // Add hardcoded AI bots, should be done via some other setting in future
 var aiDefender = instance_create(-1, -1, obj_user);
 // TODO: FIX ID
 aiDefender.user_id = 10001;
-aiDefender.user_name = "AI_BOT_DEFENDER";
+aiDefender.user_name = string_lower("AI_BOT_DEFENDER");
 ds_list_insert(obj_server_client.user_name_list, 1, aiDefender);
 
 size = ds_list_size(obj_server_client.user_name_list);

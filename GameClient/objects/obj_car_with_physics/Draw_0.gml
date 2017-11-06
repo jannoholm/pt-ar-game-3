@@ -40,7 +40,7 @@ if (keyboard_show) {
 }
 
 // draw name on car
-draw_set_font(fnt_textbox);
+draw_set_font(fnt_usertext);
 draw_set_halign(fa_center);
 draw_set_valign(fa_center);
 draw_set_color(c_white);
@@ -60,18 +60,24 @@ if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START
 		offset_scroll=20;
 	}
 
-	draw_sprite_ext(spr_user_select, 0, offset_x, offset_y, 1, 1, offset_angle, c_white, 1);
+	//draw_sprite_ext(spr_user_select, 0, offset_x, offset_y, 1, 1, offset_angle, c_white, 1);
 	draw_set_halign(fa_left);	
-	draw_set_font(fnt_textbox);
+	draw_set_font(fnt_usertext);
 
 	draw_set_color(c_gray);
 	draw_text_transformed(offset_x+(-1)*2*offset_scroll, offset_y+offset_text, show_user_select_name_prev2, 1, 1, offset_angle);
 	draw_text_transformed(offset_x+(-1)*1*offset_scroll, offset_y+offset_text, show_user_select_name_prev1, 1, 1, offset_angle);
 	draw_text_transformed(offset_x+1*offset_scroll, offset_y+offset_text, show_user_select_name_next1, 1, 1, offset_angle);
 	draw_text_transformed(offset_x+2*offset_scroll, offset_y+offset_text, show_user_select_name_next2, 1, 1, offset_angle);
-
-	draw_set_color(c_black);
 	draw_text_transformed(offset_x, offset_y+offset_text, show_user_select_name, 1, 1, offset_angle);
+
+	draw_set_color(c_orange);
+	draw_text_transformed(offset_x-1+(-1)*2*offset_scroll, offset_y-1+offset_text, show_user_select_name_prev2, 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1+(-1)*1*offset_scroll, offset_y-1+offset_text, show_user_select_name_prev1, 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1+1*offset_scroll, offset_y-1+offset_text, show_user_select_name_next1, 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1+2*offset_scroll, offset_y-1+offset_text, show_user_select_name_next2, 1, 1, offset_angle);
+	draw_set_color(c_white);
+	draw_text_transformed(offset_x-1, offset_y-1+offset_text, show_user_select_name, 1, 1, offset_angle);
 } else
 // temp draw of stats at end of game
 if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
@@ -88,7 +94,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	}
 
 	draw_set_color(c_gray);
-	draw_set_font(fnt_textbox);
+	draw_set_font(fnt_usertext);
 	draw_set_halign(fa_right);
 	draw_text_transformed(offset_x+(-4)*offset_scroll, offset_y+offset_text, "goals: ", 1, 1, offset_angle);
 	draw_text_transformed(offset_x+(-3)*offset_scroll, offset_y+offset_text, "bullet hits: ", 1, 1, offset_angle);
@@ -99,7 +105,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text, "raiting: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
 	}
-	draw_text_transformed(offset_x+( 4)*offset_scroll, offset_y+offset_text, "Press SHOOT to CONTINUE", 1, 1, offset_angle);
+	draw_text_transformed(offset_x+( 4)*offset_scroll, offset_y+offset_text, "press shoot to continue", 1, 1, offset_angle);
 	
 	draw_set_color(c_orange);
 	draw_text_transformed(offset_x-1+(-4)*offset_scroll, offset_y-1+offset_text, "goals: ", 1, 1, offset_angle);
@@ -111,7 +117,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "raiting: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
 	}
-	draw_text_transformed(offset_x-1+( 4)*offset_scroll, offset_y-1+offset_text, "Press SHOOT to CONTINUE", 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1+( 4)*offset_scroll, offset_y-1+offset_text, "press shoot to continue", 1, 1, offset_angle);
 
 	// todo
 	draw_set_color(c_gray);
@@ -126,7 +132,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		if (score_leaderboardPosition > 0) {
 			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
 		} else {
-			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, "-", 1, 1, offset_angle);	
+			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, "play more", 1, 1, offset_angle);	
 		}
 	}
 	
@@ -141,7 +147,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		if (score_leaderboardPosition > 0) {
 			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
 		} else {
-			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, "-", 1, 1, offset_angle);	
+			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, "play more", 1, 1, offset_angle);	
 		}
 	}
 
@@ -160,11 +166,11 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		offset_scroll=20;
 	}
 	draw_set_halign(fa_left);	
-	draw_set_font(fnt_textbox);
+	draw_set_font(fnt_usertext);
 	draw_set_color(c_gray);
-	draw_text_transformed(offset_x+offset_scroll, offset_y+offset_text, "Press SHOOT to START", 1, 1, offset_angle);
+	draw_text_transformed(offset_x+offset_scroll, offset_y+offset_text, "press shoot to start", 1, 1, offset_angle);
 	draw_set_color(c_white);
-	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, "Press SHOOT to START", 1, 1, offset_angle);
+	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, "press shoot to start", 1, 1, offset_angle);
 }
 
 
@@ -172,7 +178,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 if (dodraw) {
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
-	draw_set_font(fnt_textbox);
+	draw_set_font(fnt_usertext);
 	draw_set_color(c_white);
 
 	var dx=40;
