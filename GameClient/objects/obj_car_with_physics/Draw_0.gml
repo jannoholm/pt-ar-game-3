@@ -107,7 +107,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text, "raiting points: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
 	}
-	draw_text_transformed(offset_x+( 4)*offset_scroll, offset_y+offset_text, "press shoot to continue", 1, 1, offset_angle);
+	draw_text_transformed(offset_x+( 4)*offset_scroll, offset_y+offset_text, "press O to continue", 1, 1, offset_angle);
 	
 	draw_set_color(c_orange);
 	draw_text_transformed(offset_x-1+(-4)*offset_scroll, offset_y-1+offset_text, "goals: ", 1, 1, offset_angle);
@@ -119,7 +119,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "raiting points: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
 	}
-	draw_text_transformed(offset_x-1+( 4)*offset_scroll, offset_y-1+offset_text, "press shoot to continue", 1, 1, offset_angle);
+	draw_text_transformed(offset_x-1+( 4)*offset_scroll, offset_y-1+offset_text, "press O to continue", 1, 1, offset_angle);
 
 	// todo
 	draw_set_color(c_gray);
@@ -170,9 +170,9 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_set_halign(fa_left);	
 	draw_set_font(fnt_usertext);
 	draw_set_color(c_gray);
-	draw_text_transformed(offset_x+offset_scroll, offset_y+offset_text, "press shoot to start", 1, 1, offset_angle);
+	draw_text_transformed(offset_x+offset_scroll, offset_y+offset_text, "press O to start", 1, 1, offset_angle);
 	draw_set_color(c_white);
-	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, "press shoot to start", 1, 1, offset_angle);
+	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, "press O to start", 1, 1, offset_angle);
 }
 
 
