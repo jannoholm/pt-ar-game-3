@@ -92,7 +92,7 @@
         
         var leaderboard = $('#leaderboard_table').DataTable( {
 //          "ajax": '/leaderboard.json',
-          "ajax": '/leaderboard',
+          "ajax": '/leaderboard.json',
           "rowId": 'id',
           "pageLength": 100,
           "paging":   false,
@@ -103,7 +103,10 @@
               { "data": "name" },
               { "data": "position" },
               { "data": "eloRating" },
-              { "data": "eloRating" },
+              { mRender: function(data, type, row){
+                  return Math.round(row.wins / row.matches * 10000) / 100 + " %" ;
+                }
+              },
               { "data": "goals" },
               { "data": "bulletHits" },
               { "data": "matches" },
