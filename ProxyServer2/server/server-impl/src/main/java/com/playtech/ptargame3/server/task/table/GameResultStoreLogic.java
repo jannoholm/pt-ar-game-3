@@ -47,6 +47,12 @@ public class GameResultStoreLogic extends AbstractLogic {
 
 			PlayerScore ps = new PlayerScore(requestPlayer.getUserId(), rating.getEloRating(), scoreMap);
 			allScores.add(new Holder(requestPlayer, ps, rating));
+
+			if (requestPlayer.getTeam() == Team.RED) {
+				teamRed.add(ps);
+			} else if (requestPlayer.getTeam() == Team.BLUE) {
+				teamBlue.add(ps);
+			}
 		}
 
 		// do calculations
@@ -137,7 +143,7 @@ public class GameResultStoreLogic extends AbstractLogic {
 					holder.getRating().getTotalScore() + holder.getScore().getUserScore(),
 					holder.getRating().getBallTouches() + holder.getRequestData().getBallTouches(),
 					holder.getRating().getBoostTouches() + holder.getRequestData().getBoostTouches(),
-					holder.getRating().getBoostTouches()
+					holder.getRating().getWins()
 							+ (isWinner(request.getWinnerTeam(), holder.getRequestData().getTeam()) ? 1 : 0));
 			getLogicResources().getDatabaseAccess().getRatingDatabase().updateRating(holder.getRating());
 		}

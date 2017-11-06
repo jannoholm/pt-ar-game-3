@@ -127,7 +127,9 @@ public class EloCalculatorImpl implements ScoreCalculator {
 		Map<ScoreCriteria, Integer> playerMap = player.getScoreMap();
 
 		for (ScoreCriteria entry : totalMap.keySet())
-			ret += playerMap.get(entry) / totalMap.get(entry) * entry.getValue();
+		    if (totalMap.get(entry) != 0 && entry.getValue() != 0) {
+                ret += playerMap.get(entry) / totalMap.get(entry) * entry.getValue();
+            }
 
 		return ret * (1.0 - minimumWeight * playerNumber) + minimumWeight;
 	}
