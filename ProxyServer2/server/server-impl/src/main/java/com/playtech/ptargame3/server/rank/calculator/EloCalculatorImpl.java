@@ -39,25 +39,22 @@ public class EloCalculatorImpl implements ScoreCalculator {
 	 */
 	@Override
 	public void calculatePlayerPoints(List<PlayerScore> teamRed, List<PlayerScore> teamBlue) {
-
-		long team1Elo = getTeamRating(teamRed);
-		long team2Elo = getTeamRating(teamBlue);
+		double team1Elo = getTeamRating(teamRed);
+		double team2Elo = getTeamRating(teamBlue);
 
 		double team1R = calculateR(team1Elo);
 		double team2R = calculateR(team2Elo);
 
 		double team1E = calculateE(team1R, team2R);
-		double team2E = calculateE(team2R, team1R);
 
 		double gameResult = calculateGameResult(teamRed, teamBlue);
 
 		List<Double> s = calculateS(gameResult);
 
-		long newTeam1Elo = (long) (team1Elo + K * (s.get(0) - team1E));
-		long newTeam2Elo = (long) (team2Elo + K * (s.get(1) - team2E));
+		long newTeam1Elo = (long) Math.round(team1Elo + K * (s.get(0) - team1E));
 
-		int team1Diff = (int) (newTeam1Elo - team1Elo);
-		int team2Diff = (int) (newTeam2Elo - team2Elo);
+		int team1Diff = (int) Math.round(newTeam1Elo - team1Elo);
+		int team2Diff = team1Diff * -1;
 
 		updateTeamScore(teamRed, team1Diff);
 		updateTeamScore(teamBlue, team2Diff);
@@ -82,11 +79,11 @@ public class EloCalculatorImpl implements ScoreCalculator {
 		return Arrays.asList(0.5, 0.5);
 	}
 
-	public long getTeamRating(List<PlayerScore> team) {
-		return team.stream().mapToLong(PlayerScore::getElo).sum() / team.size();
+	public double getTeamRating(List<PlayerScore> team) {
+		return team.stream().mapToLong(PlayerScore::getElo).sum() * 1.0 / team.size();
 	}
 
-	private double calculateR(long elo) {
+	private double calculateR(double elo) {
 		return Math.pow(10, elo / 400.0);
 	}
 
@@ -120,25 +117,28 @@ public class EloCalculatorImpl implements ScoreCalculator {
 			double contribution = calculatePlayerContribution(player, score, playerNumber);
 			contribMap.put(player.getUserId(), contribution);
 		}
-		
+
 		double sum = contribMap.values().stream().reduce(0.0, Double::sum);
-		double diff = 0;
-		
-		if(sum != 1.0) {
+		double diff = 0.0;
+
+		if (sum != 1.0) {
 			diff = 1.0 - sum;
 			diff = diff / team.size();
 		}
-		
+
 		for (PlayerScore player : team) {
 			double contribution = contribMap.get(player.getUserId()) + diff;
-			
-			contribution = eloDiff < 0 ? 1.0 - contribution : contribution;
-			
-			player.setUserScore(calculatePlayerScore(player.getScoreMap()));
-			player.updateElo((int) Math.round(contribution * eloDiff));
-		}
-		
 
+			contribution = eloDiff < 0 ? 1.0 - contribution : contribution;
+
+			player.setUserScore(calculatePlayerScore(player.getScoreMap()));
+			int addedScore = (int) Math.round(contribution * eloDiff);
+
+			addedScore = (int) (eloDiff < 0 ? Math.round(contribution * Math.abs(eloDiff)) * -1
+					: Math.round(contribution * eloDiff));
+
+			player.updateElo(addedScore);
+		}
 	}
 
 	private double calculatePlayerContribution(PlayerScore player, GameScore totalScore, int playerNumber) {
@@ -161,4 +161,5 @@ public class EloCalculatorImpl implements ScoreCalculator {
 			ret += scoreMap.get(entry) * entry.getPointValue();
 		return ret;
 	}
+
 }
