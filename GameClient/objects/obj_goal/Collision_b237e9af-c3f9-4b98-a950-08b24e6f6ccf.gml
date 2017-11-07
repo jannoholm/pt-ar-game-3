@@ -11,8 +11,10 @@ with ( obj_gameplay ) {
 		teamRedScore++;
 		if (obj_playerinit_physics.red1.score_last_touch < obj_playerinit_physics.red2.score_last_touch) {
 			obj_playerinit_physics.red2.score_goals=obj_playerinit_physics.red2.score_goals+1;
+			obj_goal.client_name = obj_playerinit_physics.red2.client_name;
 		} else {
 			obj_playerinit_physics.red1.score_goals=obj_playerinit_physics.red1.score_goals+1;
+			obj_goal.client_name = obj_playerinit_physics.red1.client_name;
 		}
 	}
 	
@@ -20,8 +22,10 @@ with ( obj_gameplay ) {
 		teamBlueScore++;
 		if (obj_playerinit_physics.blue1.score_last_touch < obj_playerinit_physics.blue2.score_last_touch) {
 			obj_playerinit_physics.blue2.score_goals=obj_playerinit_physics.blue2.score_goals+1;
+			obj_goal.client_name = obj_playerinit_physics.blue2.client_name;
 		} else {
 			obj_playerinit_physics.blue1.score_goals=obj_playerinit_physics.blue1.score_goals+1;
+			obj_goal.client_name = obj_playerinit_physics.blue1.client_name;
 		}
 	}
 	
