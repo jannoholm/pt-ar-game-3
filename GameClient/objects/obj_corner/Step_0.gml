@@ -28,13 +28,14 @@ if ( collision_ellipse( x-r, y-r, x+r, y+r, obj_playerinit_physics.blue2, false,
 }
 
 
+// If ball and at least 2 cars are in area, then increment the counter, otherwise reset
 if ( ballInArea && nrOfCarsInArea > 1 ) {
 	blastBallTimer++;
 } else {
 	blastBallTimer = 0;
 }
 
-// Change the ball color to red based on the timer perscentage
+// Change the ball color to red based on the timer percentage
 if ( ballInArea ) {
 
 	// Ignore first two seconds for not confusing players - clamp the value to 0
@@ -51,6 +52,7 @@ if ( instance_exists(obj_ball) && prevBallInArea && !ballInArea ) {
 	}
 }
 
+// Blasting time!
 if ( blastBallTimer > blastBallTriggerTime ) {
 	blastBallTimer = 0;
 	
@@ -66,6 +68,9 @@ if ( blastBallTimer > blastBallTriggerTime ) {
 		// Create large size explosion using built-in particles (and medium one inside for nicer effect)
 		effect_create_above(ef_explosion, x, y, 2, c_orange);
 		effect_create_above(ef_explosion, x, y, 1, make_color_rgb(176,64,16));
+		
+		// Play explosion sound
+		audio_play_sound(snd_missile_explosion, 5, false);
 		
 		// Blast the ball towards the middle
 		var blastPowerX = x + lengthdir_x(other.blastBallPower, point_direction(x,y,room_width/2,room_height/2));
