@@ -47,7 +47,7 @@ client_name="";
 
 // game elements
 highlight=0;
-colliding=0;
+colliding=false;
 damaged=0;
 damage_direction=0;
 damage_turn=0;
