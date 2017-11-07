@@ -26,10 +26,12 @@ public class GetUsersLogic extends AbstractLogic {
         // create response
         GetUsersResponse response = getResponse(task, GetUsersResponse.class);
         for (User user : matchingUsers) {
-            GetUsersUser responseUser = new GetUsersUser();
-            responseUser.setId(user.getId());
-            responseUser.setName(user.getName());
-            response.addUser(responseUser);
+            if (!user.isHidden()) {
+                GetUsersUser responseUser = new GetUsersUser();
+                responseUser.setId(user.getId());
+                responseUser.setName(user.getName());
+                response.addUser(responseUser);
+            }
         }
         task.getContext().put(ContextConstants.RESPONSE, response);
     }
