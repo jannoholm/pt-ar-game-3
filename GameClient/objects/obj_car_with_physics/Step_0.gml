@@ -1,7 +1,7 @@
 // out of game checks
 keyboard_show=keyboard_check(keyboard_enabler);
 ready_delay=ready_delay-1;
-if ((obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START
+if ((obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && show_user_select_id !=0
 		|| obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION
 		|| obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.WAIT_TO_START) 
 		&& shoot && ready_delay < 0) {
@@ -33,10 +33,23 @@ else if ( (obj_gameplay.currentCarPhase != CarPhase.PLAY || obj_gameplay.current
 
 // user select
 show_user_select_scroll_cooldown=show_user_select_scroll_cooldown-1;
-if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START) {
+if (show_user_select && !( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH )) {
 	var show_user_select_pos=0;
 	var set_values=false;
-	if (show_user_select_id == 0) {
+	if (show_user_select_id == 0 && show_user_select_id_hist != 0) {
+		show_user_select_id=show_user_select_id_hist;
+		// find position of current element
+		var show_user_select_pos=0;
+		var i;
+		for (i=0; i < ds_list_size(obj_server_client.user_name_list); ++i) {
+			var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, i);
+			if (show_user_selected.user_id == show_user_select_id) {
+				show_user_select_pos=i;
+				break;
+			}
+		}
+		set_values=true;
+	} else if (show_user_select_id == 0) {
 		set_values=true;
 	} else if (show_user_select_scroll_cooldown > 0 ) {
 		// don't move
@@ -188,7 +201,7 @@ if ( damaged>0 && ( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gamep
 	}
 	
 	// apply boost if player is driving
-	if (boost && go_move != 0 && boost_power>0) {
+	if (boost && go_move != 0 && boost_power>0 && ( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH ) && obj_gameplay.currentCarPhase == CarPhase.PLAY) {
 	    boost_power=boost_power-room_speed;
 	    rightWheelPower=rightWheelPower*2;
 	    leftWheelPower=leftWheelPower*2;
@@ -234,7 +247,7 @@ nx = lengthdir_x(1, (-phy_rotation)+90);
 ny = lengthdir_y(1, (-phy_rotation)+90);
 
 if (remote_control==false) {
-	if (shoot && shoot_delay < 0) {
+	if (shoot && shoot_delay < 0 && ( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH ) && obj_gameplay.currentCarPhase == CarPhase.PLAY) {
 		shoot_delay=shoot_interval;
 
 		var pos_x = x+dcos((-1)*phy_rotation)*sprite_width;
@@ -248,8 +261,11 @@ if (remote_control==false) {
 		ds_list_add(bullets, bullet);
 	}
 }
-damaged=damaged-1;
-colliding = false;
-shoot_delay=shoot_delay-1;
-boost_power=clamp(boost_power+1, 0, boost_max);
 
+if (( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH ) && obj_gameplay.currentCarPhase == CarPhase.PLAY) {
+	damaged=damaged-1;
+	shoot_delay=shoot_delay-1;
+	boost_power=clamp(boost_power+1, -room_speed, boost_max);
+}
+
+colliding = false;

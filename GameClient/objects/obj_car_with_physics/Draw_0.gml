@@ -47,7 +47,7 @@ draw_set_color(c_white);
 draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
 // draw select name box
-if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START) {
+if (show_user_select && !( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH )) {
 	var offset_x=x+200;
 	var offset_y=y;
 	var offset_angle=270;
@@ -167,12 +167,16 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		offset_text=100;
 		offset_scroll=20;
 	}
+	var text_to_show="press square to select name";
+	if (show_user_select_id!=0) {
+		text_to_show="press O to start";
+	}
 	draw_set_halign(fa_left);	
 	draw_set_font(fnt_usertext);
 	draw_set_color(c_gray);
-	draw_text_transformed(offset_x+offset_scroll, offset_y+offset_text, "press O to start", 1, 1, offset_angle);
+	draw_text_transformed(offset_x+offset_scroll, offset_y+offset_text, text_to_show, 1, 1, offset_angle);
 	draw_set_color(c_white);
-	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, "press O to start", 1, 1, offset_angle);
+	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, text_to_show, 1, 1, offset_angle);
 }
 
 

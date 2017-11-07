@@ -12,5 +12,11 @@ switch (obj_gameplay.currentGamePhase) {
 		}
 		instance_destroy(obj_ball);
 		scr_send_gameresult();
+		with (obj_car_with_physics) {
+			show_user_select_id_hist=show_user_select_id;
+			show_user_select_id=0;
+			show_user_select_name="";
+			client_name="";
+		}
 		break;
 }

@@ -77,6 +77,7 @@ score_leaderboardPosition=0;
 // user select in table
 show_user_select=false;
 show_user_select_id=0;
+show_user_select_id_hist=0;
 show_user_select_name="";
 show_user_select_name_prev1="";
 show_user_select_name_prev2="";

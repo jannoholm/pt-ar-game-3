@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.playtech.ptargame3.common.util.StringUtil;
 import com.playtech.ptargame3.server.database.DatabaseAccess;
 import com.playtech.ptargame3.server.database.model.EloRating;
 import com.playtech.ptargame3.server.database.model.User;
@@ -184,6 +185,7 @@ public final class WebListener {
                 in.read(b);
             }
             httpExchange.getResponseHeaders().set("Content-Type", Files.probeContentType(file.toPath()) + "; charset=utf-8");
+            httpExchange.getResponseHeaders().set("Cache-Control", "max-age=86400");
             httpExchange.sendResponseHeaders( HttpURLConnection.HTTP_OK, b.length);
             httpExchange.getResponseBody().write(b);
         } else {
@@ -228,8 +230,23 @@ public final class WebListener {
             Map<String, String> params = parsePostParameters(httpExchange);
             String name = params.get("name");
             String email = params.get("email");
+            if (name != null) name = name.trim().toUpperCase();
+            if (email != null) email = email.trim();
+
+            // validate
+            if (StringUtil.isNull(name)) throw new NullPointerException("Name cannot be null.");
+            for (User u : databaseAccess.getUserDatabase().getUsers()) {
+                if (u.isHidden()) continue;
+                if (name.equals(u.getName()) && (email == null && u.getEmail() == null || email != null && email.equals(u.getEmail()))) {
+                    throw new HTTPException(HttpURLConnection.HTTP_CONFLICT);
+                }
+            }
+
             User user = databaseAccess.getUserDatabase().addUser(name, email);
             writeResponse(httpExchange, HttpURLConnection.HTTP_OK, new UserWrapper(user));
+        } catch (HTTPException e) {
+            logger.log(Level.INFO, "Error processing request", e);
+            writeResponse(httpExchange, e.getStatusCode());
         } catch (Exception e) {
             logger.log(Level.INFO, "Invalid request", e);
             writeResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST);
