@@ -8,8 +8,12 @@ import java.util.Map.Entry;
 
 public class EloCalculatorImpl implements ScoreCalculator {
 
-	private int K = 32;
-	private double minimumWeight = 0.25;
+	public static final int DEFAULT_K_64 = 64;
+	public static final int DEFAULT_K_32 = 32;
+	public static final double DEFAULT_WEIGHT = 0.25;
+
+	private int K = DEFAULT_K_32;
+	private double minimumWeight = DEFAULT_WEIGHT;
 
 	public EloCalculatorImpl(int k, double minimumWeight) {
 		super();
