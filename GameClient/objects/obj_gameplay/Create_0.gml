@@ -26,7 +26,7 @@ teamBlueScore = 0;
 
 // timer conf
 game_length=room_speed*60*2; // 2min
-//game_length=room_speed*30; // 30s
+//game_length=room_speed*15; // 15s
 sudden_death_length=room_speed*30; // 20s
 win_animation_length=room_speed*30;
 countdown_length=room_speed*3;

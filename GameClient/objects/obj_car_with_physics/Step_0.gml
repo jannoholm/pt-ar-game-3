@@ -116,7 +116,7 @@ if (show_user_select && obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START
 }
 
 
-if ( colliding == 0 && oilspill_tire_sound != noone ) {
+if ( !colliding && oilspill_tire_sound != noone ) {
 	// If car is not colliding with the oil spill anymore, but the sound is still playing, then stop the sound
 	audio_stop_sound(oilspill_tire_sound);
 	oilspill_tire_sound = noone;
@@ -157,8 +157,6 @@ if ( damaged>0 && ( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gamep
 		oilspill_tire_sound = audio_play_sound(snd_oil_tire_squal, 1, false);
 		audio_sound_set_track_position(oilspill_tire_sound, random_range(3, 12));	
 	}
-	
-	colliding=0;
 
 } else if ( playerType == PlayerType.AI_CHASER && go_move == 0 && go_turn == 0 && obj_gameplay.currentCarPhase == CarPhase.PLAY && instance_exists(obj_ball) ) {
 	// Allow AI to control only if player is not overriding, using aiLeftWheelPower and aiRightWheelPower params via scripts
@@ -251,6 +249,7 @@ if (remote_control==false) {
 	}
 }
 damaged=damaged-1;
+colliding = false;
 shoot_delay=shoot_delay-1;
 boost_power=clamp(boost_power+1, 0, boost_max);
 

@@ -56,7 +56,7 @@ public class GameResultStoreLogic extends AbstractLogic {
 		}
 
 		// do calculations
-		EloCalculatorImpl calculator = new EloCalculatorImpl();
+		EloCalculatorImpl calculator = new EloCalculatorImpl(EloCalculatorImpl.DEFAULT_K_64, EloCalculatorImpl.DEFAULT_WEIGHT);
 		calculator.calculatePlayerPoints(teamRed, teamBlue);
 
 		// update elo rating
