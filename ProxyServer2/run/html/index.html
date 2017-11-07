@@ -182,6 +182,8 @@
             $.post( "/player", {name: $('#add_name_field').val(), email: $('#add_email_field').val()})
               .done(function( data ) {
                 console.log( "Player added: " + data );
+                $('#add_name_field').val('');
+                $('#add_email_field').val('');
                 // reload data
                 table.ajax.reload();
               });            
