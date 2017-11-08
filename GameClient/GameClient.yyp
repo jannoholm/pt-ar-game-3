@@ -599,6 +599,14 @@
             }
         },
         {
+            "Key": "63ae6c9e-13df-4539-bf16-3fc52bf27c19",
+            "Value": {
+                "id": "dc9c7f28-5c2c-4cb8-8c3c-3c96779b6efc",
+                "resourcePath": "sprites\\spr_gamepad\\spr_gamepad.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "64827233-694b-4092-b37e-cc9b91d746b7",
             "Value": {
                 "id": "ad812715-f56b-4844-b4c1-4296f7edaaef",

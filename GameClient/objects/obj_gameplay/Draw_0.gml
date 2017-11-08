@@ -37,4 +37,7 @@ if (currentGamePhase == GamePhase.COUNTDOWN_TO_START) {
 	draw_text_ext_transformed_color(1920/4+1920/2,1080/3,string(teamBlueScore), 0, 500, 1.8, 1.8, 0, c_orange, c_orange, c_orange, c_orange, 0.3)
 }
 
-
+if (currentGamePhase == GamePhase.WAIT_TO_START || currentGamePhase == GamePhase.COUNTDOWN_TO_START) {
+	draw_sprite_ext(spr_gamepad, 1, 1920/4+100, 1080/2, 0.5, 0.5, -90, c_white, 0.5);
+	draw_sprite_ext(spr_gamepad, 1, 1920/4+1920/2-100, 1080/2, 0.5, 0.5, 90, c_white, 0.5);
+}

@@ -27,24 +27,33 @@ if (shoot_delay < 0) {
 var boost_availability = clamp(boost_power, 0, boost_max)/boost_max*80;
 var pos_x = x-80;
 var pos_y = y;
+var dire=-90;
+var correction=12;
 if (teamColor == TeamColor.BLUE) {
-	var pos_x = x+80;
+	pos_x = x+80;
+	dire=90;
+	correction=-12;
 }
 draw_rectangle_colour(pos_x-7, pos_y-40, pos_x+7, pos_y+40, c_green, c_green, c_green, c_green, 0);
-draw_rectangle_colour(pos_x-7, pos_y-40, pos_x+7, pos_y-40+boost_availability, c_lime, c_lime, c_lime, c_lime, 0);
+if (teamColor == TeamColor.RED) {
+	draw_rectangle_colour(pos_x-7, pos_y-40, pos_x+7, pos_y-40+boost_availability, c_lime, c_lime, c_lime, c_lime, 0);
+} else if (teamColor == TeamColor.BLUE) {
+	draw_rectangle_colour(pos_x-7, pos_y+41, pos_x+7, pos_y+40-boost_availability, c_lime, c_lime, c_lime, c_lime, 0);
+}
 draw_rectangle_colour(pos_x-7, pos_y-40, pos_x+7, pos_y+40, c_white, c_white, c_white, c_white, 1);
+
+// boost and name on car
+draw_set_font(fnt_usertext);
+draw_set_halign(fa_center);
+draw_set_valign(fa_center);
+draw_set_color(c_white);
+draw_text_ext_transformed(pos_x+correction, pos_y, "boost", 0, 200, 1, 1, dire);
+draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
 // draw keyboard enabled
 if (keyboard_show) {
 	draw_sprite_ext(spr_show_arrowkeys, 0, x, y+80, 1, 1, 0, c_white, 1);
 }
-
-// draw name on car
-draw_set_font(fnt_usertext);
-draw_set_halign(fa_center);
-draw_set_valign(fa_center);
-draw_set_color(c_white);
-draw_text_transformed(x, y, client_name, 1, 1, image_angle);
 
 // draw select name box
 if (show_user_select && !( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH )) {
