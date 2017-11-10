@@ -142,7 +142,7 @@
                       $email_cell.empty().append($("<input id='edit_email_field' type='text' value='"+email_old_value+"'/>"));
                       $action_cell.empty().append($("<button id='save_row_button'>Save</button><button id='cancel_row_button'>Cancel</button>"));
                       $('#save_row_button').on('click', function (e) {
-                        $.post( "/player", {name: $('#edit_name_field').val(), email: $('#edit_email_field').val()})
+                        $.post( "/player", {name: $('#edit_name_field').val(), email: $('#edit_email_field').val(), id: id})
                           .done(function( data ) {
                             console.log( "Player data saved");
                             $name_cell.text($('#edit_name_field').val());
@@ -170,7 +170,7 @@
                       url: '/player/' + id,
                       dataType: 'script' 
                     }).done(function( data ) {
-                      console.log( "Player "+ id + " deletd");
+                      console.log( "Player "+ id + " deleted");
                       table.row($(row)).remove();
                     table.draw(false);
                     });
