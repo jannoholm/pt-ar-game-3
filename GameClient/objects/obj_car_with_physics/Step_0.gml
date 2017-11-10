@@ -202,7 +202,7 @@ if ( damaged>0 && ( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gamep
 	
 	// apply boost if player is driving
 	if (boost && go_move != 0 && boost_power>0 && ( obj_gameplay.currentGamePhase == GamePhase.PLAY || obj_gameplay.currentGamePhase == GamePhase.SUDDEN_DEATH ) && obj_gameplay.currentCarPhase == CarPhase.PLAY) {
-	    boost_power=boost_power-room_speed;
+	    boost_power=boost_power-boost_spend;
 	    rightWheelPower=rightWheelPower*2;
 	    leftWheelPower=leftWheelPower*2;
 		
