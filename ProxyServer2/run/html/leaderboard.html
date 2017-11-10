@@ -118,7 +118,14 @@
               { "data": "matches" },
             ],
            });
-      } );      
+
+      
+          setInterval( function () {
+            leaderboard.ajax.reload( null, false ); // user paging is not reset on reload
+          }, 3000 );
+
+      } );     
+      
     </script>
 
     
