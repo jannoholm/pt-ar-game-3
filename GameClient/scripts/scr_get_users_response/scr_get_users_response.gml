@@ -24,7 +24,7 @@ while (user_iterator++ < user_count) {
 	// read user data
 	var user_bytes=buffer_read(buffer, buffer_s32); 
 	var user_id=buffer_read(buffer, buffer_s32); 
-	var user_name=string_lower(buffer_read(buffer, buffer_string)); 
+	var user_name=buffer_read(buffer, buffer_string); 
 	
 	// create internal object
 	var user_obj=instance_create(-1, -1, obj_user);
