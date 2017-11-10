@@ -113,7 +113,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x+(-1)*offset_scroll, offset_y+offset_text, "boost touches: ", 1, 1, offset_angle);
 	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x+( 0)*offset_scroll, offset_y+offset_text, "game score: ", 1, 1, offset_angle);
-		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text, "raiting points: ", 1, 1, offset_angle);
+		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text, "rating points: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
 	}
 	draw_text_transformed(offset_x+( 4)*offset_scroll, offset_y+offset_text, "press O to continue", 1, 1, offset_angle);
@@ -125,7 +125,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x-1+(-1)*offset_scroll, offset_y-1+offset_text, "boost touches: ", 1, 1, offset_angle);
 	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x-1+( 0)*offset_scroll, offset_y-1+offset_text, "game score: ", 1, 1, offset_angle);
-		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "raiting points: ", 1, 1, offset_angle);
+		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "rating points: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text, "leaderboard position: ", 1, 1, offset_angle);	
 	}
 	draw_text_transformed(offset_x-1+( 4)*offset_scroll, offset_y-1+offset_text, "press O to continue", 1, 1, offset_angle);
