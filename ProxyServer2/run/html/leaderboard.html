@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Soccar Leaderboard</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
@@ -115,12 +115,17 @@
                   return Math.round(row.bulletHits / row.matches * 100) / 100;
                 }
               },
-              { "data": "goals" },
-              { "data": "bulletHits" },
               { "data": "matches" },
             ],
            });
-      } );      
+
+      
+          setInterval( function () {
+            leaderboard.ajax.reload( null, false ); // user paging is not reset on reload
+          }, 3000 );
+
+      } );     
+      
     </script>
 
     
