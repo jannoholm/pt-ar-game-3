@@ -9,7 +9,8 @@ if ( os_type == os_linux ) {
 	global.gp_axis_turn = gp_axislh;
 	global.gp_axis_turn_alt = gp_axisrh;
 	global.gp_button_boost1 = gp_shoulderr;
-	global.gp_button_boost2 = gp_face2;
+	global.gp_button_boost2 = gp_shoulderl;
+	global.gp_button_boost3 = gp_face2;
 	global.gp_button_shoot = gp_face3;
 	global.gp_button_highlight = gp_face4;
 	global.gp_button_select_user = gp_face1;
