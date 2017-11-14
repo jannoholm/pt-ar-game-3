@@ -1,12 +1,32 @@
-var currentDistance = distance_to_point(initialPosX, initialPoxY);
+// Move car
+
+var resetPositionOffsetX;
+var resetPositionOffsetY = initialPoxY;
+var roomWidthHalf = room_width / 2;
+
+if ( initialPosX < roomWidthHalf ) {
+	resetPositionOffsetX = initialPosX - 70;
+} else {
+	resetPositionOffsetX = initialPosX + 70;
+}
+
+var currentDistance = distance_to_point(resetPositionOffsetX, resetPositionOffsetY);
 var currentAngleDiff = angle_difference(phy_rotation mod 360, initialRotation);
 
 // Verify that car is not already on the spot and is not moving
-if ( currentDistance < 10 && -3 <= currentAngleDiff && currentAngleDiff < 3  && phy_speed < 5/room_speed ) {
-	currentResetPhase = ResetPhase.RESET_COMPLETE;
-	show_debug_message("Reset complete");
-	// Reset position complete
-	return true;
+if ( currentDistance < 8 && phy_speed < 30/room_speed ) {
+	if ( -5 <= currentAngleDiff && currentAngleDiff < 5 ) {
+		currentResetPhase = ResetPhase.RESET_COMPLETE;
+		show_debug_message("Reset complete");
+		// Reset position complete
+		return true;
+	} else {
+		show_debug_message("Car reset angle too wide, going back to mid");
+		currentResetPhase = ResetPhase.GO_TO_MID
+	}
+} else if ( currentResetPhase == ResetPhase.RESET_COMPLETE ) {
+	// Car was probably nudged by somone, restart the reset cycle
+	currentResetPhase = ResetPhase.GO_TO_MID
 }
 
 if ( currentResetPhase == ResetPhase.RESET_COMPLETE ) {
@@ -16,9 +36,9 @@ if ( currentResetPhase == ResetPhase.RESET_COMPLETE ) {
 if ( currentResetPhase == ResetPhase.GO_TO_MID ) {
 
 	// If car was on left side of the field initially, then point ahead is positive
-	var pointInFrontOfCar = initialPosX < room_width / 2 ? 200 : -200;
+	var pointInFrontOfCar = resetPositionOffsetX < room_width / 2 ? 300 : -300;
 
-	var atPosition = ai_drive_to_point(initialPosX + pointInFrontOfCar, initialPoxY);
+	var atPosition = ai_drive_to_point(resetPositionOffsetX + pointInFrontOfCar, resetPositionOffsetY);
 
 	if ( atPosition ) {
 		currentResetPhase = ResetPhase.ROTATE_AT_MID;
@@ -36,27 +56,25 @@ if ( currentResetPhase == ResetPhase.ROTATE_AT_MID ) {
 
 if ( currentResetPhase == ResetPhase.BACK_UP_TO_START ) {
 
-	var distance = point_distance(x, y, initialPosX, initialPoxY) * 1.0;
+	var distance = point_distance(x, y, resetPositionOffsetX, resetPositionOffsetY) * 1.0;
 	
-	if (distance_to_point(initialPosX, initialPoxY) < 8) {
-		currentResetPhase = ResetPhase.RESET_COMPLETE;
-		show_debug_message("Reset complete");
-		// Reset position complete
-		return true;
+	// Need to stop the car if point is close enough
+	if (distance_to_point(resetPositionOffsetX, resetPositionOffsetY) < 12) {
+		// Return false and let the main check finish the reset logic
+		return false;
 	}
 	
 	// If car was on left side of the field initially, then point ahead is positive
 	var roomWidthHalf = room_width / 2;
 	var fixturePoint;
-	if ( initialPosX < roomWidthHalf ) {
+	if ( resetPositionOffsetX < roomWidthHalf ) {
 		fixturePoint = distance / 2;
 	} else {
 		fixturePoint = distance / -2;
 	}
-	// var fixturePoint = initialPosX < roomWidthHalf ? distance/2 : -distance/2;
 	
-	var curveX = ai_curve(x, initialPosX + fixturePoint, initialPosX, 0.95);
-	var curveY = ai_curve(y, initialPoxY, initialPoxY, 0.95);
+	var curveX = ai_curve(x, resetPositionOffsetX + fixturePoint, resetPositionOffsetX, 0.95);
+	var curveY = ai_curve(y, resetPositionOffsetY, resetPositionOffsetY, 0.95);
 
 	var nextPointAngle = point_direction(x, y, curveX, curveY);
 
