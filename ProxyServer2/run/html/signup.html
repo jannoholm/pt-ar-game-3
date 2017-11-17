@@ -26,24 +26,55 @@
       
         .bg { 
             /* The image used */
-            background-image: url("background.jpg");
+            background-image: url("backgroundSoccar.jpg");
         
             /* Full height */
             height: 100%; 
         
+	
             /* Center and scale the image nicely */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+			background-color: #09060F;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-position: center;
+			background-size: contain;
             opacity: .8;
         }
-
+		
+		main {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+		
+		.btn {
+			width: 100%
+		}
+		
+		input {
+			min-width: 260px;
+		}
+		
+		.btn-primary {
+			color: #fff;
+			background-color: #ff6207;
+			border-color: #ff4007;
+		}
+		
+		.btn{
+			font-size: 2rem;
+		}
+		
+		.form-control{
+			font-size: 2rem;
+		}
+		
     </style>
 
   </head>
 
   <body class="bg">
-    <main role="main" class="container">
+    <main role="main" class="">
       <div class="starter-template">
         <div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -52,14 +83,34 @@
           <strong>Player added successfully!</strong>
         </div>        
         <form class="form-inline pull-left" style="padding-left: 1rem" id="add_player_form">
-          <label class="sr-only" for="add_name_field">Name</label>
-          <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="add_name_field" placeholder="Enter name">
+		
+			<table style="width:100%">
+				<tr>
+					<td>
+						<label class="sr-only" for="add_name_field">Name</label>
+						<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="add_name_field" placeholder="Enter name">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="sr-only" for="add_email_field">Email</label>
+						<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+							<input type="text" class="form-control" id="add_email_field" placeholder="Enter e-mail">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="mb-2 mr-sm-2">
+							<button type="submit" class="btn btn-primary ">Add player</button>
+						</div>
+					</td>
+				</tr>
+			</table>
+          
         
-          <label class="sr-only" for="add_email_field">Email</label>
-          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <input type="text" class="form-control" id="add_email_field" placeholder="Enter e-mail">
-          </div>
-          <button type="submit" class="btn btn-primary">Add player</button>
+          
+          
         </form>
       </div>
     </main><!-- /.container -->

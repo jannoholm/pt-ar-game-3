@@ -10,7 +10,7 @@ if ((obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START && show_user_selec
 }
 
 // do nothing, while car drives
-if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS && !atPosition ) {
+if ( obj_gameplay.currentCarPhase == CarPhase.MOVE_TO_POSITIONS ) {
 	atPosition = ai_reset_position();
 	
 	// Move faster when moving to position

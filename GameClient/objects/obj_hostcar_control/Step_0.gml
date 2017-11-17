@@ -30,7 +30,12 @@ if ( global.gamepadDeviceId != -1 && abs(goTurnGamepadValue) > 0.05 ) {
 	car.go_turn = keyboard_check(vk_right)-keyboard_check(vk_left);
 }
 
-car.boost = keyboard_check(vk_control) || global.gamepadDeviceId != -1 && (gamepad_button_check(global.gamepadDeviceId, global.gp_button_boost1) || gamepad_button_check(global.gamepadDeviceId, global.gp_button_boost2));
+car.boost = keyboard_check(vk_control) || global.gamepadDeviceId != -1 && 
+				(
+					   gamepad_button_check(global.gamepadDeviceId, global.gp_button_boost1) 
+					|| gamepad_button_check(global.gamepadDeviceId, global.gp_button_boost2)
+					|| gamepad_button_check(global.gamepadDeviceId, global.gp_button_boost3)
+				);
 car.shoot = keyboard_check(vk_space) || global.gamepadDeviceId != -1 && gamepad_button_check(global.gamepadDeviceId, global.gp_button_shoot);
 car.highlight = keyboard_check(ord("A")) || global.gamepadDeviceId != -1 && gamepad_button_check(global.gamepadDeviceId, global.gp_button_highlight);
 
