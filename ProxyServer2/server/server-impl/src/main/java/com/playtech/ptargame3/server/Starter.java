@@ -8,6 +8,7 @@ import com.playtech.ptargame3.common.message.MessageParser;
 import com.playtech.ptargame3.common.task.TaskExecutorImpl;
 import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.common.task.TaskFactoryImpl;
+import com.playtech.ptargame3.server.ai.GameLogImpl;
 import com.playtech.ptargame3.server.database.DatabaseAccessImpl;
 import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
@@ -48,7 +49,9 @@ public class Starter {
         GameRegistry gameRegistry = new GameRegistry(scheduledExecutorService);
         DatabaseAccessImpl databaseAccess = new DatabaseAccessImpl(scheduledExecutorService);
         databaseAccess.setup();
-        LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory, databaseAccess);
+        GameLogImpl gamelog = new GameLogImpl(scheduledExecutorService);
+        gamelog.init();
+        LogicResourcesImpl logicResources = new LogicResourcesImpl(callbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory, databaseAccess, gamelog);
         logicRegistry.initialize(logicResources);
         ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, callbackHandler, clientRegistry, gameRegistry, taskFactory);
 

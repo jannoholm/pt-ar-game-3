@@ -1,26 +1,64 @@
 package com.playtech.ptargame3.server.ai;
 
 
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameLogRecord {
 
-    private final byte currentGamePhase;
-    private final byte currentCarPhase;
-    private final byte teamRedScore;
-    private final byte teamBlueScore;
-    private final GameLogRecordBall ball;
-    private final List<GameLogRecordCar> cars;
-    private final List<GameLogRecordBullet> bullets;
+    private final String gameId;
+    private int tick;
+    private byte currentGamePhase;
+    private byte currentCarPhase;
+    private byte teamRedScore;
+    private byte teamBlueScore;
+    private GameLogRecordBall ball;
+    private List<GameLogRecordCar> cars = new ArrayList<>();
+    private List<GameLogRecordBullet> bullets = new ArrayList<>();
 
-    public GameLogRecord(byte currentGamePhase, byte currentCarPhase, byte teamRedScore, byte teamBlueScore, GameLogRecordBall ball, List<GameLogRecordCar> cars, List<GameLogRecordBullet> bullets) {
-        this.currentGamePhase = currentGamePhase;
-        this.currentCarPhase = currentCarPhase;
-        this.teamRedScore = teamRedScore;
-        this.teamBlueScore = teamBlueScore;
-        this.ball = ball;
-        this.cars = cars;
-        this.bullets = bullets;
+    public GameLogRecord(String gameId) {
+        this.gameId = gameId;
+    }
+
+    public void parse(ByteBuffer messageData) {
+        while (messageData.hasRemaining()) {
+            byte type = messageData.get();
+            switch (type) {
+                case 100: // game state
+                    currentGamePhase = messageData.get();
+                    currentCarPhase = messageData.get();
+                    teamRedScore = messageData.get();
+                    teamBlueScore = messageData.get();
+                    tick = messageData.getInt();
+                    break;
+                case 101: // ball
+                    ball = new GameLogRecordBall();
+                    ball.parse(messageData);
+                    break;
+                case 1: // car red1
+                case 2: // car red2
+                case 3: // car blue1
+                case 4: // car blue2
+                    GameLogRecordCar car = new GameLogRecordCar(type);
+                    car.parse(messageData);
+                    cars.add(car);
+                    break;
+                case 110:
+                    GameLogRecordBullet bullet = new GameLogRecordBullet();
+                    bullet.parse(messageData);
+                    bullets.add(bullet);
+                    break;
+            }
+        }
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public int getTick() {
+        return tick;
     }
 
     public byte getCurrentGamePhase() {

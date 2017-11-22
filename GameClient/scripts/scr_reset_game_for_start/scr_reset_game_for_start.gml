@@ -2,6 +2,7 @@
 with (obj_gameplay) {
 	teamRedScore=0;
 	teamBlueScore=0;
+	gameTick=0;
 }
 
 

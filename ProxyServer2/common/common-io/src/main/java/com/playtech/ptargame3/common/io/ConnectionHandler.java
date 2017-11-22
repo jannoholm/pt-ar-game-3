@@ -226,7 +226,14 @@ public final class ConnectionHandler implements Connection {
                     }
 
                     // pass message data
-                    this.session.processMessage(message);
+                    try {
+                        this.session.processMessage(message);
+                    } catch (Exception e) {
+                        for (ByteBuffer buffer : message) {
+                            buffer.position(0);
+                        }
+                        logger.log(Level.WARNING, "Error processing bytes: " + HexUtil.toHex(message), e);
+                    }
 
                     // clean message buffers
                     mainMessageBuffer.clear();

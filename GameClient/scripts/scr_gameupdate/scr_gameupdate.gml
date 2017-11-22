@@ -17,7 +17,7 @@ while (control_length > 0) {
 				currentCarPhase = buffer_read(buffer, buffer_s8);
 				teamRedScore = buffer_read(buffer, buffer_s8);
 				teamBlueScore= buffer_read(buffer, buffer_s8);
-				
+				buffer_read(buffer, buffer_s32); // tick could be used to sync
 				show_debug_message("Game state: " + string(currentGamePhase) + "-" + string(currentCarPhase) + "-" + string(teamRedScore) + "-" + string(teamBlueScore) );
 			}
 			control_length=control_length-1*4;

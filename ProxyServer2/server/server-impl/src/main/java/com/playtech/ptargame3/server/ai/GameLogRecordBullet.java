@@ -1,26 +1,28 @@
 package com.playtech.ptargame3.server.ai;
 
+import java.nio.ByteBuffer;
+
 public class GameLogRecordBullet {
 
-    private final int phy_position_x;
-    private final int phy_position_y;
-    private final int phy_rotation;
+    private float phy_position_x;
+    private float phy_position_y;
+    private float phy_rotation;
 
-    public GameLogRecordBullet(int phy_position_x, int phy_position_y, int phy_rotation) {
-        this.phy_position_x = phy_position_x;
-        this.phy_position_y = phy_position_y;
-        this.phy_rotation = phy_rotation;
+    public void parse(ByteBuffer messageData) {
+        phy_position_x=messageData.getFloat();
+        phy_position_y=messageData.getFloat();
+        phy_rotation=messageData.getFloat();
     }
 
-    public int getPhy_position_x() {
+    public float getPhy_position_x() {
         return phy_position_x;
     }
 
-    public int getPhy_position_y() {
+    public float getPhy_position_y() {
         return phy_position_y;
     }
 
-    public int getPhy_rotation() {
+    public float getPhy_rotation() {
         return phy_rotation;
     }
 }

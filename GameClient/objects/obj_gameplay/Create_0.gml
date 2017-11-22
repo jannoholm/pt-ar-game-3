@@ -19,6 +19,7 @@ joinedClient = false;
 // state
 currentCarPhase = CarPhase.MOVE_TO_POSITIONS;
 currentGamePhase=GamePhase.PREPARE_TO_START;
+gameTick=0;
 
 // score
 teamRedScore = 0;

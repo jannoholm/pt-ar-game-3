@@ -16,7 +16,7 @@ obj_server_client.messageid_counter+=10000;
 scr_write_messageheader(buffer, 3002, obj_server_client.messageid_counter, obj_server_client.client_id);
 buffer_write(buffer, buffer_string, obj_server_client.gameid);
 
-gameStateUpdateLength = 1 * 5;
+gameStateUpdateLength = 1 * 5 + 4;
 ballUpdateLength = 1 + 1 + 8*4;
 carUpdateLength = 1 + 8*4 + 4*1 + 3*2;
 bulletUpdateLength = 1 + 3*4;
@@ -31,6 +31,7 @@ with (obj_gameplay) {
 	buffer_write(buffer, buffer_s8, currentCarPhase);
 	buffer_write(buffer, buffer_s8, teamRedScore);
 	buffer_write(buffer, buffer_s8, teamBlueScore);
+	buffer_write(buffer, buffer_s32, gameTick);
 }
 
 

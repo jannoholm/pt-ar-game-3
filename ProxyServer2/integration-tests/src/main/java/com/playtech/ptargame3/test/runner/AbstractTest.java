@@ -11,6 +11,9 @@ import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.common.task.TaskFactoryImpl;
 import com.playtech.ptargame3.server.LogicResourcesImpl;
 import com.playtech.ptargame3.server.ProxyConnectionFactory;
+import com.playtech.ptargame3.server.ai.GameLog;
+import com.playtech.ptargame3.server.ai.GameLogImpl;
+import com.playtech.ptargame3.server.ai.GameLogRecord;
 import com.playtech.ptargame3.server.database.DatabaseAccessImpl;
 import com.playtech.ptargame3.server.registry.GameRegistry;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
@@ -80,7 +83,7 @@ public class AbstractTest {
         GameRegistry gameRegistry = new GameRegistry(maintenanceService);
         DatabaseAccessImpl databaseAccess = new DatabaseAccessImpl(maintenanceService);
         databaseAccess.setup();
-        LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory, databaseAccess);
+        LogicResourcesImpl logicResources = new LogicResourcesImpl(proxyCallbackHandler, messageParser, clientRegistry, gameRegistry, taskFactory, databaseAccess, record -> {});
         logicRegistry.initialize(logicResources);
         ProxyConnectionFactory connectionFactory = new ProxyConnectionFactory(messageParser, proxyCallbackHandler, clientRegistry, gameRegistry, taskFactory);
 

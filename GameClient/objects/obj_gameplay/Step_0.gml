@@ -123,6 +123,7 @@ if ( ( currentGamePhase == GamePhase.PLAY || currentGamePhase == GamePhase.SUDDE
 }
 
 game_timer=game_timer-1;
+gameTick = gameTick+1;
 
 
 if ( suddendeath_sound != noone && currentGamePhase != GamePhase.SUDDEN_DEATH ) {

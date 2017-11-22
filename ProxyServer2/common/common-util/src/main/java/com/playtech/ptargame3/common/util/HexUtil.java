@@ -1,6 +1,7 @@
 package com.playtech.ptargame3.common.util;
 
 import java.nio.ByteBuffer;
+import java.util.Collection;
 
 public class HexUtil {
     private static final char[] HEX={'0','1','2','3','4','5','6','7','8','9', 'A','B','C','D','E','F'};
@@ -95,5 +96,13 @@ public class HexUtil {
         byte[] b = new byte[size];
         buffer.get(b);
         return toHex(b);
+    }
+
+    public static String toHex(Collection<ByteBuffer> buffers) {
+        StringBuilder s = new StringBuilder();
+        for (ByteBuffer buffer : buffers) {
+            s.append(toHex(buffer));
+        }
+        return s.toString();
     }
 }
