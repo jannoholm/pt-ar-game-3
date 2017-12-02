@@ -128,6 +128,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "RATING POINTS: ", 1, 1, offset_angle);
 		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text, "LEADERBOARD POSITION: ", 1, 1, offset_angle);	
 	}
+	draw_set_color(c_white);
 	draw_text_transformed(offset_x-1+( 4)*offset_scroll, offset_y-1+offset_text, "PRESS CIRCLE TO CONTINUE", 1, 1, offset_angle);
 
 	// todo
@@ -139,9 +140,9 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x+(-1)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_boost_touches), 1, 1, offset_angle);
 	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x+( 0)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_gamescore), 1, 1, offset_angle);
-		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_eloRating), 1, 1, offset_angle);
+		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_eloRating)+" "+string(score_eloRatingDiff), 1, 1, offset_angle);
 		if (score_leaderboardPosition > 0) {
-			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
+			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, string(score_leaderboardPosition)+" "+string(score_leaderboardPositionDiff), 1, 1, offset_angle);	
 		} else {
 			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, "play more", 1, 1, offset_angle);	
 		}
@@ -154,9 +155,9 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 	draw_text_transformed(offset_x-1+(-1)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_boost_touches), 1, 1, offset_angle);
 	if (score_gamescore!=-1000000) {
 		draw_text_transformed(offset_x-1+( 0)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_gamescore), 1, 1, offset_angle);
-		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_eloRating), 1, 1, offset_angle);
+		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_eloRating)+" "+string(score_eloRatingDiff), 1, 1, offset_angle);
 		if (score_leaderboardPosition > 0) {
-			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_leaderboardPosition), 1, 1, offset_angle);	
+			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(score_leaderboardPosition)+" "+string(score_leaderboardPositionDiff), 1, 1, offset_angle);	
 		} else {
 			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, "play more", 1, 1, offset_angle);	
 		}
@@ -165,7 +166,7 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 } else if (!ready &&
 		(obj_gameplay.currentGamePhase == GamePhase.WAIT_TO_START /*||
 		obj_gameplay.currentGamePhase == GamePhase.PLAY && obj_gameplay.currentCarPhase == CarPhase.WAIT_TO_START*/) ) {
-	var offset_x=x+200;
+	/*var offset_x=x+200;
 	var offset_y=y;
 	var offset_angle=270;
 	var offset_text=-100;
@@ -175,17 +176,59 @@ if (obj_gameplay.currentGamePhase == GamePhase.GAME_END_ANIMATION) {
 		offset_angle=90;
 		offset_text=100;
 		offset_scroll=20;
+	}*/
+	var offset_x=x+200;
+	var offset_y=y;
+	var offset_angle=270;
+	var offset_text=+100;
+	var offset_scroll=-20;
+	if (teamColor == TeamColor.BLUE) {
+		offset_x=x-200;
+		offset_angle=90;
+		offset_text=-100;
+		offset_scroll=20;
 	}
+
 	var text_to_show="PRESS SQUARE TO SELECT NAME";
 	if (show_user_select_id!=0) {
 		text_to_show="PRESS CIRCLE TO START";
 	}
-	draw_set_halign(fa_left);	
+	draw_set_halign(fa_right);	
 	draw_set_font(fnt_usertext);
 	draw_set_color(c_gray);
-	draw_text_transformed(offset_x+offset_scroll, offset_y+offset_text, text_to_show, 1, 1, offset_angle);
+	draw_text_transformed(offset_x+4*offset_scroll, offset_y+offset_text, text_to_show, 1, 1, offset_angle);
 	draw_set_color(c_white);
-	draw_text_transformed(offset_x+offset_scroll-1, offset_y+offset_text-1, text_to_show, 1, 1, offset_angle);
+	draw_text_transformed(offset_x+4*offset_scroll-1, offset_y+offset_text-1, text_to_show, 1, 1, offset_angle);
+
+	if (show_user_select_id!=0) {
+		draw_set_color(c_gray);
+		draw_set_font(fnt_usertext);
+		draw_set_halign(fa_right);
+		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text, "RATING POINTS: ", 1, 1, offset_angle);
+		draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text, "LEADERBOARD POSITION: ", 1, 1, offset_angle);	
+	
+		draw_set_color(c_orange);
+		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text, "RATING POINTS: ", 1, 1, offset_angle);
+		draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text, "LEADERBOARD POSITION: ", 1, 1, offset_angle);	
+
+		// todo
+		draw_set_color(c_gray);
+		draw_set_halign(fa_left);
+		draw_text_transformed(offset_x+( 1)*offset_scroll, offset_y+offset_text+offset_text/10, string(show_user_select_elo), 1, 1, offset_angle);
+		if (show_user_select_leaderboard_pos > 0) {
+			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, string(show_user_select_leaderboard_pos), 1, 1, offset_angle);	
+		} else {
+			draw_text_transformed(offset_x+( 2)*offset_scroll, offset_y+offset_text+offset_text/10, "play more", 1, 1, offset_angle);	
+		}
+	
+		draw_set_color(c_orange);
+		draw_text_transformed(offset_x-1+( 1)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(show_user_select_elo), 1, 1, offset_angle);
+		if (show_user_select_leaderboard_pos > 0) {
+			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, string(show_user_select_leaderboard_pos), 1, 1, offset_angle);	
+		} else {
+			draw_text_transformed(offset_x-1+( 2)*offset_scroll, offset_y-1+offset_text+offset_text/10, "play more", 1, 1, offset_angle);	
+		}
+	}
 }
 
 

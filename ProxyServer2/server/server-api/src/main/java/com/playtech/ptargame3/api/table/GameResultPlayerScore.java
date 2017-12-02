@@ -12,6 +12,8 @@ public class GameResultPlayerScore {
     private int score;
     private int eloRating;
     private int leaderboardPosition;
+    private int eloRatingChange;
+    private int leaderboardPositionChange;
 
     public void parse(ByteBuffer messageData) {
         // make sure we read our needed bytes and all our expected bytes
@@ -26,6 +28,8 @@ public class GameResultPlayerScore {
         score = messageData.getInt();
         eloRating = messageData.getInt();
         leaderboardPosition = messageData.getInt();
+        eloRatingChange = messageData.getInt();
+        leaderboardPositionChange = messageData.getInt();
     }
 
     public void format(ByteBuffer messageData) {
@@ -40,6 +44,8 @@ public class GameResultPlayerScore {
         messageData.putInt(score);
         messageData.putInt(eloRating);
         messageData.putInt(leaderboardPosition);
+        messageData.putInt(eloRatingChange);
+        messageData.putInt(leaderboardPositionChange);
 
         // fix length
         messageData.putInt(position, messageData.position()-position-4);
@@ -47,10 +53,12 @@ public class GameResultPlayerScore {
 
     protected void toStringImpl(StringBuilder s) {
         s.append("team=").append(getTeam());
-        s.append(", pos=").append(getPositionInTeam());
+        s.append(", tp=").append(getPositionInTeam());
         s.append(", score=").append(getScore());
         s.append(", elo=").append(getEloRating());
         s.append(", pos=").append(getLeaderboardPosition());
+        s.append(", eloDiff=").append(getEloRatingChange());
+        s.append(", posDiff=").append(getLeaderboardPositionChange());
         s.append(")");
     }
 
@@ -92,5 +100,21 @@ public class GameResultPlayerScore {
 
     public void setLeaderboardPosition(int leaderboardPosition) {
         this.leaderboardPosition = leaderboardPosition;
+    }
+
+    public int getEloRatingChange() {
+        return eloRatingChange;
+    }
+
+    public void setEloRatingChange(int eloRatingChange) {
+        this.eloRatingChange = eloRatingChange;
+    }
+
+    public int getLeaderboardPositionChange() {
+        return leaderboardPositionChange;
+    }
+
+    public void setLeaderboardPositionChange(int leaderboardPositionChange) {
+        this.leaderboardPositionChange = leaderboardPositionChange;
     }
 }

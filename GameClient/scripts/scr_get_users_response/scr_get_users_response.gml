@@ -25,11 +25,15 @@ while (user_iterator++ < user_count) {
 	var user_bytes=buffer_read(buffer, buffer_s32); 
 	var user_id=buffer_read(buffer, buffer_s32); 
 	var user_name=buffer_read(buffer, buffer_string); 
+	var user_elo=buffer_read(buffer, buffer_s32); 
+	var user_leaderboard_pos=buffer_read(buffer, buffer_s32); 
 	
 	// create internal object
 	var user_obj=instance_create(-1, -1, obj_user);
 	user_obj.user_id = user_id;
 	user_obj.user_name = user_name;
+	user_obj.user_elo = user_elo;
+	user_obj.user_leaderboard_pos = user_leaderboard_pos;
 	
 	// add to list, but keep list sorted
 	var size = ds_list_size(obj_server_client.user_name_list);

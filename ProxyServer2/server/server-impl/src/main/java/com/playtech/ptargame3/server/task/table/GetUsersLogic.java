@@ -7,10 +7,13 @@ import com.playtech.ptargame3.api.table.GetUsersUser;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.server.ContextConstants;
+import com.playtech.ptargame3.server.database.model.EloRating;
 import com.playtech.ptargame3.server.database.model.User;
 import com.playtech.ptargame3.server.task.AbstractLogic;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GetUsersLogic extends AbstractLogic {
 
@@ -22,6 +25,7 @@ public class GetUsersLogic extends AbstractLogic {
     public void execute(Task task) {
         GetUsersRequest request = getInputRequest(task, GetUsersRequest.class);
         Collection<User> matchingUsers = getLogicResources().getDatabaseAccess().getUserDatabase().getUsers(request.getFilter());
+        Map<Integer, Integer> leaderboard = getLeaderboard();
 
         // create response
         GetUsersResponse response = getResponse(task, GetUsersResponse.class);
@@ -30,10 +34,29 @@ public class GetUsersLogic extends AbstractLogic {
                 GetUsersUser responseUser = new GetUsersUser();
                 responseUser.setId(user.getId());
                 responseUser.setName(user.getName());
+                EloRating rating = getLogicResources().getDatabaseAccess().getRatingDatabase().getRating(user.getId());
+                if (rating != null) {
+                    responseUser.setEloRating(rating.getEloRating());
+                }
+                Integer position = leaderboard.get(user.getId());
+                if (position != null) {
+                    responseUser.setLeaderboardPosition(position);
+                }
+
                 response.addUser(responseUser);
             }
         }
         task.getContext().put(ContextConstants.RESPONSE, response);
+    }
+
+    private Map<Integer, Integer> getLeaderboard() {
+        Map<Integer, Integer> leaderBoard = new HashMap<>();
+        int pos = 0;
+        for (EloRating rating : getLogicResources().getDatabaseAccess().getRatingDatabase().getLeaderboard()) {
+            pos++;
+            leaderBoard.put(rating.getUserId(), pos);
+        }
+        return leaderBoard;
     }
 
     @Override

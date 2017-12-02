@@ -74,12 +74,16 @@ score_boost_touches=0;
 score_gamescore=0;
 score_eloRating=0;
 score_leaderboardPosition=0;
+score_eloRatingDiff="";
+score_leaderboardPositionDiff="";
 
 // user select in table
 show_user_select=false;
 show_user_select_id=0;
 show_user_select_id_hist=0;
 show_user_select_name="";
+show_user_select_elo=0;
+show_user_select_leaderboard_pos=0;
 show_user_select_name_prev1="";
 show_user_select_name_prev2="";
 show_user_select_name_next1="";

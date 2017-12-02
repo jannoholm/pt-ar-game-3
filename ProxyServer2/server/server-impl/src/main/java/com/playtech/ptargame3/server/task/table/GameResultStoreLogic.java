@@ -55,6 +55,9 @@ public class GameResultStoreLogic extends AbstractLogic {
 			}
 		}
 
+        // calculate leaderboard position
+        calculateLeaderboardPosition(allScores);
+
 		// do calculations
 		EloCalculatorImpl calculator = new EloCalculatorImpl(EloCalculatorImpl.DEFAULT_K_64, EloCalculatorImpl.DEFAULT_WEIGHT);
 		calculator.calculatePlayerPoints(teamRed, teamBlue);
@@ -75,8 +78,10 @@ public class GameResultStoreLogic extends AbstractLogic {
 			score.setTeam(holder.getRequestData().getTeam());
 			score.setPositionInTeam(holder.getRequestData().getPositionInTeam());
 			score.setScore(holder.getScore().getUserScore());
-			score.setEloRating(holder.getRating().getEloRating());
-			score.setLeaderboardPosition(holder.leaderboardPosition);
+			score.setEloRating(holder.getCurrentEloRating().getEloRating());
+			score.setLeaderboardPosition(holder.getCurrentLeaderboardPosition());
+			score.setEloRatingChange(holder.getCurrentEloRating().getEloRating()-holder.getPreviousEloRating().getEloRating());
+			score.setLeaderboardPositionChange(holder.getCurrentLeaderboardPosition()-holder.getPreviousLeaderboardPosition());
 			response.addPlayerResult(score);
 		}
 		task.getContext().put(ContextConstants.RESPONSE, response);
@@ -111,7 +116,7 @@ public class GameResultStoreLogic extends AbstractLogic {
 					TeamConverter.convert(holder.getRequestData().getTeam()), holder.getRequestData().getGoals(),
 					holder.getRequestData().getBulletHits(), holder.getRequestData().getBallTouches(),
 					holder.getRequestData().getBoostTouches(), holder.getScore().getUserScore(),
-					holder.getRating().getEloRating(), holder.leaderboardPosition);
+					holder.getCurrentEloRating().getEloRating(), holder.getCurrentLeaderboardPosition());
 			playerResults.add(playerScore);
 		}
 		int round = getLogicResources().getGameRegistry().getGame(request.getGameId()).updateRound();
@@ -121,14 +126,13 @@ public class GameResultStoreLogic extends AbstractLogic {
 	}
 
 	private void calculateLeaderboardPosition(ArrayList<Holder> allScores) {
-		Collection<EloRating> leaderboard = getLogicResources().getDatabaseAccess().getRatingDatabase()
-				.getLeaderboard();
+		Collection<EloRating> leaderboard = getLogicResources().getDatabaseAccess().getRatingDatabase().getLeaderboard();
 		int pos = 0;
 		for (EloRating lb : leaderboard) {
 			pos++;
 			for (Holder holder : allScores) {
 				if (lb.getUserId() == holder.getRequestData().getUserId()) {
-					holder.leaderboardPosition = pos;
+					holder.newLeaderboardPosition(pos);
 				}
 			}
 		}
@@ -136,16 +140,17 @@ public class GameResultStoreLogic extends AbstractLogic {
 
 	private void updateEloRating(GameResultStoreRequest request, ArrayList<Holder> allScores) {
 		for (Holder holder : allScores) {
-			holder.rating = new EloRating(holder.getRequestData().getUserId(), holder.getScore().getElo(),
-					holder.getRating().getMatches() + 1,
-					holder.getRating().getGoals() + holder.getRequestData().getGoals(),
-					holder.getRating().getBulletHits() + holder.getRequestData().getBulletHits(),
-					holder.getRating().getTotalScore() + holder.getScore().getUserScore(),
-					holder.getRating().getBallTouches() + holder.getRequestData().getBallTouches(),
-					holder.getRating().getBoostTouches() + holder.getRequestData().getBoostTouches(),
-					holder.getRating().getWins()
-							+ (isWinner(request.getWinnerTeam(), holder.getRequestData().getTeam()) ? 1 : 0));
-			getLogicResources().getDatabaseAccess().getRatingDatabase().updateRating(holder.getRating());
+			holder.newEloRating(new EloRating(
+					holder.getRequestData().getUserId(), holder.getScore().getElo(),
+					holder.getCurrentEloRating().getMatches() + 1,
+					holder.getCurrentEloRating().getGoals() + holder.getRequestData().getGoals(),
+					holder.getCurrentEloRating().getBulletHits() + holder.getRequestData().getBulletHits(),
+					holder.getCurrentEloRating().getTotalScore() + holder.getScore().getUserScore(),
+					holder.getCurrentEloRating().getBallTouches() + holder.getRequestData().getBallTouches(),
+					holder.getCurrentEloRating().getBoostTouches() + holder.getRequestData().getBoostTouches(),
+					holder.getCurrentEloRating().getWins() + (isWinner(request.getWinnerTeam(), holder.getRequestData().getTeam()) ? 1 : 0))
+			);
+			getLogicResources().getDatabaseAccess().getRatingDatabase().updateRating(holder.getCurrentEloRating());
 		}
 	}
 
@@ -161,25 +166,49 @@ public class GameResultStoreLogic extends AbstractLogic {
 	private static class Holder {
 		private GameResultPlayerActivity requestData;
 		private PlayerScore score;
-		private EloRating rating;
-		private int leaderboardPosition = -1;
+		private EloRating currentEloRating;
+		private EloRating previousEloRating;
+		private int previousLeaderboardPosition = -1;
+		private int currentLeaderboardPosition = -1;
 
-		public Holder(GameResultPlayerActivity requestData, PlayerScore score, EloRating rating) {
+		Holder(GameResultPlayerActivity requestData, PlayerScore score, EloRating rating) {
 			this.requestData = requestData;
 			this.score = score;
-			this.rating = rating;
+			this.currentEloRating = rating;
 		}
 
-		public PlayerScore getScore() {
+		PlayerScore getScore() {
 			return score;
 		}
 
-		public GameResultPlayerActivity getRequestData() {
+		GameResultPlayerActivity getRequestData() {
 			return requestData;
 		}
 
-		public EloRating getRating() {
-			return rating;
+		EloRating getCurrentEloRating() {
+			return currentEloRating;
+		}
+
+		EloRating getPreviousEloRating() {
+			return previousEloRating;
+		}
+
+		int getPreviousLeaderboardPosition() {
+			return previousLeaderboardPosition;
+		}
+
+		int getCurrentLeaderboardPosition() {
+			return currentLeaderboardPosition;
+		}
+
+		void newEloRating(EloRating newRating) {
+			previousEloRating = currentEloRating;
+			currentEloRating = newRating;
+		}
+
+		void newLeaderboardPosition(int leaderboardPosition) {
+			previousLeaderboardPosition = currentLeaderboardPosition;
+			currentLeaderboardPosition = leaderboardPosition;
 		}
 	}
 

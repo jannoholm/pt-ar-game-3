@@ -90,6 +90,8 @@ if (show_user_select && !( obj_gameplay.currentGamePhase == GamePhase.PLAY || ob
 		var show_user_selected = ds_list_find_value(obj_server_client.user_name_list, show_user_select_pos);
 		show_user_select_id=show_user_selected.user_id;
 		show_user_select_name=show_user_selected.user_name;
+		show_user_select_elo=show_user_selected.user_elo;
+		show_user_select_leaderboard_pos=show_user_selected.user_leaderboard_pos;
 		
 		// Hardcoded user names to AI
 		if ( show_user_select_name == "ai_bot_chaser" ) {

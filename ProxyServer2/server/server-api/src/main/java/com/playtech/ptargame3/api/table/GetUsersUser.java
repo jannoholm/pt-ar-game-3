@@ -9,6 +9,8 @@ public class GetUsersUser {
 
     private int id;
     private String name;
+    private int eloRating;
+    private int leaderboardPosition;
 
     public void parse(ByteBuffer messageData) {
         // make sure we read our needed bytes and all our expected bytes
@@ -19,7 +21,9 @@ public class GetUsersUser {
 
         // read structure data
         id=messageData.getInt();
-        name= StringUtil.readUTF8String(messageData);
+        name=StringUtil.readUTF8String(messageData);
+        eloRating=messageData.getInt();
+        leaderboardPosition=messageData.getInt();
     }
 
     public void format(ByteBuffer messageData) {
@@ -30,6 +34,8 @@ public class GetUsersUser {
 
         messageData.putInt(id);
         StringUtil.writeUTF8String(name, messageData);
+        messageData.putInt(eloRating);
+        messageData.putInt(leaderboardPosition);
 
         // fix length
         messageData.putInt(position, messageData.position()-position-4);
@@ -38,6 +44,8 @@ public class GetUsersUser {
     protected void toStringImpl(StringBuilder s) {
         s.append("id=").append(getId());
         s.append(", name=").append(getName());
+        s.append(", elo=").append(getEloRating());
+        s.append(", pos=").append(getLeaderboardPosition());
     }
 
     public int getId() {
@@ -54,5 +62,21 @@ public class GetUsersUser {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getEloRating() {
+        return eloRating;
+    }
+
+    public void setEloRating(int eloRating) {
+        this.eloRating = eloRating;
+    }
+
+    public int getLeaderboardPosition() {
+        return leaderboardPosition;
+    }
+
+    public void setLeaderboardPosition(int leaderboardPosition) {
+        this.leaderboardPosition = leaderboardPosition;
     }
 }
