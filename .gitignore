@@ -12,3 +12,4 @@ executable/assets/*
 executable/GameClient
 **/game.db
 ProxyServer2/run/gamelog/**
+ProxyServer2/run2/conf/runtime

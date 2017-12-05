@@ -8,6 +8,8 @@ import com.playtech.ptargame3.server.exception.SystemException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameRegistryGame {
 
@@ -93,41 +95,53 @@ public class GameRegistryGame {
         addSubscriber(clientId);
     }
 
-    public synchronized void addPlayer(String clientId, Team team) {
+    public synchronized void addPlayer(String clientId, Team team, int positionInTeam) {
         // validate input and game status
         if (StringUtil.isNull(clientId)) throw new SystemException("clientId not set");
         if (gameStatus != Status.COLLECTING) throw new GameFullException("Game status " + gameStatus);
         if (players.size() >= positions) throw new GameFullException("Player limit reached: " + positions);
-        if (tableGame) throw new GameFullException("Table is closed for remote clients.");
 
         // check if player already joined. idempotent calls are allowed
-        for (GameRegistryGamePlayer player : players) {
+        /*for (GameRegistryGamePlayer player : players) {
             if (player.getClientId().equals(clientId)) {
                 return;
             }
-        }
+        }*/
 
-        // validate team sizes
+        // temp structures
         int redTeam = 0;
         int blueTeam = 0;
+        Map<String, GameRegistryGamePlayer> positionMap = new HashMap<>();
         for (GameRegistryGamePlayer player : players) {
+            positionMap.put(player.getTeam() + ":" + player.getPositionInTeam(), player);
             if (player.getTeam() == Team.BLUE) {
                 blueTeam++;
             } else if (player.getTeam() == Team.RED) {
                 redTeam++;
             }
         }
+
+        // choose team
         if (team == null) {
-            // assign smaller team
-            team = blueTeam < redTeam ? Team.BLUE : Team.RED;
+            team = redTeam <= blueTeam ? Team.RED : Team.BLUE;
         }
-        if (team == Team.RED && positions/2 < redTeam+1 || team == Team.BLUE && positions/2 < blueTeam+1) {
-            throw new GameFullException("Team size limit reached: " + team + ":" + positions + "::" + blueTeam + "+" + redTeam);
+
+        // choose position
+        if (positionInTeam < 0) {
+            for (int i = 0; i < positions/2; ++i) {
+                GameRegistryGamePlayer player = positionMap.get(team + ":" + (i+1));
+                if (player == null) {
+                    positionInTeam=i+1;
+                }
+            }
+        } else {
+            GameRegistryGamePlayer player = positionMap.get(team + ":" + positionInTeam);
+            if (player != null) throw new GameFullException("Position already taken: " + positionInTeam);
         }
 
         // add player to game
         ArrayList<GameRegistryGamePlayer> newplayers = new ArrayList<>(players);
-        newplayers.add(new GameRegistryGamePlayer(clientId, team, (byte)((team == Team.RED ? redTeam : blueTeam)+1)));
+        newplayers.add(new GameRegistryGamePlayer(clientId, team, (byte)positionInTeam));
         this.players = Collections.unmodifiableCollection(newplayers);
 
         // subscribe to updates

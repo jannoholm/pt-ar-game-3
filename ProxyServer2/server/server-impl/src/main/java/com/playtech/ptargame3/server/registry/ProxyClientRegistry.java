@@ -4,34 +4,33 @@ package com.playtech.ptargame3.server.registry;
 import com.playtech.ptargame3.common.callback.ClientRegistry;
 import com.playtech.ptargame3.common.session.Session;
 import com.playtech.ptargame3.common.util.StringUtil;
+import com.playtech.ptargame3.server.exception.SystemException;
+import com.playtech.ptargame3.server.session.ClientSession;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProxyClientRegistry implements ClientRegistry {
     private Map<String, SessionHolder> sessions = new ConcurrentHashMap<>();
+    private Map<Integer, SessionHolder> userToClientId = new ConcurrentHashMap<>();
     private Collection<Session> tableSessions = Collections.unmodifiableCollection(new ArrayList<>());
     private Collection<Session> carControlSessions = Collections.unmodifiableCollection(new ArrayList<>());
     private Collection<Session> proxySessions = Collections.unmodifiableCollection(new ArrayList<>());
 
-    private String generateClientId() {
-        return UUID.randomUUID().toString();
-    }
-    public String addClientConnection(String clientId, String name, String email, ClientType clientType, Session session) {
-        if (StringUtil.isNull(clientId)) {
-            clientId = generateClientId();
+    public void addClientConnection(ClientSession session, String name, String email, ClientType clientType) {
+        if (StringUtil.isNull(session.getClientId())) {
+            throw new SystemException("");
         }
 
         // session registry
-        SessionHolder holder = sessions.get(clientId);
+        SessionHolder holder = sessions.get(session.getClientId());
         if (holder == null) {
-            holder = new SessionHolder(clientId, name, email, clientType, session);
-            sessions.put(clientId, holder);
+            holder = new SessionHolder(session.getClientId(), session.getUserId(), name, email, clientType, session);
+            sessions.put(holder.clientId, holder);
+            userToClientId.put(holder.userId, holder);
         } else {
             holder.add(name, email, session);
         }
@@ -59,8 +58,6 @@ public class ProxyClientRegistry implements ClientRegistry {
                 this.proxySessions = Collections.unmodifiableCollection(proxySessions);
             }
         }
-
-        return clientId;
     }
     public void removeClientConnection(String clientId, Session session) {
         if (StringUtil.isNull(clientId)) return;
@@ -85,6 +82,14 @@ public class ProxyClientRegistry implements ClientRegistry {
             if (holder != null) {
                 return holder.sessions;
             }
+        }
+        return Collections.emptyList();
+    }
+
+    public Collection<Session> getClientSession(int userId) {
+        SessionHolder holder = userToClientId.get(userId);
+        if (holder != null) {
+            return getClientSession(holder.clientId);
         }
         return Collections.emptyList();
     }
@@ -118,7 +123,7 @@ public class ProxyClientRegistry implements ClientRegistry {
         return false;
     }
 
-    public static enum ClientType {
+    public enum ClientType {
         TABLE,
         CAMERA,
         GAME_CLIENT,
@@ -128,13 +133,14 @@ public class ProxyClientRegistry implements ClientRegistry {
 
     private static class SessionHolder {
         private final String clientId;
+        private final int userId;
         private final String name;
         private final String email;
         private final ClientType clientType;
         private Collection<Session> sessions;
         private long lastSeen;
 
-        private SessionHolder(String clientId, String name, String email, ClientType clientType, Session session) {
+        private SessionHolder(String clientId, int userId, String name, String email, ClientType clientType, Session session) {
             if (StringUtil.isNull(name)) {
                 throw new IllegalArgumentException("Name is missing.");
             }
@@ -142,6 +148,7 @@ public class ProxyClientRegistry implements ClientRegistry {
                 throw new IllegalArgumentException("Email is missing.");
             }
 
+            this.userId = userId;
             this.clientId = clientId;
             this.name = name;
             this.email = email;

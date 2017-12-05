@@ -1,8 +1,10 @@
 package com.playtech.ptargame3.examplebot.logic;
 
+import com.playtech.ptargame3.api.game.GameUpdateMessage;
 import com.playtech.ptargame3.common.task.Logic;
 import com.playtech.ptargame3.common.task.LogicRegistry;
 import com.playtech.ptargame3.common.task.LogicResources;
+import com.playtech.ptargame3.examplebot.logic.table.GameUpdateLogic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +20,7 @@ public class BotLogicRegistry implements LogicRegistry {
 
     public void initialize(LogicResources logicResources) {
         this.logicResources = logicResources;
-//        addMapping(PushGameLobbyUpdateMessage.class.getName(), PushGameLobbyUpdateStub.class);
-//        addMapping(LocationNotificationMessage.class.getName(), LocationNotificationLogic.class);
+        addMapping(GameUpdateMessage.class.getName(), GameUpdateLogic.class);
     }
 
     private void addMapping(String taskType, Class<? extends Logic> taskClass) {

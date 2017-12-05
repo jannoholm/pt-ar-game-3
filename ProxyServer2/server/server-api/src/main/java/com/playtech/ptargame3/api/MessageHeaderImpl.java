@@ -42,7 +42,7 @@ public class MessageHeaderImpl implements MessageHeader {
     public void toStringImpl(StringBuilder s) {
         s.append(getMessageId());
         if (!StringUtil.isNull(getClientId())) {
-            s.append("-").append(getClientId());
+            s.append(":").append(getClientId());
         }
     }
 

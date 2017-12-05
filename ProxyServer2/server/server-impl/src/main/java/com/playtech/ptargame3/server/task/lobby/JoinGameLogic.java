@@ -22,18 +22,20 @@ public class JoinGameLogic extends AbstractLogic {
     @Override
     public void execute(Task task) {
         JoinGameRequest request = getInputRequest(task, JoinGameRequest.class);
+        GameRegistryGame game = getLogicResources().getGameRegistry().getGame(request.getGameId());
+
         switch (request.getTeam()) {
             case WATCHER:
-                getLogicResources().getGameRegistry().joinWatcher(request.getGameId(), request.getHeader().getClientId());
+                game.addWatcher(request.getHeader().getClientId());
             case RED:
-                getLogicResources().getGameRegistry().joinPlayer(request.getGameId(), request.getHeader().getClientId(), GameRegistryGame.Team.RED);
+                game.addPlayer(request.getHeader().getClientId(), GameRegistryGame.Team.RED, -1);
             case BLUE:
-                getLogicResources().getGameRegistry().joinPlayer(request.getGameId(), request.getHeader().getClientId(), GameRegistryGame.Team.BLUE);
+                game.addPlayer(request.getHeader().getClientId(), GameRegistryGame.Team.BLUE, -1);
             default:
-                getLogicResources().getGameRegistry().joinPlayer(request.getGameId(), request.getHeader().getClientId());
+                game.addPlayer(request.getHeader().getClientId(), null, -1);
         }
         JoinGameResponse response = getResponse(task, JoinGameResponse.class);
-        GameRegistryGame game = getLogicResources().getGameRegistry().getGame(request.getGameId());
+
         for (GameRegistryGamePlayer player : game.getPlayers()) {
             if (player.getClientId().equals(request.getHeader().getClientId())) {
                 response.setTeam(TeamConverter.convert(player.getTeam()));

@@ -58,7 +58,7 @@ public abstract class AbstractLogic implements Logic {
         if (!(e instanceof ApiException) || ((ApiException)e).getErrorCode() == ApiConstants.ERR_SYSTEM) {
             logger.log(Level.INFO, "Task finished with system error.", e);
         } else {
-            logger.log(Level.INFO, "Task finished with business error: " + ((ApiException)e).getErrorCode());
+            logger.log(Level.INFO, "Task finished with business error: " + ((ApiException)e).getErrorCode() + ":" + e.getMessage());
         }
     }
 

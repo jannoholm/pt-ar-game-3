@@ -1,19 +1,18 @@
 package com.playtech.ptargame3.test.step;
 
 
+import com.playtech.ptargame3.api.general.JoinServerRequest;
+import com.playtech.ptargame3.api.general.JoinServerResponse;
 import com.playtech.ptargame3.common.callback.CallbackHandler;
 import com.playtech.ptargame3.common.io.NioServerConnector;
 import com.playtech.ptargame3.common.task.LogicResources;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskState;
 import com.playtech.ptargame3.common.task.state.TwoStepState;
-import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
+import com.playtech.ptargame3.server.exception.SystemException;
 import com.playtech.ptargame3.server.util.ClientTypeConverter;
 import com.playtech.ptargame3.test.ConnectorSession;
 import com.playtech.ptargame3.test.ContextConstants;
-import com.playtech.ptargame3.server.exception.SystemException;
-import com.playtech.ptargame3.api.general.JoinServerRequest;
-import com.playtech.ptargame3.api.general.JoinServerResponse;
 import com.playtech.ptargame3.test.step.common.AbstractStep;
 
 import java.net.InetSocketAddress;
@@ -76,11 +75,10 @@ public class JoinServerStep extends AbstractStep {
                 session.setClientId(clientId);
                 task.getContext().put(ContextConstants.CLIENT_ID, clientId);
                 getLogicResources().getClientRegistry().addClientConnection(
-                        clientId,
+                        session,
                         joinServerRequest.getName(),
                         joinServerRequest.getEmail(),
-                        ClientTypeConverter.convert(joinServerRequest.getClientType()),
-                        session
+                        ClientTypeConverter.convert(joinServerRequest.getClientType())
                 );
             } else {
                 throw new SystemException("Join failed with response status: " + status);

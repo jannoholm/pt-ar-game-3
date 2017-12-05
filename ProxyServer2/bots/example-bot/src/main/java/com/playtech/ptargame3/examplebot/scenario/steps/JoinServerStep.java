@@ -10,6 +10,7 @@ import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskState;
 import com.playtech.ptargame3.common.task.state.TwoStepState;
 import com.playtech.ptargame3.examplebot.BotSession;
+import com.playtech.ptargame3.examplebot.RuntimeInfo;
 import com.playtech.ptargame3.examplebot.SystemException;
 import com.playtech.ptargame3.examplebot.logic.ContextConstants;
 
@@ -56,6 +57,7 @@ public class JoinServerStep extends AbstractStep {
 
             // join
             JoinServerRequest joinServerRequest = createMessage(task, JoinServerRequest.class);
+            joinServerRequest.getHeader().setClientId(RuntimeInfo.INSTANCE.getClientId());
             joinServerRequest.setName(clientName);
             joinServerRequest.setEmail("bot@playtech.com");
             joinServerRequest.setClientType(clientType);

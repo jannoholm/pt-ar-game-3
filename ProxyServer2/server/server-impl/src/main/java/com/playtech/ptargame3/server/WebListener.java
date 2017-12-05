@@ -242,7 +242,7 @@ public final class WebListener {
                 }
             }
 
-            User user = databaseAccess.getUserDatabase().addUser(name, email);
+            User user = databaseAccess.getUserDatabase().addUser(name, email, User.UserType.REGULAR);
             writeResponse(httpExchange, HttpURLConnection.HTTP_OK, new UserWrapper(user));
         } catch (HTTPException e) {
             logger.log(Level.INFO, "Error processing request", e);
@@ -267,13 +267,13 @@ public final class WebListener {
             // create updated user
             String name = params.get("name");
             String email = params.get("email");
-            boolean internal = "1".equals(params.get("internal"));
+            String internal = params.get("internal");
             user = new User(
                     id,
                     name == null ? user.getName() : name,
                     email == null ? user.getEmail() : email,
                     user.isHidden(),
-                    internal
+                    internal == null ? user.getUserType() : User.UserType.getUserType(Integer.valueOf(internal))
             );
 
             // update
@@ -299,7 +299,7 @@ public final class WebListener {
             if (user == null || user.isHidden()) throw new HTTPException(HttpURLConnection.HTTP_NOT_FOUND);
 
             // update hidden
-            user = new User(user.getId(), user.getName(), user.getEmail(), true, user.isInternal());
+            user = new User(user.getId(), user.getName(), user.getEmail(), true, user.getUserType());
 
             // update
             databaseAccess.getUserDatabase().updateUser(user);
@@ -475,7 +475,7 @@ public final class WebListener {
         for (EloRating rating : leaderboard) {
             pos++;
             for (User user : users) {
-                if (user.getId() == rating.getUserId() && !user.isInternal() && !user.isHidden()) {
+                if (user.getId() == rating.getUserId() && user.getUserType() == User.UserType.REGULAR && !user.isHidden()) {
                     LeaderboardWrapper wrapper = new LeaderboardWrapper(user.getName(), rating, pos);
                     wrapped.add(wrapper);
                     break;

@@ -12,7 +12,8 @@
         "a104b58c-6bcf-45b0-be05-35628ea39a18",
         "f55416bf-95fe-4b67-ace3-e76e84fadf97",
         "6dfca21c-daf2-481c-b8e9-0e2bcdf085a3",
-        "a9c8d4e9-219f-4eb6-879a-332843cd236f"
+        "a9c8d4e9-219f-4eb6-879a-332843cd236f",
+        "b8cfb475-f813-466a-ad33-3642932d9bc5"
     ],
     "filterType": "GMScript",
     "folderName": "gameplay",

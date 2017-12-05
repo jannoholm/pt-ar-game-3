@@ -1,6 +1,7 @@
 package com.playtech.ptargame3.server.registry;
 
 
+import com.playtech.ptargame3.api.general.JoinServerRequest;
 import com.playtech.ptargame3.api.leaderboard.GetLeaderboardRequest;
 import com.playtech.ptargame3.api.table.CarControlMessage;
 import com.playtech.ptargame3.api.table.GameResultStoreRequest;
@@ -25,6 +26,7 @@ import com.playtech.ptargame3.server.task.lobby.GetDetailedGameInfoLogic;
 import com.playtech.ptargame3.server.task.lobby.GetGamesLogic;
 import com.playtech.ptargame3.server.task.lobby.HostGameLogic;
 import com.playtech.ptargame3.server.task.lobby.JoinGameLogic;
+import com.playtech.ptargame3.server.task.lobby.JoinServerLogic;
 import com.playtech.ptargame3.server.task.lobby.leaderboard.GetLeaderboardLogic;
 import com.playtech.ptargame3.server.task.table.GameResultStoreLogic;
 import com.playtech.ptargame3.server.task.table.GetUsersLogic;
@@ -45,6 +47,7 @@ public class ProxyLogicRegistry implements LogicRegistry {
 
     public void initialize(LogicResources logicResources) {
         this.logicResources = logicResources;
+        addMapping(JoinServerRequest.class.getName(), JoinServerLogic.class);
         addMapping(GetGamesRequest.class.getName(), GetGamesLogic.class);
         addMapping(HostGameRequest.class.getName(), HostGameLogic.class);
         addMapping(JoinGameRequest.class.getName(), JoinGameLogic.class);

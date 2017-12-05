@@ -28,7 +28,7 @@ public class GetLeaderboardLogic extends AbstractLogic {
         int pos = 0;
         for (EloRating rating : leaderboard) {
             User user = getLogicResources().getDatabaseAccess().getUserDatabase().getUser(rating.getUserId());
-            if (user.isHidden() || user.isInternal()) continue;
+            if (user.isHidden() || user.getUserType() == User.UserType.REGULAR) continue;
 
             pos++;
             if (pos < 10 || request.getUserIds().contains(rating.getUserId())) {

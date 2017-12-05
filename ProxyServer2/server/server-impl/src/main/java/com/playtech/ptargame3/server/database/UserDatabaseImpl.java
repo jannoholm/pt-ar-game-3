@@ -113,7 +113,7 @@ public class UserDatabaseImpl implements UserDatabase {
                 String email = result.getString("EMAIL");
                 int hidden = result.getInt("HIDDEN");
                 int internal = result.getInt("INTERNAL");
-                User user = new User(id, name.toUpperCase(), email, hidden > 0, internal > 0);
+                User user = new User(id, name.toUpperCase(), email, hidden > 0, User.UserType.getUserType(internal));
                 userMap.put(user.getId(), user);
                 logger.info("User read from database: " + user);
                 if (idGenerator.get() < id) {
@@ -154,7 +154,7 @@ public class UserDatabaseImpl implements UserDatabase {
                                 updateStmt.setString(1, user.getName());
                                 updateStmt.setString(2, user.getEmail());
                                 updateStmt.setInt(3, user.isHidden() ? 1 : 0);
-                                updateStmt.setInt(4, user.isInternal() ? 1 : 0);
+                                updateStmt.setInt(4, user.getUserType().ordinal());
                                 updateStmt.setInt(5, user.getId());
                                 updateStmt.executeUpdate();
                             } else {
@@ -163,7 +163,7 @@ public class UserDatabaseImpl implements UserDatabase {
                                 insertStmt.setString(2, user.getName());
                                 insertStmt.setString(3, user.getEmail());
                                 insertStmt.setInt(4, user.isHidden() ? 1 : 0);
-                                insertStmt.setInt(5, user.isInternal() ? 1 : 0);
+                                insertStmt.setInt(5, user.getUserType().ordinal());
                                 insertStmt.executeUpdate();
                             }
                             logger.info("User written to database: " + user);
@@ -184,9 +184,9 @@ public class UserDatabaseImpl implements UserDatabase {
         }
     }
 
-    public User addUser(String name, String email) {
+    public User addUser(String name, String email, User.UserType userType) {
         if (StringUtil.isNull(name)) throw new NullPointerException("Name cannot be null.");
-        User user = new User(idGenerator.incrementAndGet(), name.toUpperCase(), email, false, false);
+        User user = new User(idGenerator.incrementAndGet(), name.toUpperCase().trim(), email, false, userType);
         synchronized (this) {
             pendingWrites.add(user);
             userMap.put(user.getId(), user);
@@ -207,7 +207,7 @@ public class UserDatabaseImpl implements UserDatabase {
         synchronized (this) {
             User existing = userMap.get(user.getId());
             if (existing != null) {
-                user = new User(user.getId(), user.getName().toUpperCase(), user.getEmail(), user.isHidden(), user.isInternal());
+                user = new User(user.getId(), user.getName().toUpperCase(), user.getEmail(), user.isHidden(), user.getUserType());
                 userMap.put(user.getId(), user);
                 pendingWrites.add(user);
                 logger.info("Adding to pending writes");
@@ -230,12 +230,24 @@ public class UserDatabaseImpl implements UserDatabase {
             return users;
         }
 
+        filter = filter.toUpperCase();
         ArrayList<User> match = new ArrayList<>();
-        synchronized (this) {
-            for (User user : users) {
-                if (user.getName().contains(filter)) {
-                    match.add(user);
-                }
+        for (User user : users) {
+            if (user.getName().contains(filter)) {
+                match.add(user);
+            }
+        }
+        return Collections.unmodifiableCollection(match);
+    }
+
+    @Override
+    public Collection<User> getUsersByName(String name) {
+        if (StringUtil.isNull(name)) throw new NullPointerException("Name cannot be null.");
+        name = name.toUpperCase();
+        ArrayList<User> match = new ArrayList<>();
+        for (User user : getUsers()) {
+            if (user.getName().equals(name)) {
+                match.add(user);
             }
         }
         return Collections.unmodifiableCollection(match);

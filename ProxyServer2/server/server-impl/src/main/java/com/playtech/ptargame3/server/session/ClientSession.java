@@ -15,6 +15,7 @@ import com.playtech.ptargame3.common.session.Session;
 import com.playtech.ptargame3.common.task.Task;
 import com.playtech.ptargame3.common.task.TaskFactory;
 import com.playtech.ptargame3.common.util.StringUtil;
+import com.playtech.ptargame3.server.ContextConstants;
 import com.playtech.ptargame3.server.registry.ProxyClientRegistry;
 import com.playtech.ptargame3.server.task.MessageTaskInput;
 import com.playtech.ptargame3.server.util.ClientTypeConverter;
@@ -23,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +50,9 @@ public class ClientSession implements Session {
     private long lastPingMessageId;
     private int pingIntervalRandom;
 
+    private boolean authenticated = false;
     protected String clientId;
+    private int userId;
 
     public ClientSession(Connection connection, MessageParser parser, CallbackHandler callbackHandler, ProxyClientRegistry clientRegistry, ClientListener clientListener, TaskFactory taskFactory) {
         this.connection = connection;
@@ -70,6 +74,27 @@ public class ClientSession implements Session {
         return this.connection.getConnectionId();
     }
 
+    public void setAuthenticated(int userId) {
+        if (!authenticated) {
+            this.userId = userId;
+            logger.log(Level.INFO, () -> String.format(" %6s Identified as client: %s, and user: %s", this.connection.getConnectionId(), this.clientId, this.userId));
+        }
+    }
+
+    public void publishSession() {
+        if (this.clientListener != null) {
+            this.clientListener.clientConnected(this.clientId, this.userId);
+        }
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
     public void processMessage(List<ByteBuffer> messageBytes) {
         Message message = this.parser.parseMessage(messageBytes);
         if (isNoisyRequest(message)) {
@@ -85,8 +110,8 @@ public class ClientSession implements Session {
             processPingRequest((PingRequest)message);
         } else if (message instanceof PingResponse) {
             processPingResponse(message);
-        } else if (this.clientId == null && message instanceof JoinServerRequest) {
-            processJoinServer((JoinServerRequest) message);
+        } else if (!authenticated && message instanceof JoinServerRequest) {
+            processJoinServer((JoinServerRequest)message);
         } else if (message.getClass().getSimpleName().endsWith("Response")) {
             processResponse(message);
         } else {
@@ -131,7 +156,7 @@ public class ClientSession implements Session {
     public void cleanup() {
         this.clientRegistry.removeClientConnection(this.clientId, this);
         if (this.clientListener != null) {
-            this.clientListener.clientDisconnected(this.clientId);
+            this.clientListener.clientDisconnected(this.clientId, this.userId);
         }
     }
 
@@ -149,6 +174,7 @@ public class ClientSession implements Session {
 
     private void processRequest(Message message) {
         Task task = this.taskFactory.getTask(new MessageTaskInput(message));
+        task.getContext().put(ContextConstants.CONNECTION, this);
         task.scheduleExecution();
     }
 
@@ -156,36 +182,12 @@ public class ClientSession implements Session {
         this.callbackHandler.addResponse(message);
     }
 
-    private void processJoinServer(JoinServerRequest joinServerRequest) {
-        int errorCode = ApiConstants.ERR_OK;
-        String errorText = "";
-        if (StringUtil.isNull(joinServerRequest.getName())) {
-            errorCode = ApiConstants.ERR_NAME_MANDATORY;
-            errorText = "Name is mandatory";
+    private void processJoinServer(JoinServerRequest request) {
+        if (StringUtil.isNull(request.getHeader().getClientId())) {
+            request.getHeader().setClientId(UUID.randomUUID().toString());
         }
-        if (StringUtil.isNull(joinServerRequest.getEmail())) {
-            errorCode = ApiConstants.ERR_EMAIL_MANDATORY;
-            errorText = "Email is mandatory";
-        }
-        JoinServerResponse joinServerResponse = this.parser.createResponse(joinServerRequest, JoinServerResponse.class);
-        if (errorCode == ApiConstants.ERR_OK) {
-            this.clientId = this.clientRegistry.addClientConnection(
-                    joinServerRequest.getHeader().getClientId(),
-                    joinServerRequest.getName(),
-                    joinServerRequest.getEmail(),
-                    ClientTypeConverter.convert(joinServerRequest.getClientType()),
-                    this
-            );
-            logger.log(Level.INFO, () -> String.format(" %6s Identified as client: %s", this.connection.getConnectionId(), this.clientId));
-            joinServerResponse.getHeader().setClientId(this.clientId);
-            if (this.clientListener != null) {
-                this.clientListener.clientConnected(this.clientId);
-            }
-        } else {
-            joinServerResponse.setErrorCode(errorCode);
-            joinServerResponse.setErrorMessage(errorText);
-        }
-        sendMessage(joinServerResponse);
+        this.clientId = request.getHeader().getClientId();
+        processRequest(request);
     }
 
     private boolean isNoisyRequest( Message message ) {

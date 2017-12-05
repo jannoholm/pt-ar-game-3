@@ -17,6 +17,8 @@ public class ClientTypeConverter {
                 return ProxyClientRegistry.ClientType.PROXY;
             case CAR_CONTROL:
                 return ProxyClientRegistry.ClientType.CAR_CONTROL;
+            case BOT:
+                return ProxyClientRegistry.ClientType.GAME_CLIENT;
             default:
                 throw new IllegalArgumentException("Unknown client type: " + clientType);
         }

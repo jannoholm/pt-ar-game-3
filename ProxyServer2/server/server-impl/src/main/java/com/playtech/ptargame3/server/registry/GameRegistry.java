@@ -62,31 +62,13 @@ public class GameRegistry implements ClientListener {
         // create new game
         GameRegistryGame newGame = new GameRegistryGame(clientId, UUID.randomUUID().toString(), gameName, players, aiType, tableGame);
         if (joinAsPlayer) {
-            newGame.addPlayer(clientId, GameRegistryGame.Team.RED);
+            newGame.addPlayer(clientId, GameRegistryGame.Team.RED, -1);
         }
 
         // store
         hosting.put(clientId, newGame);
         games.put(newGame.getGameId(), newGame);
         return newGame.getGameId();
-    }
-
-    public void joinPlayer(String gameId, String clientId) {
-        joinPlayer(gameId, clientId, null);
-    }
-
-    public void joinPlayer(String gameId, String clientId, GameRegistryGame.Team team) {
-        GameRegistryGame game = games.get(gameId);
-        if (game == null) throw new GameNotFoundException("Game not found: " + gameId);
-
-        game.addPlayer(clientId, team);
-    }
-
-    public void joinWatcher(String gameId, String clientId) {
-        GameRegistryGame game = games.get(gameId);
-        if (game == null) throw new GameNotFoundException("Game not found: " + gameId);
-
-        game.addWatcher(clientId);
     }
 
     public Collection<GameRegistryGame> findGames(String filter, boolean all) {
@@ -103,7 +85,7 @@ public class GameRegistry implements ClientListener {
     }
 
     @Override
-    public void clientConnected(String clientId) {
+    public void clientConnected(String clientId, int userId) {
         if (clientId == null) return;
         GameRegistryGame game = hosting.get(clientId);
         if (game != null) {
@@ -112,7 +94,7 @@ public class GameRegistry implements ClientListener {
     }
 
     @Override
-    public void clientDisconnected(String clientId) {
+    public void clientDisconnected(String clientId, int userId) {
         if (clientId == null) return;
         GameRegistryGame game = hosting.get(clientId);
         if (game != null) {
