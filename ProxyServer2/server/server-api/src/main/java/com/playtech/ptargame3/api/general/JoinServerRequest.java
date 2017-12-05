@@ -14,7 +14,8 @@ public class JoinServerRequest extends AbstractRequest {
         CAMERA,
         GAME_CLIENT,
         PROXY,
-        CAR_CONTROL
+        CAR_CONTROL,
+        BOT
     }
 
     private String name;

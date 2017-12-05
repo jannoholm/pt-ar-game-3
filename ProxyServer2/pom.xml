@@ -9,6 +9,7 @@
     <module>common</module>
     <module>server</module>
     <module>integration-tests</module>
+    <module>bots</module>
   </modules>
   <packaging>pom</packaging>
 
