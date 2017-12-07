@@ -41,4 +41,4 @@ move_to_position_timer=0;
 suddendeath_sound = noone;
 gameend_sound = noone;
 
-temp_send_in_car=1;
+//temp_send_in_car=1;

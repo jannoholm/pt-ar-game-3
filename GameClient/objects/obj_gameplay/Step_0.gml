@@ -71,13 +71,13 @@ switch (currentGamePhase) {
 		}
 		break;
 	case (GamePhase.COUNTDOWN_TO_START):
-		if (temp_send_in_car) {
+		/*if (temp_send_in_car) {
 			temp_send_in_car=0;
 			scr_set_user_in_car(obj_server_client.gameid, obj_playerinit_physics.red1.show_user_select_id, 0, 1);
 			scr_set_user_in_car(obj_server_client.gameid, obj_playerinit_physics.red2.show_user_select_id, 0, 2);
 			scr_set_user_in_car(obj_server_client.gameid, obj_playerinit_physics.blue1.show_user_select_id, 1, 1);
 			scr_set_user_in_car(obj_server_client.gameid, obj_playerinit_physics.blue2.show_user_select_id, 1, 2);
-		}
+		}*/
 		if ( game_timer <= 0 ) {
 			currentGamePhase = GamePhase.PLAY;
 			game_timer=game_length;
