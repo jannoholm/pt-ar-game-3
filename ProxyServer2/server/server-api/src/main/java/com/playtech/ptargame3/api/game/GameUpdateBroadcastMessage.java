@@ -6,12 +6,11 @@ import com.playtech.ptargame3.common.util.HexUtil;
 import com.playtech.ptargame3.common.util.StringUtil;
 
 import java.nio.ByteBuffer;
-import java.util.logging.Logger;
 
 public class GameUpdateBroadcastMessage extends AbstractMessage {
 
     private String gameId;
-    private byte[] broadcardContent;
+    private byte[] broadcastContent;
 
     public GameUpdateBroadcastMessage(MessageHeader header) {
         super(header);
@@ -21,23 +20,23 @@ public class GameUpdateBroadcastMessage extends AbstractMessage {
     protected void toStringImpl(StringBuilder s) {
         super.toStringImpl(s);
         s.append(", gameId=").append(gameId);
-        s.append(", content=").append(HexUtil.toHex(broadcardContent));
+        s.append(", content=").append(HexUtil.toHex(broadcastContent));
     }
 
     @Override
     public void parse(ByteBuffer messageData) {
         gameId = StringUtil.readUTF8String(messageData);
         int size = messageData.getInt();
-        broadcardContent = new byte[size];
-        messageData.get(broadcardContent);
+        broadcastContent = new byte[size];
+        messageData.get(broadcastContent);
     }
 
     @Override
     public void format(ByteBuffer messageData) {
         StringUtil.writeUTF8String(gameId, messageData);
-        if (broadcardContent != null) {
-            messageData.putInt(broadcardContent.length);
-            messageData.put(broadcardContent);
+        if (broadcastContent != null) {
+            messageData.putInt(broadcastContent.length);
+            messageData.put(broadcastContent);
         } else {
             messageData.putInt(0);
         }
@@ -51,11 +50,11 @@ public class GameUpdateBroadcastMessage extends AbstractMessage {
         this.gameId = gameId;
     }
 
-    public byte[] getBroadcardContent() {
-        return broadcardContent;
+    public byte[] getBroadcastContent() {
+        return broadcastContent;
     }
 
-    public void setBroadcardContent(byte[] broadcardContent) {
-        this.broadcardContent = broadcardContent;
+    public void setBroadcastContent(byte[] broadcastContent) {
+        this.broadcastContent = broadcastContent;
     }
 }

@@ -40,7 +40,7 @@ public class GameUpdateBroadcastLogic extends AbstractLogic {
             GameUpdateMessage outMessage = getLogicResources().getMessageParser().createMessage(GameUpdateMessage.class);
             outMessage.getHeader().setClientId(subscriberClientId);
             outMessage.setGameId(game.getGameId());
-            outMessage.setContent(inMessage.getBroadcardContent());
+            outMessage.setContent(inMessage.getBroadcastContent());
             getLogicResources().getCallbackHandler().sendMessage(outMessage);
         }
     }
@@ -48,7 +48,7 @@ public class GameUpdateBroadcastLogic extends AbstractLogic {
     private void logGameData(GameUpdateBroadcastMessage inMessage) {
         try {
             GameLogRecord logRecord = new GameLogRecord(inMessage.getGameId());
-            logRecord.parse(ByteBuffer.wrap(inMessage.getBroadcardContent()).order(ByteOrder.LITTLE_ENDIAN));
+            logRecord.parse(ByteBuffer.wrap(inMessage.getBroadcastContent()).order(ByteOrder.LITTLE_ENDIAN));
             getLogicResources().getGamelog().writeLog(logRecord);
         } catch (Exception e) {
             logger.log(Level.INFO, "Error writing game log.", e);
